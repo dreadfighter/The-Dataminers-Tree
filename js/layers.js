@@ -1,5 +1,5 @@
-addLayer("p", {
-    name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
+addLayer("P", {
+    name: "P", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
@@ -24,5 +24,16 @@ addLayer("p", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+	upgrades: {
+            11: {
+title: "Generator of Genericness",
+description: "Gain 1 Point every second.",
+cost: new Decimal(3),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
+branches: [12],     
+tooltip: "+2/s",
+            },
+	},
     layerShown(){return true}
+	
 })
