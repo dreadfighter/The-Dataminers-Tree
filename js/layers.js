@@ -71,12 +71,12 @@ unlocked() { return hasUpgrade("D", 13) },
 			}			
 			},
 	layerShown(){return true},
-})
+}),
 
 addLayer("SD", {
     name: "SD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "SD", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -122,12 +122,12 @@ unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when 
             },
 	},
 	layerShown(){return (hasUpgrade("D", 12))},
-})
+}),
 
 addLayer("DD", {
     name: "DD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "DD", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -164,8 +164,15 @@ addLayer("DD", {
 			cost: new Decimal(1),
 		},
 	},
+	milestones: {
+    0: {
+        requirementDescription: "10 waffles",
+        effectDescription: "blah",
+        done() { return player.DD.points.gte(10) },
+    },
+},
 	layerShown(){return (hasUpgrade("D", 15))},
-})
+}),
 
 
 
@@ -221,12 +228,12 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
 			
 	},
 	layerShown(){return (hasUpgrade("SD", 13))},
-})
+}),
 
 addLayer("t1+", {
     name: "t1+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t1+", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -269,12 +276,12 @@ addLayer("t1+", {
 			},
 			},
 	layerShown(){return (hasUpgrade("SD", 13))},
-})
+}),
 
 addLayer("t2", {
     name: "t2", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t2", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 40, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -315,12 +322,12 @@ addLayer("t2", {
 			},
 	},
 	layerShown(){return true},
-})
+}),
 
-addLayer("t2+", {
+addLayer("t22", {
     name: "t2+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t2+", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 4, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -357,14 +364,22 @@ addLayer("t2+", {
 			cost: new Decimal(1),
 		},
 	},
+	
+	milestones: {
+    0: {
+        requirementDescription: "10 T2 Data",
+        effectDescription: "blah",
+        done() { return player.t22.points.gte(10) },
+    },
+},
 	layerShown(){return true},
-})
+}),
 
 
 addLayer("V", {
     name: "V", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "V", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 5, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -385,9 +400,39 @@ addLayer("V", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 2, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasUpgrade("t2+", 13))},
-})
+	layerShown(){return (hasMilestone("t22", 0))},
+}),
+addLayer("SeD", {
+    name: "SeD", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "SeD", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 5, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#696969",
+	branches: ["SD"],
+    requires: new Decimal(1e9), // Can be a function that takes requirement increases into account
+    resource: "Secret Data", // Name of prestige currency
+    baseResource: "Simulation Data", // Name of resource prestige is based on
+    baseAmount() {return player.SD.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){return (hasMilestone("DD", 0))},
+}),
