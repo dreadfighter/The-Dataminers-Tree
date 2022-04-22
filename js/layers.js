@@ -101,8 +101,6 @@ addLayer("SD", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-<<<<<<< HEAD
-=======
 	upgrades: {
 	11: {
 title: "Simulated Tree",
@@ -123,7 +121,6 @@ cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
             },
 	},
->>>>>>> parent of 367d31e (0.8)
 	layerShown(){return (hasUpgrade("D", 12))},
 })
 
