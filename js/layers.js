@@ -80,7 +80,6 @@ unlocked() { return hasUpgrade("D", 13) },
 },
 	doReset(resettingLayer) {
 			let keep = [];
-			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades")
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades")
 			if (hasMilestone("t1", 0) && resettingLayer=="t1") keep.push("upgrades")
 			if (hasMilestone("t1+", 0) && resettingLayer=="t1+") keep.push("upgrades")
