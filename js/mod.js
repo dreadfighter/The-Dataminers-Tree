@@ -48,6 +48,13 @@ function getPointGen() {
 		if (hasUpgrade("D", 13)) gain = gain.times(upgradeEffect("D", 13));
 		if (hasUpgrade("D", 14)) gain = gain.times(3);
 				if (hasUpgrade("D", 15)) gain = gain.times(upgradeEffect("D", 15));
+<<<<<<< HEAD
+=======
+				if (hasUpgrade("SD", 11)) gain = gain.times(4);
+				if (hasUpgrade("SD", 12)) gain = gain.times(2);
+				if (hasUpgrade("SD", 13)) gain = gain.times(-1);
+	return gain
+>>>>>>> parent of 367d31e (0.8)
 	return gain
 }
 

@@ -101,6 +101,29 @@ addLayer("SD", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+<<<<<<< HEAD
+=======
+	upgrades: {
+	11: {
+title: "Simulated Tree",
+description: "DQuintiples points income",
+cost: new Decimal(10),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
+            },
+	12: {
+title: "Upgraded Simulated Tree",
+description: "Doubles points income",
+cost: new Decimal(20),
+unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
+            },
+			13: {
+title: "Mega Simulated Tree",
+description: "Zero points income",
+cost: new Decimal(40),
+unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
+            },
+	},
+>>>>>>> parent of 367d31e (0.8)
 	layerShown(){return (hasUpgrade("D", 12))},
 })
 
