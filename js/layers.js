@@ -68,7 +68,7 @@ unlocked() { return hasUpgrade("D", 13) },
 	return player.SD.points.add(player.SD.points / 10 + 0.2).pow(0.4)	
 			},
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
-			}			
+			},			
 			},
 	layerShown(){return true},
 }),
@@ -106,7 +106,7 @@ addLayer("SD", {
 title: "Simulated Tree",
 description: "DQuintiples points income",
 cost: new Decimal(10),
-unlocked() { return hasUpgrade("D", 15) }, // The upgrade is only visible when this is true     
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
             },
 	12: {
 title: "Upgraded Simulated Tree",
@@ -171,6 +171,7 @@ addLayer("DD", {
         done() { return player.DD.points.gte(10) },
     },
 },
+
 	layerShown(){return (hasUpgrade("D", 15))},
 }),
 
@@ -224,7 +225,7 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
 				title: "First Big Upgrade",
 				description: "Multiplies points income by 10",
 				cost: new Decimal(20),
-			}
+			},
 			
 	},
 	layerShown(){return (hasUpgrade("SD", 13))},
@@ -435,4 +436,5 @@ addLayer("SeD", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	layerShown(){return (hasMilestone("DD", 0))},
-}),
+})
+
