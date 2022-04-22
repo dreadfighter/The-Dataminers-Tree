@@ -76,7 +76,7 @@ unlocked() { return hasUpgrade("D", 13) },
 addLayer("SD", {
     name: "SD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "SD", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -121,13 +121,13 @@ cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
             },
 	},
-	layerShown(){return (hasUpgrade("D", 12))},
+	layerShown(){return (hasUpgrade("D", 14))},
 })
 
 addLayer("DD", {
     name: "DD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "DD", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -167,9 +167,6 @@ addLayer("DD", {
 	layerShown(){return (hasUpgrade("D", 15))},
 })
 
-
-
-
 addLayer("t1", {
     name: "t1", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t1", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -200,8 +197,8 @@ addLayer("t1", {
 	upgrades: {
 		11: {
 			title: "Start Again",
-			description: "Gains +0.1 points per/sec",
-			cost: new Decimal(0.5),
+			description: "Doubles points income",
+			cost: new Decimal(100),
 		},
 		12: {
 title: "Generator of Genericness",
@@ -274,7 +271,7 @@ addLayer("t1+", {
 addLayer("t2", {
     name: "t2", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t2", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 40, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -317,10 +314,10 @@ addLayer("t2", {
 	layerShown(){return true},
 })
 
-addLayer("t2+", {
+addLayer("t22", {
     name: "t2+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t2+", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 4, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -364,15 +361,15 @@ addLayer("t2+", {
 addLayer("V", {
     name: "V", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "V", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 8, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
     }},
     color: "#696969",
-	branches: ["SD"],
-    requires: new Decimal(10e9), // Can be a function that takes requirement increases into account
-    resource: "Tier 2+ Data", // Name of prestige currency
+	branches: ["t22"],
+    requires: new Decimal(1e10), // Can be a function that takes requirement increases into account
+    resource: "Void Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -385,9 +382,9 @@ addLayer("V", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 2, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasUpgrade("t2+", 13))},
+	layerShown(){return (hasUpgrade("t22", 12))},
 })
