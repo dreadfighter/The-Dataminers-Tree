@@ -16,9 +16,13 @@ addLayer("D", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
+	  mult = mult.times((hasUpgrade("D", 1)) ? upgradeEffect("D", 11) : new Decimal(1));
+		
+		mult = mult.pow((hasUpgrade("D", 11)) ? upgradeEffect("D", 11) : new Decimal(1));;
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+        let exp = new Decimal(1)
+		return exp;
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -27,12 +31,11 @@ addLayer("D", {
 	upgrades: {
             11: {
 title: "Generator of Genericness",
-description: "Gain 1 Point every second.",
-cost: new Decimal(3),
-unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
-tooltip: "+2/s",
-            },
-	},
-    layerShown(){return true}
+description: "Multiplies your income by points/100 + 1.2.",
+cost: new Decimal(3), // The upgrade is only visible when this is true     
+tooltip: "",
+}
+	}
+    layerShown(){return true},
 	
 })
