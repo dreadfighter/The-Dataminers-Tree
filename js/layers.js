@@ -71,12 +71,29 @@ unlocked() { return hasUpgrade("D", 13) },
 			}			
 			},
 	layerShown(){return true},
+	milestones: {
+    0: {
+        requirementDescription: "200 Data",
+        effectDescription: "The upgrades will no longer reset.",
+        done() { return player.D.points.gte(200) },
+    },
+},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades")
+			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades")
+			if (hasMilestone("t1", 0) && resettingLayer=="t1") keep.push("upgrades")
+			if (hasMilestone("t1+", 0) && resettingLayer=="t1+") keep.push("upgrades")
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
+				if (hasMilestone("t2+", 0) && resettingLayer=="t2+") keep.push("upgrades")
+			if (layers[resettingLayer].row > this.row) layerDataReset("p", keep)
+		},
 })
 
 addLayer("SD", {
     name: "SD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "SD", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -97,7 +114,7 @@ addLayer("SD", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "S", description: "S: Reset for Simulated Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -121,7 +138,14 @@ cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
             },
 	},
-	layerShown(){return (hasUpgrade("D", 12))},
+	layerShown(){return (hasUpgrade("D", 12) || player[this.layer].unlocked)},
+	milestones: {
+    0: {
+        requirementDescription: "200 SD",
+        effectDescription: "blah",
+        done() { return player.SD.points.gte(200) },
+    },
+},
 })
 
 addLayer("DD", {
@@ -148,7 +172,7 @@ addLayer("DD", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "k", description: "k: Reset for Deep Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -164,7 +188,7 @@ addLayer("DD", {
 			cost: new Decimal(1),
 		},
 	},
-	layerShown(){return (hasUpgrade("D", 15))},
+	layerShown(){return (hasUpgrade("D", 15) || player[this.layer].unlocked)},
 })
 
 
@@ -193,7 +217,7 @@ addLayer("t1", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -217,13 +241,19 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
 				title: "First Big Upgrade",
 				description: "Multiplies points income by 10",
 				cost: new Decimal(20),
-			}
-			
+			},		
 	},
-	layerShown(){return (hasUpgrade("SD", 13))},
-})
+	layerShown(){return (hasMilestone("SD", 0) || player[this.layer].unlocked)},
+	milestones: {
+    0: {
+        requirementDescription: "200 Tier 1 Data",
+        effectDescription: "The upgrades will no longer reset.",
+        done() { return player.t1.points.gte(200) },
+    },
+},
+}),
 
-addLayer("t1+", {
+addLayer("t11", {
     name: "t1+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t1+", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -268,7 +298,14 @@ addLayer("t1+", {
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
 			},
-	layerShown(){return (hasUpgrade("SD", 13))},
+	layerShown(){return (hasMilestone("SD", 0) || player[this.layer].unlocked)},
+	milestones: {
+    0: {
+        requirementDescription: "200 Tier 1+ Data",
+        effectDescription: "The upgrades will no longer reset.",
+        done() { return player.t11.points.gte(200) },
+    },
+},
 })
 
 addLayer("t2", {
@@ -314,10 +351,17 @@ addLayer("t2", {
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
 	},
-	layerShown(){return true},
+	layerShown(){return (hasUpgrade("t1+", 13) || player[this.layer].unlocked)},
+	milestones: {
+    0: {
+        requirementDescription: "200 Tier 2 Data",
+        effectDescription: "The upgrades will no longer reset.",
+        done() { return player.t2.points.gte(200) },
+    },
+},
 })
 
-addLayer("t2+", {
+addLayer("t22", {
     name: "t2+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t2+", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -357,7 +401,14 @@ addLayer("t2+", {
 			cost: new Decimal(1),
 		},
 	},
-	layerShown(){return true},
+	layerShown(){return (hasUpgrade("t2", 13) || player[this.layer].unlocked)},
+	milestones: {
+    0: {
+        requirementDescription: "200 Tier 2+ Data",
+        effectDescription: "The upgrades will no longer reset.",
+        done() { return player.t22.points.gte(200) },
+    },
+},
 })
 
 
@@ -389,5 +440,5 @@ addLayer("V", {
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasUpgrade("t2+", 13))},
+	layerShown(){return (hasUpgrade("t2+", 13) || player[this.layer].unlocked)},
 })
