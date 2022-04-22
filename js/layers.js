@@ -81,6 +81,7 @@ unlocked() { return hasUpgrade("D", 13) },
 	doReset(resettingLayer) {
 			let keep = [];
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades")
+				if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades")
 			if (hasMilestone("t1", 0) && resettingLayer=="t1") keep.push("upgrades")
 			if (hasMilestone("t1+", 0) && resettingLayer=="t1+") keep.push("upgrades")
 			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
@@ -420,11 +421,11 @@ addLayer("V", {
 		points: new Decimal(0),
     }},
     color: "#696969",
-	branches: ["SD"],
+	branches: ["SD", "DD"],
     requires: new Decimal(10e9), // Can be a function that takes requirement increases into account
-    resource: "Tier 2+ Data", // Name of prestige currency
+    resource: "Void Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
+    baseAmount() {return player.SD.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -439,5 +440,10 @@ addLayer("V", {
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasUpgrade("t2+", 13) || player[this.layer].unlocked)},
+	layerShown(){return (hasUpgrade("t22", 12) || player[this.layer].unlocked)},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades")
+			if (layers[resettingLayer].row > this.row) layerDataReset("SD", keep)
+	},
 })
