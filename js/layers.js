@@ -76,7 +76,11 @@ unlocked() { return hasUpgrade("D", 13) },
 addLayer("SD", {
     name: "SD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "SD", // This appears on the layer's node. Default is the id with the first letter capitalized
+<<<<<<< HEAD
     position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+=======
+    position: 10, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+>>>>>>> parent of 367d31e (0.8)
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -127,7 +131,11 @@ unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when 
 addLayer("DD", {
     name: "DD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "DD", // This appears on the layer's node. Default is the id with the first letter capitalized
+<<<<<<< HEAD
     position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+=======
+    position: -10, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+>>>>>>> parent of 367d31e (0.8)
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -152,6 +160,7 @@ addLayer("DD", {
     hotkeys: [
         {key: "k", description: "k: Reset for Deep Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+<<<<<<< HEAD
 	upgrades: {
 		11: {
 			title: "Planetary Miners",
@@ -172,11 +181,14 @@ addLayer("DD", {
     },
 },
 
+=======
+>>>>>>> parent of 367d31e (0.8)
 	layerShown(){return (hasUpgrade("D", 15))},
 }),
 
 
 
+<<<<<<< HEAD
 
 addLayer("t1", {
     name: "t1", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -438,3 +450,5 @@ addLayer("SeD", {
 	layerShown(){return (hasMilestone("DD", 0))},
 })
 
+=======
+>>>>>>> parent of 367d31e (0.8)
