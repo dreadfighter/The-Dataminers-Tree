@@ -1,3 +1,4 @@
+["D", "blank", "SD"]
 addLayer("D", {
     name: "D", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "D", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -57,10 +58,10 @@ addLayer("SD", {
 		points: new Decimal(0),
     }},
     color: "#AFEEEE",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
     resource: "DeepData", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
+    baseResource: "Data", // Name of resource prestige is based on
+    baseAmount() { return player.D.points }, // Get the current amount of baseResource
     type: "normal",	
 	branches: ["D"],// normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.4, // Prestige currency exponent
