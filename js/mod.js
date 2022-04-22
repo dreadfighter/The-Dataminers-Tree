@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The ??? Tree",
+	name: "The Dataminer Tree",
 	id: "mymod",
 	author: "nobody",
 	pointsName: "points",
@@ -7,7 +7,7 @@ let modInfo = {
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -43,12 +43,9 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-		if (hasUpgrade("D", 11)) gain = gain.times(player.points / 100 + 1.2);
+		if (hasUpgrade("D", 11)) gain = gain.times(2);
+		if (hasUpgrade("D", 12)) gain = gain.times(upgradeEffect("D", 12));
 	return gain
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 38bcc67 (0.4)
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
