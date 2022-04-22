@@ -1,4 +1,4 @@
-addLayer("D", {
+addLayer("P", {
     name: "P", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -12,7 +12,7 @@ addLayer("D", {
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.3, // Prestige currency exponent
+    exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -31,11 +31,22 @@ addLayer("D", {
 	upgrades: {
             11: {
 title: "Generator of Genericness",
+<<<<<<< HEAD
 description: "Multiplies your income by points/100 + 1.2.",
 cost: new Decimal(3), // The upgrade is only visible when this is true     
 tooltip: "",
 }
 	}
     layerShown(){return true},
+=======
+description: "Gain 1 Point every second.",
+cost: new Decimal(3),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
+branches: [12],     
+tooltip: "+2/s",
+            },
+	},
+    layerShown(){return true}
+>>>>>>> parent of 38bcc67 (0.4)
 	
 })

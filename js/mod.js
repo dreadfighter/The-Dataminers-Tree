@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The Sim Tree",
+	name: "The ??? Tree",
 	id: "mymod",
 	author: "nobody",
 	pointsName: "points",
@@ -45,7 +45,10 @@ function getPointGen() {
 	let gain = new Decimal(1)
 		if (hasUpgrade("D", 11)) gain = gain.times(player.points / 100 + 1.2);
 	return gain
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 38bcc67 (0.4)
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
