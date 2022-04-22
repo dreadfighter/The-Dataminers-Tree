@@ -50,7 +50,19 @@ function getPointGen() {
 				if (hasUpgrade("D", 15)) gain = gain.times(upgradeEffect("D", 15));
 				if (hasUpgrade("SD", 11)) gain = gain.times(4);
 				if (hasUpgrade("SD", 12)) gain = gain.times(2);
-				if (hasUpgrade("SD", 13)) gain = gain.times(-1);
+				if (hasUpgrade("SD", 13)) gain = gain.times(0.0001);
+				if (hasUpgrade("t1", 11)) gain = gain.plus(0.1);
+				if (hasUpgrade("t1", 12)) gain = gain.times(upgradeEffect("t1", 12));
+				if (hasUpgrade("t1", 13)) gain = gain.times(10);
+				if (hasUpgrade("t1+", 13)) gain = gain.times(upgradeEffect("t1+", 13));
+				if (hasUpgrade("t1+", 11)) gain = gain.times(2);
+				if (hasUpgrade("t2", 13)) gain = gain.times(upgradeEffect("t2", 13));
+				if (hasUpgrade("t2", 11)) gain = gain.times(2);
+				if (hasUpgrade("t2+", 11)) gain = gain.times(10);
+				if (hasUpgrade("t2+", 12)) gain = gain.times(10);
+				if (hasUpgrade("DD", 11)) gain = gain.times(10);
+				if (hasUpgrade("DD", 12)) gain = gain.times(15);
+				
 	return gain
 	return gain
 }
