@@ -71,8 +71,17 @@ unlocked() { return hasUpgrade("D", 13) },
 			},			
 			},
 	layerShown(){return true},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades")
+			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades")
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades")
+			if (hasMilestone("D", 0) && resettingLayer=="s") keep.push("upgrades")
+			if (hasAchievement("a", 41)) keep.push("upgrades")
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
+		},
 }),
-
 addLayer("SD", {
     name: "SD", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "SD", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -185,11 +194,11 @@ addLayer("t1", {
     symbol: "t1", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: -2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: new Decimal(0),
     }},
     color: "#FF4500",
-    requires: new Decimal(0.1), // Can be a function that takes requirement increases into account
+    requires: new Decimal(100), // Can be a function that takes requirement increases into account
     resource: "Tier 1 Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -231,6 +240,13 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
 			
 	},
 	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 Tier 1 Data",
+        effectDescription: "Upgrades wont reset",
+        done() { return player.t1.points.gte(10) },
+    },
+},
 }),
 
 addLayer("t11", {
@@ -325,6 +341,13 @@ addLayer("t2", {
 			},
 	},
 	layerShown(){return (hasUpgrade("t11", 13) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 waffles",
+        effectDescription: "blah",
+        done() { return player.t2.points.gte(10) },
+    },
+},
 }),
 
 addLayer("t22", {
@@ -371,8 +394,18 @@ addLayer("t22", {
 	milestones: {
     0: {
         requirementDescription: "10 T2 Data",
-        effectDescription: "blah",
+        effectDescription: "Unlocks Void Data",
         done() { return player.t22.points.gte(10) },
+    },
+	1: {
+        requirementDescription: "20 T2 Data",
+        effectDescription: "Upgrades wont reset",
+        done() { return player.t22.points.gte(20) },
+    },
+	2: {
+        requirementDescription: "200 T2 Data",
+        effectDescription: "Doubles points income",
+        done() { return player.t22.points.gte(200) },
     },
 },
 	layerShown(){return (hasUpgrade("t2", 13) || player[this.layer].unlocked )},
@@ -389,7 +422,7 @@ addLayer("V", {
     }},
     color: "#696969",
 	branches: ["SD"],
-    requires: new Decimal(10e9), // Can be a function that takes requirement increases into account
+    requires: new Decimal(28e16), // Can be a function that takes requirement increases into account
     resource: "Tier 2+ Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -438,5 +471,14 @@ addLayer("SeD", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	layerShown(){return (hasMilestone("DD", 0) || player[this.layer].unlocked )},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades")
+			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades")
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades")
+			if (hasMilestone("D", 0) && resettingLayer=="s") keep.push("upgrades")
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
+		},
 })
 
