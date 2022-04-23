@@ -78,7 +78,8 @@ unlocked() { return hasUpgrade("D", 13) },
 			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
-			if (hasAchievement("a", 41)) keep.push("upgrades")
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("milestones");
+			if (hasAchievement("a", 41)) keep.push("upgrades");
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
@@ -131,6 +132,13 @@ unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when 
             },
 	},
 	layerShown(){return (hasUpgrade("D", 12) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 waffles",
+        effectDescription: "blah",
+        done() { return player.SD.points.gte(10) },
+    },
+}
 }),
 
 addLayer("DD", {
@@ -198,7 +206,7 @@ addLayer("t1", {
 		points: new Decimal(0),
     }},
     color: "#FF4500",
-    requires: new Decimal(100), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "Tier 1 Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -473,7 +481,9 @@ addLayer("SeD", {
 	layerShown(){return (hasMilestone("DD", 0) || player[this.layer].unlocked )},
 	doReset(resettingLayer) {
 			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("SeD", keep)
+			if (hasMilestone("SD", 0)) keep.push("upgrades")
+			if (layers[resettingLayer].row > this.row) layerDataReset("SD", keep)
+				layerDataReset("SD")
 		},
 })
 
