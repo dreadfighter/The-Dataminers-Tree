@@ -59,6 +59,25 @@ unlocked() { return hasUpgrade("D", 11) }, // The upgrade is only visible when t
 				cost: new Decimal(40),	
 unlocked() { return hasUpgrade("D", 13) },				
 			},
+			16: {
+				title: "Reloading System",
+				description: "10x your points income",
+				cost: new Decimal(10),	
+unlocked() { return hasUpgrade("t1", 13) },				
+			},
+			17: {
+				title: "Reinverting System",
+				description: "10x your points income",
+				cost: new Decimal(10),	
+unlocked() { return hasUpgrade("D", 16) 
+},
+			},	
+        18: {
+				title: "Starting System",
+				description: "10x your points income",
+				cost: new Decimal(10),	
+unlocked() { return hasUpgrade("D", 17) },			
+			},
 			15: {
 				title: "1TB Card",
 				description: "Gains income based on Simulation Data amount",
@@ -78,7 +97,8 @@ unlocked() { return hasUpgrade("D", 13) },
 			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
-			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("milestones");
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
+			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (hasAchievement("a", 41)) keep.push("upgrades");
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
@@ -281,7 +301,7 @@ addLayer("t11", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
+    row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -303,6 +323,13 @@ addLayer("t11", {
 			},
 			},
 	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 Tier 1+ Data",
+        effectDescription: "Upgrades wont reset",
+        done() { return player.t11.points.gte(10) },
+    },
+	},
 }),
 
 addLayer("t2", {
@@ -431,7 +458,7 @@ addLayer("V", {
     color: "#696969",
 	branches: ["SD"],
     requires: new Decimal(28e16), // Can be a function that takes requirement increases into account
-    resource: "Tier 2+ Data", // Name of prestige currency
+    resource: "Void Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -449,6 +476,25 @@ addLayer("V", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	layerShown(){return (hasMilestone("t22", 0) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 Void Data",
+        effectDescription: "Upgrades wont reset",
+        done() { return player.V.points.gte(10) },
+    },
+	},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades");
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
+			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+			if (hasAchievement("a", 41)) keep.push("upgrades");
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
+		},
 }),
 addLayer("SeD", {
     name: "SeD", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -474,7 +520,7 @@ addLayer("SeD", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
+    row: 3, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -482,8 +528,77 @@ addLayer("SeD", {
 	doReset(resettingLayer) {
 			let keep = [];
 			if (hasMilestone("SD", 0)) keep.push("upgrades")
-			if (layers[resettingLayer].row > this.row) layerDataReset("SD", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 				layerDataReset("SD")
 		},
 })
+addLayer("T1M", {
+    name: "T1M", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "T1M", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: -5, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#0000CD",
+	branches: ["t11", "t1"],
+    requires: new Decimal(1e29), // Can be a function that takes requirement increases into account
+    resource: "T1 Mega Data", // Name of prestige currency
+    baseResource: "Points", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.7, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){return (hasMilestone("V", 0) || player[this.layer].unlocked )},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
+		layerDataReset("V")
+		},
+})
+addLayer("T2M", {
+    name: "T2M", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "T2M", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 50, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#000080",
+	branches: ["t22", "t2"],
+    requires: new Decimal(1e35), // Can be a function that takes requirement increases into account
+    resource: "T2 Mega Data", // Name of prestige currency
+    baseResource: "Points", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.7, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){return (player.T1M.unlocked || player[this.layer].unlocked )},
+})
+
 
