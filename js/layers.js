@@ -121,7 +121,7 @@ cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
             },
 	},
-	layerShown(){return (hasUpgrade("D", 12))},
+	layerShown(){return (hasUpgrade("D", 12) || player[this.layer].unlocked )},
 }),
 
 addLayer("DD", {
@@ -173,7 +173,7 @@ addLayer("DD", {
     },
 },
 
-	layerShown(){return (hasUpgrade("D", 15))},
+	layerShown(){return (hasUpgrade("D", 15) || player[this.layer].unlocked )},
 }),
 
 
@@ -230,10 +230,10 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
 			},
 			
 	},
-	layerShown(){return (hasUpgrade("SD", 13))},
+	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
 }),
 
-addLayer("t1+", {
+addLayer("t11", {
     name: "t1+", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "t1+", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -278,7 +278,7 @@ addLayer("t1+", {
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
 			},
-	layerShown(){return (hasUpgrade("SD", 13))},
+	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
 }),
 
 addLayer("t2", {
@@ -324,7 +324,7 @@ addLayer("t2", {
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
 	},
-	layerShown(){return true},
+	layerShown(){return (hasUpgrade("t11", 13) || player[this.layer].unlocked )},
 }),
 
 addLayer("t22", {
@@ -375,7 +375,7 @@ addLayer("t22", {
         done() { return player.t22.points.gte(10) },
     },
 },
-	layerShown(){return true},
+	layerShown(){return (hasUpgrade("t2", 13) || player[this.layer].unlocked )},
 }),
 
 
@@ -403,11 +403,11 @@ addLayer("V", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasMilestone("t22", 0))},
+	layerShown(){return (hasMilestone("t22", 0) || player[this.layer].unlocked )},
 }),
 addLayer("SeD", {
     name: "SeD", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -433,10 +433,10 @@ addLayer("SeD", {
         let exp = new Decimal(1)
 		return exp;
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasMilestone("DD", 0))},
+	layerShown(){return (hasMilestone("DD", 0) || player[this.layer].unlocked )},
 })
 
