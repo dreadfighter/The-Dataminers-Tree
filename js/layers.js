@@ -294,7 +294,7 @@ addLayer("t11", {
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
 			},
-	layerShown(){return (hasUpgrade("t1", 13) || player[this.layer].unlocked )},
+	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
 }),
 
 addLayer("t2", {
