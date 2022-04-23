@@ -73,13 +73,13 @@ unlocked() { return hasUpgrade("D", 13) },
 	layerShown(){return true},
 	doReset(resettingLayer) {
 			let keep = [];
-			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades")
-			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades")
-			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
-			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades")
-			if (hasMilestone("D", 0) && resettingLayer=="s") keep.push("upgrades")
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades");
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
 			if (hasAchievement("a", 41)) keep.push("upgrades")
-			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
 addLayer("SD", {
@@ -473,12 +473,7 @@ addLayer("SeD", {
 	layerShown(){return (hasMilestone("DD", 0) || player[this.layer].unlocked )},
 	doReset(resettingLayer) {
 			let keep = [];
-			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades")
-			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades")
-			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades")
-			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades")
-			if (hasMilestone("D", 0) && resettingLayer=="s") keep.push("upgrades")
-			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("SeD", keep)
 		},
 })
 
