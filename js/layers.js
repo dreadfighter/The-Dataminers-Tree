@@ -49,7 +49,7 @@ unlocked() { return hasUpgrade("D", 11) }, // The upgrade is only visible when t
 				cost: new Decimal(20),
 				unlocked() { return hasUpgrade("D", 12) },
 				effect() {
-					return player.points.add( player.points / 100 + 0.2).pow(0.25)
+					return player.points.add(player.points.div(100).add(0.2)).pow(0.25)
 				},
 				effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 			},
@@ -84,7 +84,7 @@ unlocked() { return hasUpgrade("D", 17) },
 				cost: new Decimal(80),	
 				unlocked() { return hasUpgrade("D", 14) },
 				effect() {
-	return player.SD.points.add(player.SD.points / 10 + 0.2).pow(0.4)	
+return player.SD.points.add(player.SD.points.div(10).add(0.2)).pow(0.4)	
 			},
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 			},			
@@ -99,7 +99,6 @@ unlocked() { return hasUpgrade("D", 17) },
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
 			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
 			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
-			if (hasAchievement("a", 41)) keep.push("upgrades");
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
@@ -193,12 +192,12 @@ addLayer("DD", {
 	upgrades: {
 		11: {
 			title: "Planetary Miners",
-			description: "10x points income",
+			description: "3x points income",
 			cost: new Decimal(1),
 		},
 				12: {
 			title: "Planetary Memory",
-			description: "15x points income",
+			description: "4x points income",
 			cost: new Decimal(1),
 		},
 	},
@@ -211,6 +210,17 @@ addLayer("DD", {
 },
 
 	layerShown(){return (hasUpgrade("D", 15) || player[this.layer].unlocked )},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
+		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
+		layerDataReset("V");
+		},
 }),
 
 
@@ -256,7 +266,7 @@ description: "Gain bonus based on Tier 1 Data amount.",
 cost: new Decimal(5),
 unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when this is true          
 			effect() {
-				return player[this.layer].points.add(0.5).pow(0.6)
+				return player[this.layer].points.add(0.2).pow(0.1)
 			},
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
@@ -317,7 +327,7 @@ addLayer("t11", {
 				description: "Gains multiplier bonus based on amount of Tier 1+ Data",
 				cost: new Decimal(20),
 				effect() {
-				return player[this.layer].points.add(0.5).pow(0.6)
+				return player[this.layer].points.add(0.5).pow(0.1)
 			},
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
@@ -370,7 +380,7 @@ addLayer("t2", {
 				description: "Gains multiplier bonus based on amount of Tier 2 Data",
 				cost: new Decimal(3),
 				effect() {
-				return player[this.layer].points.add(1).pow(0.32)
+				return player[this.layer].points.add(0.6).pow(0.12)
 			},
 			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
 			},
@@ -444,6 +454,17 @@ addLayer("t22", {
     },
 },
 	layerShown(){return (hasUpgrade("t2", 13) || player[this.layer].unlocked )},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
+		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
+		layerDataReset("V");
+		},
 }),
 
 
@@ -457,7 +478,7 @@ addLayer("V", {
     }},
     color: "#696969",
 	branches: ["SD"],
-    requires: new Decimal(28e16), // Can be a function that takes requirement increases into account
+    requires: new Decimal(8e18), // Can be a function that takes requirement increases into account
     resource: "Void Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -492,7 +513,6 @@ addLayer("V", {
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
 			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
 			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
-			if (hasAchievement("a", 41)) keep.push("upgrades");
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
@@ -565,11 +585,15 @@ addLayer("T1M", {
 	doReset(resettingLayer) {
 			let keep = [];
 			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
-			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
 		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
-		layerDataReset("V")
+		layerDataReset("V");
 		},
-})
+}),
 addLayer("T2M", {
     name: "T2M", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "T2M", // This appears on the layer's node. Default is the id with the first letter capitalized

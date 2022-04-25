@@ -4,6 +4,7 @@ let modInfo = {
 	author: "dreadfighter",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
+	endgame: new Decimal("e1e15"),
 
 	discordName: "",
 	discordLink: "",
@@ -51,14 +52,17 @@ function getPointGen() {
 				if (hasUpgrade("D", 17)) gain = gain.times(10);
 				if (hasUpgrade("D", 18)) gain = gain.times(10);
 				if (hasUpgrade("D", 15)) gain = gain.times(upgradeEffect("D", 15));
+				if (hasUpgrade("t1", 12)) gain = gain.times(upgradeEffect("t1", 12));
+				if (hasUpgrade("t1", 11)) gain = gain.times(1.5);
+				if (hasUpgrade("t1", 13)) gain = gain.times(10);
 				if (hasUpgrade("SD", 11)) gain = gain.times(4);
 				if (hasUpgrade("SD", 12)) gain = gain.times(2);
 				if (hasUpgrade("SD", 13)) gain = gain.times(0.001);
 				if (hasUpgrade("t2", 13)) gain = gain.times(upgradeEffect("t2", 13))
 					if (hasUpgrade("t11", 11)) gain = gain.times(2);
 				if (hasUpgrade("t11", 13)) gain = gain.times(upgradeEffect("t11", 13))
-if (hasUpgrade("DD", 11)) gain = gain.times(10);
-if (hasUpgrade("DD", 12)) gain = gain.times(15);
+if (hasUpgrade("DD", 11)) gain = gain.times(3);
+if (hasUpgrade("DD", 12)) gain = gain.times(4);
 if (hasUpgrade("t22", 11)) gain = gain.times(10);
 if (hasMilestone("t22", 2)) gain = gain.times(2);
 if (hasUpgrade("t22", 12)) gain = gain.times(10);
@@ -76,7 +80,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.points.gte(modInfo.endgame)
 }
 
 
