@@ -98,7 +98,6 @@ return player.SD.points.add(player.SD.points.div(10).add(0.2)).pow(0.4)
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
 			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
-			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
@@ -212,14 +211,13 @@ addLayer("DD", {
 	layerShown(){return (hasUpgrade("D", 15) || player[this.layer].unlocked )},
 	doReset(resettingLayer) {
 			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
 				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
 		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
-		layerDataReset("V");
 		},
 }),
 
@@ -457,63 +455,10 @@ addLayer("t22", {
 	doReset(resettingLayer) {
 			let keep = [];
 			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
-				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
-		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
-		layerDataReset("V");
-		},
-}),
-
-
-addLayer("V", {
-    name: "V", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "V", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 5, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
-    startData() { return {
-        unlocked: false,
-		points: new Decimal(0),
-    }},
-    color: "#696969",
-	branches: ["SD"],
-    requires: new Decimal(8e18), // Can be a function that takes requirement increases into account
-    resource: "Void Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        let exp = new Decimal(1)
-		return exp;
-    },
-    row: 1, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
-	layerShown(){return (hasMilestone("t22", 0) || player[this.layer].unlocked )},
-	milestones: {
-    0: {
-        requirementDescription: "10 Void Data",
-        effectDescription: "Upgrades wont reset",
-        done() { return player.V.points.gte(10) },
-    },
-	},
-	doReset(resettingLayer) {
-			let keep = [];
-			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
-			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades");
-			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
-			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
-			if (hasMilestone("D", 0) && resettingLayer=="D") keep.push("upgrades");
-			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
-			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
-			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
 		},
 }),
 addLayer("SeD", {
@@ -548,7 +493,7 @@ addLayer("SeD", {
 	doReset(resettingLayer) {
 			let keep = [];
 			if (hasMilestone("SD", 0)) keep.push("upgrades")
-			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
 			if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 				layerDataReset("SD")
 		},
@@ -581,17 +526,16 @@ addLayer("T1M", {
     hotkeys: [
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasMilestone("V", 0) || player[this.layer].unlocked )},
+	layerShown(){return (hasUpgrade("t22", 12) || player[this.layer].unlocked )},
 	doReset(resettingLayer) {
 			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("V", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
 				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
 		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
-		layerDataReset("V");
 		},
 }),
 addLayer("T2M", {
@@ -626,3 +570,60 @@ addLayer("T2M", {
 })
 
 
+addLayer("P", {
+    name: "P", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+   startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#696969",
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    resource: "Simulation Data", // Name of prestige currency
+    baseResource: "points", // Name of resource prestige is based on
+    baseAmount() { return player.points }, // Get the current amount of baseResource
+    type: "normal",	
+	branches: ["D"],// normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.4, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "S", description: "S: Reset for Simulated Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+	11: {
+title: "Simulated Tree",
+description: "DQuintiples points income",
+cost: new Decimal(10),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
+            },
+	12: {
+title: "Upgraded Simulated Tree",
+description: "Doubles points income",
+cost: new Decimal(20),
+unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
+            },
+			13: {
+title: "Mega Simulated Tree",
+description: "Zero points income",
+cost: new Decimal(40),
+unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
+            },
+	},
+	layerShown(){return (hasUpgrade("t22", 12) || player[this.layer].unlocked )},
+	milestones: {
+    0: {
+        requirementDescription: "10 waffles",
+        effectDescription: "blah",
+        done() { return player.P.points.gte(10) },
+    },
+},
+})
