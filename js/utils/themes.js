@@ -3,9 +3,9 @@ var themes = ["default", "aqua"]
 
 var colors = {
 	default: {
-		1: "#ffffff",//Branch color 1
-		2: "#bfbfbf",//Branch color 2
-		3: "#7f7f7f",//Branch color 3
+		1: "#A9A9A9",//Branch color 1
+		2: "#696969",//Branch color 2
+		3: "#C0C0C0",//Branch color 3
 		color: "#dfdfdf",
 		points: "#ffffff",
 		locked: "#bf8f8f",

@@ -626,9 +626,4 @@ unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when 
         done() { return player.P.points.gte(10) },
     },
 },
-upgrades: {
-	11: {
-		
-	}
-}
 })
