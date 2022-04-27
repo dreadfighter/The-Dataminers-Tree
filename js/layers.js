@@ -580,7 +580,7 @@ addLayer("P", {
     }},
     color: "#696969",
     requires: new Decimal(50), // Can be a function that takes requirement increases into account
-    resource: "Simulation Data", // Name of prestige currency
+    resource: "Planetary Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() { return player.points }, // Get the current amount of baseResource
     type: "normal",	
@@ -626,4 +626,9 @@ unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when 
         done() { return player.P.points.gte(10) },
     },
 },
+upgrades: {
+	11: {
+		
+	}
+}
 })
