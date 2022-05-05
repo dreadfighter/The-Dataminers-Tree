@@ -29,41 +29,36 @@ addLayer("D", {
 	upgrades: {
             11: {
 title: "Universal Memory Card",
-description: "Doubles points income",
-cost: new Decimal(3),
+description: "100% Data effective",
+cost: new Decimal(2),
 unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
             },
 			12: {
 title: "Generator of Genericness",
-description: "Gain bonus based on Data amount.",
-cost: new Decimal(5),
-unlocked() { return hasUpgrade("D", 11) }, // The upgrade is only visible when this is true          
-			effect() {
-				return player[this.layer].points.add(0.8).pow(0.37)
-			},
-			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+description: "70% Data effective",
+cost: new Decimal(45),
+currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+unlocked() { return hasUpgrade("D", 11) }, // The upgrade is only visible when this is true         
 			},
 			13: {
 				title: "Data Miner",
-				description: "Mines for you. Gains income bonus based on points amount",
-				cost: new Decimal(20),
+				description: "200% Data effective",
+				cost: new Decimal(8),
 				unlocked() { return hasUpgrade("D", 12) },
-				effect() {
-					return player.points.add(player.points.div(100).add(0.2)).pow(0.25)
-				},
-				effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 			},
 			14: {
 				title: "Initialization New System",
-				description: "Triples your points income",
-				cost: new Decimal(40),	
+				description: "150% Data effective",
+				cost: new Decimal(12),	
 unlocked() { return hasUpgrade("D", 13) },				
 			},
 			16: {
 				title: "Reloading System",
 				description: "5x your points income",
-				cost: new Decimal(10),	
-unlocked() { return hasUpgrade("t1", 13) },				
+				cost: new Decimal(17),	
+unlocked() { return player.t1.unlocked },				
 			},
 			17: {
 				title: "Reinverting System",
@@ -80,13 +75,9 @@ unlocked() { return hasUpgrade("D", 17) },
 			},
 			15: {
 				title: "1TB Card",
-				description: "Gains income based on Simulation Data amount",
-				cost: new Decimal(80),	
+				description: "225% Data effective",
+				cost: new Decimal(20),	
 				unlocked() { return hasUpgrade("D", 14) },
-				effect() {
-return player.SD.points.add(player.SD.points.div(10).add(0.2)).pow(0.4)	
-			},
-			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
 			},			
 			},
 	layerShown(){return true},
@@ -132,19 +123,19 @@ addLayer("SD", {
 	upgrades: {
 	11: {
 title: "Simulated Tree",
-description: "Quintiples points income",
+description: "100% Simulation Data effective",
 cost: new Decimal(10),
 unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
             },
 	12: {
 title: "Upgraded Simulated Tree",
-description: "Doubles points income",
+description: "50% Simulation Data effective",
 cost: new Decimal(20),
 unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
             },
 			13: {
 title: "Mega Simulated Tree",
-description: "Zero points income",
+description: "70% Simulation Data effective",
 cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
             },
@@ -234,7 +225,7 @@ addLayer("t1", {
 		points: new Decimal(0),
     }},
     color: "#FF4500",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10000), // Can be a function that takes requirement increases into account
     resource: "Tier 1 Data", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -255,8 +246,8 @@ addLayer("t1", {
 	upgrades: {
 		11: {
 			title: "Start Again",
-			description: "Gains +0.1 points per/sec",
-			cost: new Decimal(0.5),
+			description: "200% Tier 1 Data effective",
+			cost: new Decimal(2),
 		},			
 	},
 	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},

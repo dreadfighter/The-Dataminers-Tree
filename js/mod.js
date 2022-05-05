@@ -2,13 +2,13 @@ let modInfo = {
 	name: "The Dataminer Tree",
 	id: "dataminer",
 	author: "dreadfighter",
-	pointsName: "points",
+	pointsName: "miners",
 	modFiles: ["layers.js", "tree.js"],
 	endgame: new Decimal("e1e15"),
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (1e9), // Used for hard resets and new players
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -45,19 +45,17 @@ function getPointGen() {
 
 	let gain = new Decimal(1)
 		if (hasUpgrade("D", 11)) gain = gain.times(2);
-		if (hasUpgrade("D", 12)) gain = gain.times(upgradeEffect("D", 12));
-		if (hasUpgrade("D", 13)) gain = gain.times(upgradeEffect("D", 13));
-		if (hasUpgrade("D", 14)) gain = gain.times(3);
+		if (hasUpgrade("D", 12)) gain = gain.times(1.7);
+		if (hasUpgrade("D", 13)) gain = gain.times(3);
+		if (hasUpgrade("D", 14)) gain = gain.times(2.5);
 				if (hasUpgrade("D", 16)) gain = gain.times(5);
 				if (hasUpgrade("D", 17)) gain = gain.times(2);
 				if (hasUpgrade("D", 18)) gain = gain.times(2);
-				if (hasUpgrade("D", 15)) gain = gain.times(upgradeEffect("D", 15));
-				if (hasUpgrade("t1", 12)) gain = gain.times(upgradeEffect("t1", 12));
-				if (hasUpgrade("t1", 11)) gain = gain.times(1.5);
-				if (hasUpgrade("t1", 13)) gain = gain.times(10);
-				if (hasUpgrade("SD", 11)) gain = gain.times(4);
-				if (hasUpgrade("SD", 12)) gain = gain.times(2);
-				if (hasUpgrade("SD", 13)) gain = gain.times(0.001);
+				if (hasUpgrade("D", 15)) gain = gain.times(3.25);
+				if (hasUpgrade("t1", 11)) gain = gain.times(3);
+				if (hasUpgrade("SD", 11)) gain = gain.times(2);
+				if (hasUpgrade("SD", 12)) gain = gain.times(1.5);
+				if (hasUpgrade("SD", 13)) gain = gain.times(1.7);
 				if (hasUpgrade("t2", 13)) gain = gain.times(upgradeEffect("t2", 13))
 					if (hasUpgrade("t11", 11)) gain = gain.times(2);
 				if (hasUpgrade("t11", 13)) gain = gain.times(upgradeEffect("t11", 13))					 
