@@ -61,20 +61,20 @@ unlocked() { return hasUpgrade("D", 13) },
 			},
 			16: {
 				title: "Reloading System",
-				description: "10x your points income",
+				description: "5x your points income",
 				cost: new Decimal(10),	
 unlocked() { return hasUpgrade("t1", 13) },				
 			},
 			17: {
 				title: "Reinverting System",
-				description: "10x your points income",
+				description: "2x your points income",
 				cost: new Decimal(10),	
 unlocked() { return hasUpgrade("D", 16) 
 },
 			},	
         18: {
 				title: "Starting System",
-				description: "10x your points income",
+				description: "2x your points income",
 				cost: new Decimal(10),	
 unlocked() { return hasUpgrade("D", 17) },			
 			},
@@ -132,7 +132,7 @@ addLayer("SD", {
 	upgrades: {
 	11: {
 title: "Simulated Tree",
-description: "DQuintiples points income",
+description: "Quintiples points income",
 cost: new Decimal(10),
 unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
             },
@@ -257,23 +257,7 @@ addLayer("t1", {
 			title: "Start Again",
 			description: "Gains +0.1 points per/sec",
 			cost: new Decimal(0.5),
-		},
-		12: {
-title: "Generator of Genericness",
-description: "Gain bonus based on Tier 1 Data amount.",
-cost: new Decimal(5),
-unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when this is true          
-			effect() {
-				return player[this.layer].points.add(0.2).pow(0.1)
-			},
-			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
-			},
-			13: {
-				title: "First Big Upgrade",
-				description: "Multiplies points income by 10",
-				cost: new Decimal(20),
-			},
-			
+		},			
 	},
 	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
 	milestones: {
@@ -283,6 +267,7 @@ unlocked() { return hasUpgrade("t1", 11) }, // The upgrade is only visible when 
         done() { return player.t1.points.gte(10) },
     },
 },
+
 }),
 
 addLayer("t11", {
