@@ -26,7 +26,7 @@ addLayer("D", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
-		rows: 3,
+		rows: 4,
 		cols: 5,
             11: {
 title: "1.1: Universal Memory Card",
@@ -91,6 +91,15 @@ unlocked() { return hasUpgrade("t1", 13) },
 				description: "50% Data effective",
 				cost: new Decimal(85000),	
 unlocked() { return hasUpgrade("D", 31) },			
+			},
+41: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "4.1: Neurone Boost III",
+				description: "175% Data effective",
+				cost: new Decimal(560000000),	
+unlocked() { return hasUpgrade("t11", 32) },			
 			},			
 			},
 	layerShown(){return true},
@@ -134,6 +143,8 @@ addLayer("SD", {
         {key: "S", description: "S: Reset for Simulated Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
+		rows: 2,
+		cols: 2,
 	11: {
 title: "1.1: Simulated Tree",
 description: "100% Simulation Data effective",
@@ -146,8 +157,8 @@ description: "50% Simulation Data effective",
 cost: new Decimal(20),
 unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
             },
-			13: {
-title: "1.3: Mega Simulated Tree",
+			21: {
+title: "2.1: Mega Simulated Tree",
 description: "70% Simulation Data effective",
 cost: new Decimal(40),
 unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     

@@ -56,9 +56,10 @@ function getPointGen() {
 		 if (hasUpgrade("D", 23)) gain = gain.times(1.5);
 		 if (hasUpgrade("D", 31)) gain = gain.times(1.3);
 		 if (hasUpgrade("D", 32)) gain = gain.times(1.3);
+		 if (hasUpgrade("D", 41)) gain = gain.times(2.75);
     // Singularity Data upgrades (total: 3)
 		  if (hasUpgrade("SD", 12)) gain = gain.times(1.5);
-		  if (hasUpgrade("SD", 13)) gain = gain.times(1.7);
+		  if (hasUpgrade("SD", 21)) gain = gain.times(1.7);
 	      if (hasUpgrade("SD", 11)) gain = gain.times(2);
     // Deep Data upgrades (total: 2)
 		   if (hasUpgrade("DD", 11)) gain = gain.times(3);
