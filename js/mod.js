@@ -1,7 +1,7 @@
 let modInfo = {
-	name: "The Dataminer Tree",
+	name: "The Dataminers Tree",
 	id: "dataminer",
-	author: "dreadfighter",
+	author: "Seder3214",
 	pointsName: "miners",
 	modFiles: ["layers.js", "tree.js"],
 	endgame: new Decimal("e1e15"),
@@ -44,27 +44,40 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+	// Data Upgrades (total: 10)
 		if (hasUpgrade("D", 11)) gain = gain.times(2);
 		if (hasUpgrade("D", 12)) gain = gain.times(1.7);
 		if (hasUpgrade("D", 13)) gain = gain.times(3);
 		if (hasUpgrade("D", 14)) gain = gain.times(2.5);
-				if (hasUpgrade("D", 16)) gain = gain.times(5);
-				if (hasUpgrade("D", 17)) gain = gain.times(2);
-				if (hasUpgrade("D", 18)) gain = gain.times(2);
-				if (hasUpgrade("D", 15)) gain = gain.times(3.25);
-				if (hasUpgrade("t1", 11)) gain = gain.times(3);
-				if (hasUpgrade("SD", 11)) gain = gain.times(2);
-				if (hasUpgrade("SD", 12)) gain = gain.times(1.5);
-				if (hasUpgrade("SD", 13)) gain = gain.times(1.7);
-				if (hasUpgrade("t2", 13)) gain = gain.times(upgradeEffect("t2", 13))
-					if (hasUpgrade("t11", 11)) gain = gain.times(2);
-				if (hasUpgrade("t11", 13)) gain = gain.times(upgradeEffect("t11", 13))					 
-if (hasUpgrade("DD", 11)) gain = gain.times(3);
-if (hasUpgrade("DD", 12)) gain = gain.times(4);
-if (hasUpgrade("t22", 11)) gain = gain.times(10);
-if (hasMilestone("t22", 2)) gain = gain.times(2);
-if (hasUpgrade("t22", 12)) gain = gain.times(10);
-if (hasUpgrade("t2", 11)) gain = gain.times(2);
+		if (hasUpgrade("D", 15)) gain = gain.times(3.25);
+
+		 if (hasUpgrade("D", 21)) gain = gain.times(2);
+		 if (hasUpgrade("D", 22)) gain = gain.times(2);
+		 if (hasUpgrade("D", 23)) gain = gain.times(1.5);
+		 if (hasUpgrade("D", 31)) gain = gain.times(1.3);
+		 if (hasUpgrade("D", 32)) gain = gain.times(1.3);
+    // Singularity Data upgrades (total: 3)
+		  if (hasUpgrade("SD", 12)) gain = gain.times(1.5);
+		  if (hasUpgrade("SD", 13)) gain = gain.times(1.7);
+	      if (hasUpgrade("SD", 11)) gain = gain.times(2);
+    // Deep Data upgrades (total: 2)
+		   if (hasUpgrade("DD", 11)) gain = gain.times(3);
+           if (hasUpgrade("DD", 12)) gain = gain.times(4);
+    // Tier 1 Data upgrades (total: 2)
+		    if (hasUpgrade("t1", 11)) gain = gain.times(3);
+			if (hasUpgrade("t1", 12)) gain = gain.times(1.75);
+    // Tier 1+ Data upgrades (total: 2)
+			 if (hasUpgrade("t11", 11)) gain = gain.times(1.75);
+			 if (hasUpgrade("t11", 12)) gain = gain.times(1.5);
+			 if (hasUpgrade("t11", 21)) gain = gain.times(2);
+			 if (hasUpgrade("t11", 32)) gain = gain.times(4);
+    // Tier 2 Data upgrades (total: 2)
+			  if (hasUpgrade("t2", 13)) gain = gain.times(upgradeEffect("t2", 13))	
+              if (hasUpgrade("t2", 11)) gain = gain.times(2);	
+    // Tier 2+ Data upgrades (total: 3)		  
+               if (hasUpgrade("t22", 11)) gain = gain.times(10);
+               if (hasMilestone("t22", 2)) gain = gain.times(2);
+               if (hasUpgrade("t22", 12)) gain = gain.times(10);
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values

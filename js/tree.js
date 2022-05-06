@@ -15,6 +15,11 @@ addNode("blank", {
     layerShown: "ghost",
 }, 
 )
+addNode("blank", {
+	row: 2,
+    layerShown: "ghost",
+}, 
+)
 
 
 addLayer("tree-tab", {
