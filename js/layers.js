@@ -9,7 +9,7 @@ addLayer("D", {
     color: "#AFEEEE",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.8, // Prestige currency exponent
@@ -26,7 +26,7 @@ addLayer("D", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
-		rows: 4,
+		rows: 5,
 		cols: 5,
             11: {
 title: "1.1: Universal Memory Card",
@@ -82,14 +82,14 @@ unlocked() { return hasUpgrade("D", 22) },
 			},	
          31: {
 				title: "3.1: Miners Upgraded",
-				description: "30% Data effective",
-				cost: new Decimal(45000),	
+				description: "40% Data effective",
+				cost: new Decimal(12000),	
 unlocked() { return hasUpgrade("t1", 13) },			
 			},
 32: {
 				title: "3.2: Neurone Boost I",
-				description: "50% Data effective",
-				cost: new Decimal(85000),	
+				description: "60% Data effective",
+				cost: new Decimal(24600),	
 unlocked() { return hasUpgrade("D", 31) },			
 			},
 41: {
@@ -100,6 +100,51 @@ unlocked() { return hasUpgrade("D", 31) },
 				description: "175% Data effective",
 				cost: new Decimal(560000000),	
 unlocked() { return hasUpgrade("t11", 32) },			
+			},
+51: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "5.1: Neurone Boost IV",
+				description: "55% Data effective",
+				cost: new Decimal(1e11),	
+unlocked() { return hasUpgrade("S", 14) },			
+			},
+52: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "5.1: Neurone Boost V",
+				description: "50% Data effective",
+				cost: new Decimal(4e11),	
+unlocked() { return hasUpgrade("D", 51) },			
+			},
+53: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "5.1: Neurone Boost VI",
+				description: "25% Data effective",
+				cost: new Decimal(8e11),	
+unlocked() { return hasUpgrade("D", 52) },			
+			},
+54: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "5.1: Neurone Boost VII",
+				description: "40% Data effective",
+				cost: new Decimal(1e12),	
+unlocked() { return hasUpgrade("D", 53) },			
+			},
+55: {
+	currencyDisplayName: "miners",
+            currencyInternalName: "points",
+            currencyLayer: "",
+				title: "5.1: Neurone Boost VIII",
+				description: "25% Data effective",
+				cost: new Decimal(2e12),	
+unlocked() { return hasUpgrade("D", 54) },			
 			},			
 			},
 	layerShown(){return true},
@@ -125,7 +170,7 @@ addLayer("SD", {
     color: "#6B8E23",
     requires: new Decimal(50), // Can be a function that takes requirement increases into account
     resource: "Simulation Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() { return player.points }, // Get the current amount of baseResource
     type: "normal",	
 	branches: ["D"],// normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -153,7 +198,7 @@ unlocked() { return player[this.layer].unlocked }, // The upgrade is only visibl
             },
 	12: {
 title: "1.2: Upgraded Simulated Tree",
-description: "50% Simulation Data effective",
+description: "80% Simulation Data effective",
 cost: new Decimal(20),
 unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
             },
@@ -185,7 +230,7 @@ addLayer("DD", {
     color: "#FF1493",
     requires: new Decimal(10000000), // Can be a function that takes requirement increases into account
     resource: "Deep Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() { return player.points }, // Get the current amount of baseResource
     type: "static",	
 	branches: ["D"],// normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -251,7 +296,7 @@ addLayer("t1", {
     color: "#FF4500",
     requires: new Decimal(10000), // Can be a function that takes requirement increases into account
     resource: "Tier 1 Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
@@ -268,6 +313,8 @@ addLayer("t1", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
+		rows: 3,
+		cols: 3,
 		11: {
 			title: "1.1: Start Again",
 			description: "200% Tier 1 Data effective",
@@ -287,9 +334,27 @@ addLayer("t1", {
 	description: "Opens a new row of Data Upgrades",
 	cost: new Decimal(20),
 	unlocked() { return hasUpgrade("t1", 12) },
-}		
+},	
+21: {
+	title: "2.1: Technical Boost I",
+	description: "30% Tier 1 Data effective",
+	cost: new Decimal(1200),
+	unlocked() { return hasUpgrade("t2", 31) },
+},
+22: {
+	title: "2.2: Technical Boost II",
+	description: "60% Tier 1 Data effective",
+	cost: new Decimal(6450),
+	unlocked() { return hasUpgrade("t1", 21) },
+},
+23: {
+	title: "2.3: Technical Boost III",
+	description: "90% Tier 1 Data effective",
+	cost: new Decimal(8900),
+	unlocked() { return hasUpgrade("t1", 22) },
+},
 	},
-	layerShown(){return (hasUpgrade("SD", 13) || player[this.layer].unlocked )},
+	layerShown(){return (hasUpgrade("SD", 21) || player[this.layer].unlocked )},
 	milestones: {
     0: {
         requirementDescription: "10 Tier 1 Data",
@@ -312,7 +377,7 @@ addLayer("t11", {
 	branches: ["t1"],
     requires: new Decimal(100000), // Can be a function that takes requirement increases into account
     resource: "Tier 1+ Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
@@ -333,13 +398,13 @@ addLayer("t11", {
 		cols: 2,
 		11: {
 			title: "1.1: AntiData Miners",
-			description: "75% Tier 1+ Data effective",
+			description: "85% Tier 1+ Data effective",
 			cost: new Decimal(10),
 			
 		},
 			12: {
 				title: "1.2: AntiData Memory",
-				description: "50% Tier 1+ Data effective",
+				description: "70% Tier 1+ Data effective",
 				cost: new Decimal(20),
 					unlocked() { return hasUpgrade("t11", 11) },
 			},
@@ -383,7 +448,7 @@ addLayer("t2", {
     color: "#808080",
     requires: new Decimal(1e9), // Can be a function that takes requirement increases into account
     resource: "Tier 2 Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
@@ -400,19 +465,35 @@ addLayer("t2", {
         {key: "D", description: "D: Reset for Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
+		rows: 3,
+		cols: 3,
 		11: {
 			title: "1.1: Void Data Invention",
-			description: "Doubles points income",
+			description: "200% Tier 2 Data effective",
 			cost: new Decimal(1),
 		},
 		13: {
 				title: "1.2: Creating Void Memory",
-				description: "Gains multiplier bonus based on amount of Tier 2 Data",
+				description: "125% Tier 2 Data effective",
 				cost: new Decimal(3),
-				effect() {
-				return player[this.layer].points.add(0.6).pow(0.12)
 			},
-			effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+			21: {
+				title: "2.1: Mega Boost I",
+				description: "50% Tier 2 Data effective",
+				cost: new Decimal(12),
+				unlocked() { return hasUpgrade("t2", 13) },
+			},
+			22: {
+				title: "2.2: Mega Boost II",
+				description: "75% Tier 2 Data effective",
+				cost: new Decimal(18),
+				unlocked() { return hasUpgrade("t2", 21) },
+			},
+			31: {
+				title: "3.1: Mega System",
+				description: "Unlock a new row of Tier 1 Data upgrades",
+				cost: new Decimal(26),
+				unlocked() { return hasUpgrade("t2", 22) },
 			},
 	},
 	layerShown(){return (hasUpgrade("t11", 31) || player[this.layer].unlocked )},
@@ -437,7 +518,7 @@ addLayer("t22", {
 	branches: ["t2"],
     requires: new Decimal(10e9), // Can be a function that takes requirement increases into account
     resource: "Tier 2+ Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
@@ -455,13 +536,13 @@ addLayer("t22", {
     ],
 	upgrades: {
 		11: {
-			title: "Finishing First Emulation",
-			description: "Unlocks Void Data. 10x points income",
+			title: "0.1: Finishing First Emulation",
+			description: "40% Tier 2+ Data effective",
 			cost: new Decimal(1),
 		},
 		12: {
-			title: "Starting Second Emulation",
-			description: "Enter Void Data. 10x points income",
+			title: "0.2: Starting Second Emulation",
+			description: "50% Tier 2+ Data effective",
 			cost: new Decimal(1),
 		},
 	},
@@ -469,7 +550,7 @@ addLayer("t22", {
 	milestones: {
     0: {
         requirementDescription: "10 T2 Data",
-        effectDescription: "Unlocks Void Data",
+        effectDescription: "Unlocks Planetary Data",
         done() { return player.t22.points.gte(10) },
     },
 	1: {
@@ -478,9 +559,9 @@ addLayer("t22", {
         done() { return player.t22.points.gte(20) },
     },
 	2: {
-        requirementDescription: "200 T2 Data",
+        requirementDescription: "40 T2 Data",
         effectDescription: "Doubles points income",
-        done() { return player.t22.points.gte(200) },
+        done() { return player.t22.points.gte(40) },
     },
 },
 	layerShown(){return (hasUpgrade("t2", 13) || player[this.layer].unlocked )},
@@ -540,9 +621,9 @@ addLayer("T1M", {
     }},
     color: "#0000CD",
 	branches: ["t11", "t1"],
-    requires: new Decimal(1e29), // Can be a function that takes requirement increases into account
+    requires: new Decimal(2e14), // Can be a function that takes requirement increases into account
     resource: "T1 Mega Data", // Name of prestige currency
-    baseResource: "Points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.7, // Prestige currency exponent
@@ -562,12 +643,59 @@ addLayer("T1M", {
 	doReset(resettingLayer) {
 			let keep = [];
 			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep)
-				if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
 			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("milestones");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
 			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("milestones");
-		if (hasMilestone("V", 0) && resettingLayer=="V") keep.push("milestones");
+			if (hasMilestone("T1M", 0) && resettingLayer=="T1M") keep.push("upgrades");
+			return keep;
+		},
+		upgrades: {
+			rows: 2,
+			cols: 3,
+	11: {
+title: "Third Simulation",
+description: "30% Tier 1 Mega Data effective",
+cost: new Decimal(2),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
+            },
+			12: {
+title: "Recompiling Code of Miners",
+description: "10% Tier 1 Mega Data effective",
+cost: new Decimal(3),
+unlocked() { return (hasUpgrade("T1M", 11)) }, // The upgrade is only visible when this is true     
+            },
+			13: {
+title: "Saving Data of prev. simulation",
+description: "10% Tier 1 Mega Data effective",
+cost: new Decimal(4),
+unlocked() { return (hasUpgrade("T1M", 12)) }, // The upgrade is only visible when this is true     
+            },
+			21: {
+title: "Mega Boost I",
+description: "20% Tier 1 Mega Data effective",
+cost: new Decimal(4),
+unlocked() { return (hasUpgrade("T1M", 13)) }, // The upgrade is only visible when this is true     
+            },
+			22: {
+title: "Mega Boost II",
+description: "15% Tier 1 Mega Data effective",
+cost: new Decimal(4),
+unlocked() { return (hasUpgrade("T1M", 21)) }, // The upgrade is only visible when this is true     
+            },
+			23: {
+title: "Mega Boost III",
+description: "20% Tier 1 Mega Data effective",
+cost: new Decimal(4),
+unlocked() { return (hasUpgrade("T1M", 22)) }, // The upgrade is only visible when this is true     
+            },
+		},
+		milestones: {
+    0: {
+        requirementDescription: "2 Tier 1 Mega Data",
+        effectDescription: "Unlocks Planetary Data",
+        done() { return player.T1M.points.gte(2) },
+    },
 		},
 }),
 addLayer("T2M", {
@@ -611,13 +739,13 @@ addLayer("P", {
 		points: new Decimal(0),
     }},
     color: "#696969",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1e11), // Can be a function that takes requirement increases into account
     resource: "Planetary Data", // Name of prestige currency
-    baseResource: "points", // Name of resource prestige is based on
+    baseResource: "miners", // Name of resource prestige is based on
     baseAmount() { return player.points }, // Get the current amount of baseResource
     type: "normal",	
 	branches: ["D"],// normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.4, // Prestige currency exponent
+    exponent: 0.6, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -632,30 +760,238 @@ addLayer("P", {
     ],
 	upgrades: {
 	11: {
-title: "Simulated Tree",
-description: "DQuintiples points income",
-cost: new Decimal(10),
+title: "Universe Boost I",
+description: "60% Planetary Data effective",
+cost: new Decimal(1),
 unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
             },
 	12: {
-title: "Upgraded Simulated Tree",
-description: "Doubles points income",
-cost: new Decimal(20),
-unlocked() { return hasUpgrade("SD", 11) }, // The upgrade is only visible when this is true     
+title: "Universe Boost II",
+description: "40% Planetary Data effective",
+cost: new Decimal(3),
+unlocked() { return hasUpgrade("P", 11) }, // The upgrade is only visible when this is true     
             },
 			13: {
-title: "Mega Simulated Tree",
-description: "Zero points income",
-cost: new Decimal(40),
-unlocked() { return hasUpgrade("SD", 12) }, // The upgrade is only visible when this is true     
+title: "Universe Boost III",
+description: "50% Planetary Data effective",
+cost: new Decimal(4),
+unlocked() { return hasUpgrade("P", 12) }, // The upgrade is only visible when this is true     
             },
 	},
-	layerShown(){return (hasUpgrade("t22", 12) || player[this.layer].unlocked )},
+	layerShown(){return (hasMilestone("t22", 0) || player[this.layer].unlocked )},
 	milestones: {
     0: {
-        requirementDescription: "10 waffles",
-        effectDescription: "blah",
+        requirementDescription: "10 Planetary Data",
+        effectDescription: "Upgrades wont reset",
         done() { return player.P.points.gte(10) },
     },
 },
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("DD", 0) && resettingLayer=="DD") keep.push("upgrades");
+			if (hasMilestone("t11", 0) && resettingLayer=="t11") keep.push("upgrades");
+			if (hasMilestone("t2", 0) && resettingLayer=="t2") keep.push("upgrades");
+			if (hasMilestone("t22", 1) && resettingLayer=="t22") keep.push("upgrades");
+			if (hasMilestone("SD", 0) && resettingLayer=="SD") keep.push("upgrades");
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
+		},
+})
+addLayer("S", {
+    name: "S", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "S", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+   startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#6A5ACD",
+    requires: new Decimal(2e11), // Can be a function that takes requirement increases into account
+    resource: "Singularity", // Name of prestige currency
+    baseResource: "miners", // Name of resource prestige is based on
+    baseAmount() { return player.points }, // Get the current amount of baseResource
+    type: "normal",	
+    exponent: 0.6, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "S", description: "S: Reset for Simulated Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+	11: {
+title: "Singularity Boost I",
+description: "100% All Data effective",
+cost: new Decimal(1),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
+            },
+	12: {
+title: "Singularity Boost II",
+description: "100% All Data effective",
+cost: new Decimal(2),
+unlocked() { return hasUpgrade("S", 11) }, // The upgrade is only visible when this is true     
+            },
+			13: {
+title: "Singularity Boost III",
+description: "100% All Data effective",
+cost: new Decimal(3),
+unlocked() { return hasUpgrade("S", 12) }, // The upgrade is only visible when this is true     
+            },
+			14: {
+title: "Singularity Boost IV",
+description: "Unlocks a new row of Data Upgrades",
+cost: new Decimal(4),
+unlocked() { return hasUpgrade("S", 13) }, // The upgrade is only visible when this is true     
+            },
+	15: {
+title: "Singularity Boost V",
+description: "1000% Planetary Data effective",
+cost: new Decimal(10),
+unlocked() { return hasUpgrade("S", 14) }, // The upgrade is only visible when this is true   
+	},
+	21: {
+title: "Singularity Boost VI",
+description: "Unlock Galaxy Data",
+cost: new Decimal(200),
+unlocked() { return hasUpgrade("S", 15) }, // The upgrade is only visible when this is true 
+style() {
+                if (hasUpgrade(this.layer, this.id)) return {
+                    'background-color': '#77bf5f',
+                    'border-color': '#00353F',
+                    'height': '200px',
+                    'width': '200px',
+                    }
+                    else if (!canAffordUpgrade(this.layer, this.id))  return {
+                            'height': '200px',
+                            'width':  '200px',
+                        }
+                    return {
+                            'background-color': '#bf8f8f', 
+                            'border-color': '#1a9cb2',
+                            'height': '200px',
+                            'width':  '200px',
+		        }
+	          }, 
+	},
+	},
+	layerShown(){return true},
+	doReset(resettingLayer) {
+			let keep = [];
+			layerDataReset("D");
+			layerDataReset("SD");
+			layerDataReset("DD");
+			layerDataReset("t1");
+			layerDataReset("t11");
+			layerDataReset("t2");
+			layerDataReset("t22");
+			layerDataReset("P");
+			layerDataReset("T1M");
+			layerDataReset("T2M");
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
+		},
+})
+addLayer("G", {
+    name: "G", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "G", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+   startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+	branches: ["S"],
+    color: "#483D8B",
+    requires: new Decimal(1.5e15), // Can be a function that takes requirement increases into account
+    resource: "Galaxy Data", // Name of prestige currency
+    baseResource: "miners", // Name of resource prestige is based on
+    baseAmount() { return player.points }, // Get the current amount of baseResource
+    type: "normal",	
+    exponent: 1, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        let exp = new Decimal(1)
+		return exp;
+    },
+    row: 5, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "S", description: "S: Reset for Simulated Data", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){return (hasUpgrade("S", 21) || player[this.layer].unlocked )},
+	upgrades: {
+		rows: 2,
+		cols: 2,
+	11: {
+title: "The Milky Way",
+description: "100% Galaxy Data effective",
+cost: new Decimal(1),
+unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true     
+            },
+			12: {
+title: "Two Galaxies",
+description: "100% Galaxy Data effective",
+cost: new Decimal(3),
+unlocked() { return (hasUpgrade("S", 11))}, // The upgrade is only visible when this is true     
+            },
+			21: {
+title: "A couple of galaxies",
+description: "200% Galaxy Data effective. Unlocks Black Hole Data",
+cost: new Decimal(10),
+unlocked() { return hasUpgrade("G", 12) }, // The upgrade is only visible when this is true 
+style() {
+                if (hasUpgrade(this.layer, this.id)) return {
+                    'background-color': '#77bf5f',
+                    'border-color': '#00353F',
+                    'height': '200px',
+                    'width': '200px',
+                    }
+                    else if (!canAffordUpgrade(this.layer, this.id))  return {
+                            'height': '200px',
+                            'width':  '200px',
+                        }
+                    return {
+                            'background-color': '#bf8f8f', 
+                            'border-color': '#1a9cb2',
+                            'height': '200px',
+                            'width':  '200px',
+		        }
+	          }, 
+	},
+	22: {
+title: "Galaxy System",
+description: "200% Galaxy Data effective. Unlocks Black Hole Data",
+cost: new Decimal(10),
+unlocked() { return hasUpgrade("G", 21) }, // The upgrade is only visible when this is true 
+style() {
+                if (hasUpgrade(this.layer, this.id)) return {
+                    'background-color': '#77bf5f',
+                    'border-color': '#00353F',
+                    'height': '200px',
+                    'width': '200px',
+                    }
+                    else if (!canAffordUpgrade(this.layer, this.id))  return {
+                            'height': '200px',
+                            'width':  '200px',
+                        }
+                    return {
+                            'background-color': '#bf8f8f', 
+                            'border-color': '#1a9cb2',
+                            'height': '200px',
+                            'width':  '200px',
+		        }
+	          }, 
+	},
+	},
+	doReset(resettingLayer) {
+			let keep = [];
+			if (hasMilestone("T1M", 0) && resettingLayer=="T1M") keep.push("upgrades");
+			if (layers[resettingLayer].row > this.row) layerDataReset("D", keep);
+			return keep;
+		},
 })
