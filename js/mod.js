@@ -106,7 +106,9 @@ function getPointGen() {
 			   if (hasUpgrade("T1M", 23)) gain = gain.times(1.15);
 	// Galaxy Data upgrades (total: 1)
 	           if (hasUpgrade("G", 11)) gain = gain.times(2);	
-               if (hasUpgrade("G", 12)) gain = gain.times(2);			   
+               if (hasUpgrade("G", 12)) gain = gain.times(2);	
+               if (hasUpgrade("G", 21)) gain = gain.times(3);
+if (hasUpgrade("G", 22)) gain = gain.times(3);			   
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values

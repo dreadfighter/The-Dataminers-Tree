@@ -965,7 +965,7 @@ style() {
 	},
 	22: {
 title: "Galaxy System",
-description: "200% Galaxy Data effective. Unlocks Black Hole Data",
+description: "200% Galaxy Data effective. Unlocks Universe Data",
 cost: new Decimal(10),
 unlocked() { return hasUpgrade("G", 21) }, // The upgrade is only visible when this is true 
 style() {
