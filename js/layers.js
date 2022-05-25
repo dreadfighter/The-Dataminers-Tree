@@ -45,28 +45,27 @@ description: "Hydrogen boost Atoms income by ",
 cost: new Decimal(8),
 unlocked() { return true}, // The upgrade is only visible when this is true
 effect() {
-	return player.H.points.add(1).pow(0.2)
+	return player.H.points.add(1).pow(0.1)
 },
 effectDisplay() {
-	if (hasUpgrade("H", 33)) return format(upgradeEffect(this.layer, this.id)) + "+" + format(upgradeEffect("H", 33)) + "(33 upg)" + "x"
-	else return format(upgradeEffect(this.layer, this.id)) + "x"
+	return format(upgradeEffect(this.layer, this.id)) + "x"
 },
 	},
 	22: {
 title: "New Element",
-description: "Opens Lithium²",
+description: "Opens Helium²",
 cost: new Decimal(10),
 	},
 unlocked() { return true}, // The upgrade is only visible when this is true
 	23: {
 title: "Hydrogen Bonds",
-description: "Exponents point boost by ^1.01",
+description: "Exponents point boost by ^1.1",
 cost: new Decimal(100),
 unlocked() { return true}, // The upgrade is only visible when this is true
 	},
 	31: {
 title: "Holy Molecule",
-description: "Exponents point boost by ^1.01",
+description: "Exponents point boost by ^1.15",
 cost: new Decimal(150),
 unlocked() { return true}, // The upgrade is only visible when this is true
 	},
@@ -75,18 +74,6 @@ title: "Generator of Helium",
 description: "Generates 20% of Helium Resettable amount",
 cost: new Decimal(1500),
 unlocked() { return true}, // The upgrade is only visible when this is true
-	},
-	33: {
-title: "Upgrader Mega Z-1",
-description: "Doubles 21 upg. effect",
-cost: new Decimal(2000),
-unlocked() { return true}, // The upgrade is only visible when this is true
-	 effect() {
-                return player.H.points.add(1).pow(0.2)
-            },
-			effectDisplay() {
-	return format(upgradeEffect(this.layer, this.id)) + "x"
-			},
 	},
 	},
 		milestones: {
@@ -112,7 +99,10 @@ addLayer("He", {
 branches: ["H"],	// Name of prestige currency
     baseResource: "Hydrogen", // Name of resource prestige is based on
     baseAmount() {return player.H.points},
-effectDescription(){return "adding "+format(player.He.points.plus(1).pow(1))+" to base point gain."},	// Get the current amount of baseResource
+effectDescription(){
+	if (hasUpgrade("He", 13)) return "adding "+format(player.He.points.plus(1).pow(0.5)) + "(+" + format(player.He.points.plus(1).pow(0.5)) + " 13 upg) to base point gain."
+	else return "adding "+format(player.He.points.plus(1).pow(0.5))+" to base point gain."
+	},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.95, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -127,8 +117,8 @@ effectDescription(){return "adding "+format(player.He.points.plus(1).pow(1))+" t
         {key: "1", description: "1: Reset for Helium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades : {
-		rows: 2,
-		cols: 2,
+		rows: 3,
+		cols: 3,
 		11: {
 title: "Second Element",
 description: "100% Helium effective",
@@ -139,25 +129,34 @@ unlocked() { return true}, // The upgrade is only visible when this is true
 title: "Two Atoms",
 description: "300% Helium effective",
 cost: new Decimal(2),
-unlocked() { return (hasUpgrade("He", 11))}, // The upgrade is only visible when this is true     
+unlocked() { return true}, // The upgrade is only visible when this is true     
+            },
+			13: {
+title: "Booster",
+description: "Doubles Helium effect",
+cost: new Decimal(5),
+unlocked() { return true},
+effect() {
+	return player.He.points.plus(1).pow(0.5)
+}, // The upgrade is only visible when this is true     
             },
 			21: {
 title: "Helium Boost I",
 description: "150% Helium effective",
 cost: new Decimal(15),
-unlocked() { return (hasUpgrade("He", 12))}, // The upgrade is only visible when this is true     
+unlocked() { return true}, // The upgrade is only visible when this is true     
             },
 			22: {
 title: "Helium Boost II",
 description: "Unlock Lithium³",
 cost: new Decimal(20),
-unlocked() { return (hasUpgrade("He", 12))}, // The upgrade is only visible when this is true     
+unlocked() { return true}, // The upgrade is only visible when this is true     
             }
 	},
 			passiveGeneration() {
- return (hasUpgrade("H", 32)?0.2:0)
+ return (hasUpgrade("H", 32)?0.05:0)
   },
-	layerShown(){return (hasUpgrade("H", 22) || player[this.layer].unlocked )}
+	layerShown(){return (hasUpgrade("H", 22) || player[this.layer].unlocked  )}
 })
 
 addLayer("Be", {
@@ -179,7 +178,6 @@ effectDescription(){return "adding <b>x</b>"+format(player.Be.points.times(2))+"
     exponent: 0.95, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-		if (hasUpgrade("Be", 22)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -213,9 +211,9 @@ unlocked() { return (hasUpgrade("Be", 12))}, // The upgrade is only visible when
 			22: {
 title: "Boost II",
 description: "Unlock Boron",
-cost: new Decimal(1),
+cost: new Decimal(5),
 unlocked() { return true}, // The upgrade is only visible when this is true     
-            }
+            },
 	},
 	passiveGeneration() {
  return (hasUpgrade("Be", 22)?0.15:0)
@@ -275,7 +273,7 @@ title: "Boost II",
 description: "Unlock Berillium",
 cost: new Decimal(40500),
 unlocked() { return (hasUpgrade("Li", 12))}, // The upgrade is only visible when this is true     
-            }
+            },
 	},
 	layerShown(){return (hasUpgrade("He", 22) || player[this.layer].unlocked )}
 })
