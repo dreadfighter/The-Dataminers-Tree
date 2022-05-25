@@ -60,7 +60,7 @@ unlocked() { return (hasUpgrade("He", 12))}, // The upgrade is only visible when
 	31: {
 title: "Holy Molecule",
 description: "70% Hydrogen effective",
-cost: new Decimal(300),
+cost: new Decimal(150),
 unlocked() { return (hasUpgrade("He", 12))}, // The upgrade is only visible when this is true
 	},
 	},
@@ -75,7 +75,7 @@ addLayer("He", {
 		points: new Decimal(0),
     }},
     color: "#04G0B2",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    requires: new Decimal(20), // Can be a function that takes requirement increases into account
     resource: "Helium",
 branches: ["H"],	// Name of prestige currency
     baseResource: "Hydrogen", // Name of resource prestige is based on
@@ -127,17 +127,17 @@ unlocked() { return (hasUpgrade("He", 12))}, // The upgrade is only visible when
 addLayer("Li", {
     name: "Lithium", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "Li³", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: -2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
     }},
-    color: "#D2G0B2",
-    requires: new Decimal(30), // Can be a function that takes requirement increases into account
+    color: "#D2D5B2",
+    requires: new Decimal(200), // Can be a function that takes requirement increases into account
     resource: "Lithium",
-branches: ["H"],	// Name of prestige currency
-    baseResource: "Helium", // Name of resource prestige is based on
-    baseAmount() {return player.He.points}, // Get the current amount of baseResource
+branches: ["He"],	// Name of prestige currency
+    baseResource: "Hydrogen", // Name of resource prestige is based on
+    baseAmount() {return player.H.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.95, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -147,7 +147,7 @@ branches: ["H"],	// Name of prestige currency
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-    row: 2, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "L", description: "L: Reset for Lithium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
