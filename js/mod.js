@@ -44,14 +44,20 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-if (hasUpgrade("H", 11)) gain = gain.times(100.7);
-if (hasUpgrade("H", 12)) gain = gain.times(1.85);
-if (hasUpgrade("H", 21)) gain = gain.times(1.6);
-if (hasUpgrade("H", 22)) gain = gain.times(1.5);
-if (hasUpgrade("H", 31)) gain = gain.times(1.7);
-if (hasUpgrade("He", 11)) gain = gain.times(2);
-if (hasUpgrade("He", 12)) gain = gain.times(4);
-if (hasUpgrade("He", 21)) gain = gain.times(1.5);		
+	if (player.He.unlocked) gain = gain.plus(player.He.points.pow(1).plus(1))
+			if (player.Be.unlocked) gain = gain.times(player.Be.points.plus(2))
+if (hasUpgrade("H", 11)) gain = gain.times(1.2);
+if (hasUpgrade("H", 12)) gain = gain.pow(1.1).times(1.5);
+if (hasUpgrade("H", 21)) gain = gain.times(upgradeEffect("H", 21));
+if (hasUpgrade("H", 33)) gain = gain.times(2);
+if (hasUpgrade("H", 23)) gain = gain.pow(1.01);
+if (hasUpgrade("H", 31)) gain = gain.pow(1.01);
+if (hasUpgrade("He", 11)) gain = gain.plus(player.He.points.pow(0.4).plus(0.2));
+if (hasUpgrade("He", 12)) gain = gain.pow(1.01);
+if (hasUpgrade("He", 21)) gain = gain.pow(1.02);		
+if (hasUpgrade("Li", 11)) gain = gain.pow(1.000001);
+if (hasUpgrade("Li", 12)) gain = gain.pow(1.000001);
+if (hasUpgrade("Li", 21)) gain = gain.pow(1.05);
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
