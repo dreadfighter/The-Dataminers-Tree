@@ -10,6 +10,12 @@
 
 }
 
+button.H.reset.can {color: black;}
+
+h4 {color: blue;}
+strong {
+    color: red;
+}
 *:focus {
 	outline: none;
 	webkit-outline: none;
