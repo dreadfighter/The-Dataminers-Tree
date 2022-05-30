@@ -18,7 +18,7 @@ else return player.points.gte(tmp.H.requires) },
 automate() {},
     baseResource: "Atoms",	// Name of resource prestige is based on
     baseAmount() {return player.points},
-autoUpgrade() { return (hasChallenge("Li", 21) && player.H.auto)},
+autoUpgrade() { return (hasChallenge("Li", 21) || inChallenge("C", 11) && player.H.auto)},
 autoPrestige() { return (hasChallenge("Li", 21) && player.H.auto)},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.95, // Prestige currency exponent
@@ -83,13 +83,13 @@ unlocked() { return true}, // The upgrade is only visible when this is true
 		title: "Mega Super Ultra Upgrade",
 description: "Get <b>A lot more Atoms!</b>",
 cost: new Decimal(25000),
-unlocked() { return (hasChallenge("Li", 11))},
+unlocked() { return (hasChallenge("Li", 11) || inChallenge("C", 11))},
 	},
 	42: {
 		title: "I said <b>MORE</b>",
 description: "<b>...</b>",
 cost: new Decimal(75000),
-unlocked() { return (hasChallenge("Li", 11))},
+unlocked() { return (hasChallenge("Li", 11) || inChallenge("C", 11))},
 	},
 	43: {
 		title: "Challenge Effect I",
@@ -154,13 +154,13 @@ effectDescription(){
 		cols: 3,
 		11: {
 title: "Second Element",
-description: "Exponents point gain by <strong>^1.2</strong>",
+description: "Multiplies Atoms gain by <strong>x2.5</strong>",
 cost: new Decimal(1),
 unlocked() { return true}, // The upgrade is only visible when this is true     
             },
 			12: {
 title: "Two Atoms",
-description: "Exponents point gain by <strong>^1.1</strong>",
+description: "Multiplies Atoms gain by <strong>x2</strong>",
 cost: new Decimal(2),
 unlocked() { return true}, // The upgrade is only visible when this is true     
             },
@@ -175,7 +175,7 @@ effect() {
             },
 			21: {
 title: "Helium Boost I",
-description: "Exponents point gain by <strong>^1.1</strong>",
+description: "Multiplies Atoms gain by <strong>x1.3</strong>",
 cost: new Decimal(7),
 unlocked() { return true}, // The upgrade is only visible when this is true     
             },
@@ -197,6 +197,7 @@ unlocked() { return true}, // The upgrade is only visible when this is true
 			let keep = [];
 			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
 				if (hasMilestone("He", 0) && resettingLayer=="He") keep.push("upgrades");
+			layerDataReset("H")
 		},
 	layerShown(){return (hasUpgrade("H", 22) || player[this.layer].unlocked )}
 })
@@ -212,7 +213,7 @@ addLayer("Be", {
     color: "#DC5F22",
     requires: new Decimal(18000000), // Can be a function that takes requirement increases into account
     resource: "Beryllium",
-	canReset() { if (hasUpgrade("Be", 22)) return player.Be.points.lt(190) && player.Li.points.gte(tmp.Be.requires)
+	canReset() { if (hasUpgrade("Be", 22)) return player.Be.points.lt(190) && player.points.gte(tmp.Be.requires)
 		else return player.points.gte(tmp.Be.requires)},
 branches: ["Li"],	// Name of prestige currency
     baseResource: "Atoms", // Name of resource prestige is based on
@@ -231,7 +232,7 @@ effectDescription(){ if (inChallenge("Li", 21)) return "adding <b>x</b>"+format(
     },
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "L", description: "L: Reset for Lithium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "/", description: "/: Reset for Beryllium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades : {
 		rows: 2,
@@ -312,7 +313,7 @@ branches: ["He"],	// Name of prestige currency
     },
     row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "L", description: "L: Reset for Lithium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "l", description: "L: Reset for Lithium", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades : {
 		rows: 2,
@@ -383,10 +384,12 @@ unlocked() { return (hasUpgrade("Li", 12))}, // The upgrade is only visible when
 				currencyInternalName: "points",
 				rewardDescription: "Exponent the Atoms gain by ^1.05. Automate Hydrogen upgrades.",
 },
-},
-doReset() {
-	if (hasChallenge("Li", 21) && resettingLayer=="Li") keep.push("challenges")
-},
+	},
+		doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+				if (inChallenge("D", 11) && resettingLayer=="Li") keep.push("upgrades");
+		},
 	layerShown(){return (hasUpgrade("He", 22) || player[this.layer].unlocked )}
 })
 addLayer("B", {
@@ -400,22 +403,132 @@ addLayer("B", {
     color: "#F52C56",
     requires: new Decimal(1e10), // Can be a function that takes requirement increases into account
     resource: "Boron",
+	canReset() {if (hasUpgrade("B", 22)) return player.H.points.gte(3.2e11)
+		else return player.H.points.gte(tmp.Li.requires)
+	},
 branches: ["He"],	// Name of prestige currency
     baseResource: "Atoms",	// Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1.2, // Prestige currency exponent
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.2, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        return mult
+		if (hasUpgrade("B", 22)) mult = mult.mul(0.5)    
+			return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
     row: 3, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "B", description: "B: Reset for Boron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "b", description: "B: Reset for Boron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+		buyables: {
+
+    11: {
+				 title: "Mega Buyable",
+				 purchaseLimit: new Decimal(30),
+        cost(x) { return new Decimal(1).mul(x) },
+        display() { let data = tmp[this.layer].buyables[this.id]
+			return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<p></p>" +
+		"Boron amount boost atoms gain.<p></p>" +
+		"Cost: " + format(data.cost) + " Boron.<p></p>" +
+        "Currently effect: " +format(data.effect) + "x."
+		},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+			cost = tmp[this.layer].buyables[this.id].cost
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+		effect(x) {
+	let eff = x.add(1).times(3).pow(2).sqrt(2).plus(x.add(1).plus(4)).pow(buyableEffect("B", 13).div(2));
+	return eff;
+},
+effectDisplay(x) {
+	return format(x.add(1).times(3).pow(2).sqrt(2)) + "x"
+},
+    },
+	    12: {
+				 title: "Another one",
+				 purchaseLimit() { if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(20)
+				 else return new Decimal(10) },
+        cost(x) { return new Decimal(5).mul(x)	},
+        display() { let data = tmp[this.layer].buyables[this.id]
+			return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<p></p>" +
+		"Increases effect of all Boron buyables<p></p>" +
+		"Cost: " + format(data.cost) + " Boron.<p></p>" +
+        "Currently effect: " +format(data.effect) + "x."
+		},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+			cost = tmp[this.layer].buyables[this.id].cost
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+		effect(x) {
+	let eff = x.add(1).plus(4);
+	return eff;
+},
+effectDisplay(x) {
+	return format(x.add(1).plus(4)) + "x"
+},
+    },
+		    13: {
+				 title: "Just Buy It...",
+				 purchaseLimit() { if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(12)
+				 else return new Decimal(10) },
+        cost(x) { return new Decimal(10).mul(x)	},
+        display() { let data = tmp[this.layer].buyables[this.id]
+			return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<p></p>" +
+		"Increases effect of all Boron buyables<p></p>" +
+		"Cost: " + format(data.cost) + " Boron.<p></p>" +
+        "Currently effect: ^" +format(data.effect) + "."
+		},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+			cost = tmp[this.layer].buyables[this.id].cost
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+		effect(x) {
+	let eff = x.add(1).pow(0.9).plus(buyableEffect("B", 12).div(100));
+	return eff;
+},
+effectDisplay(x) {
+	return format(x.pow(1.02)) + "x"
+},
+    },
+		},
+		upgrades: {
+			rows: 4,
+			cols: 4,
+			11: {
+			title: "Boron Boost I",
+			description: "Dubles all buyables effects",
+			cost: new Decimal(50),
+			unlocked() {return (hasChallenge("Li", 12)) },
+			},
+						21: {
+title: "Challenge Boost I",
+description: "---Recover---",
+cost: new Decimal(200),
+unlocked() { return (inChallenge("C", 11))}, // The upgrade is only visible when this is true     
+            },
+			22: {
+title: "Challenge Boost II",
+description: "---Recover---",
+cost: new Decimal(400),
+unlocked() { return (inChallenge("C", 11))}, // The upgrade is only visible when this is true     
+            },
+		},
+		  		milestones: {
+    0: {
+        requirementDescription: "2500 Hydrogen",
+        effectDescription: "Keep Hydrogen Upgrades on reset",
+        done() { return player.H.points.gte(2500) },
+    },
+},
 layerShown(){return (hasUpgrade("Be", 22) || player[this.layer].unlocked )}
 })
 addLayer("C", {
@@ -427,15 +540,18 @@ addLayer("C", {
 		points: new Decimal(0),
     }},
     color: "#F72C36",
-    requires: new Decimal(1e20), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1e21), // Can be a function that takes requirement increases into account
     resource: "Carbon",
-branches: ["Li"],	// Name of prestige currency
+		canReset() { if (hasChallenge("C", 11)) return player.points.gte(1.7e21)
+		else return player.points.gte(tmp.C.requires)},
+branches: ["Be"],	// Name of prestige currency
     baseResource: "Atoms",	// Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1.2, // Prestige currency exponent
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.7, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		if (hasChallenge("C", 11)) mult = mult.mul(0.3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -443,36 +559,19 @@ branches: ["Li"],	// Name of prestige currency
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "B", description: "B: Reset for Boron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "B", description: "c: Reset for Carbon", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-layerShown(){return (hasUpgrade("Be", 22) || player[this.layer].unlocked )}
-})
-addLayer("N", {
-    name: "Nitrogen", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "N⁷", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
-    startData() { return {
-        unlocked: false,
-		points: new Decimal(0),
-    }},
-    color: "#F72C36",
-    requires: new Decimal(1e20), // Can be a function that takes requirement increases into account
-    resource: "Nitrogen",
-branches: ["B"],	// Name of prestige currency
-    baseResource: "Boron",	// Name of resource prestige is based on
-    baseAmount() {return player.B.points}, // Get the current amount of baseResource
-    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1.2, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
-    row: 4, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "B", description: "B: Reset for Boron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
-layerShown(){return (hasUpgrade("Be", 22) || player[this.layer].unlocked )}
+			challenges: {
+			11: {
+				name: "Carbon I",
+				completionLimit: 2,
+				challengeDescription: "Boron buyables effects are divided by 4, but you have 2 upgrades that gain x4 bonus and Powered Limit on 2nd and 3rd buyable (20, 12)",
+				unlocked() { return player.C.unlocked },
+				goal() { return new Decimal(player.current=="H"?"1e24":"1e24") },
+				currencyDisplayName: "points",
+				currencyInternalName: "points",
+				rewardDescription: "Unlock next challenge and 2 Carbon Upgrades",
+},
+		},
+layerShown(){return (hasUpgrade("B", 11) || player[this.layer].unlocked )},
 })

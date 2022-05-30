@@ -78,6 +78,7 @@
 	height: 300px;
 	font-size: 15px;
 	border-radius: 33.33%;
+	border-radius: 130px 0 130px 0;
 }
 
 .challenge.done {
