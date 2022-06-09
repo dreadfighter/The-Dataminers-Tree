@@ -104,15 +104,9 @@ effectDisplay() {
 },
 	},
 },
-		milestones: {
-    0: {
-        requirementDescription: "2500 Hydrogen",
-        effectDescription: "Keep Hydrogen Upgrades on reset",
-        done() { return player.H.points.gte(2500) },
-    },
-},
 			passiveGeneration() {
- return (hasUpgrade("H", 32)?0.2:0)
+				if (hasUpgrade("C", 12)) return 2
+ else return (hasUpgrade("H", 32)?0.2:0)
   },
 	layerShown(){return true}
 }),
@@ -186,11 +180,11 @@ cost: new Decimal(11),
 unlocked() { return true}, // The upgrade is only visible when this is true     
             }
 	},
-			milestones: {
+		milestones: {
     0: {
-        requirementDescription: "2500 Hydrogen",
+        requirementDescription: "100 Helium",
         effectDescription: "Keep Hydrogen Upgrades on reset",
-        done() { return player.H.points.gte(2500) },
+        done() { return player.He.points.gte(100) },
     },
 },
 		doReset(resettingLayer) {
@@ -403,7 +397,7 @@ addLayer("B", {
     color: "#F52C56",
     requires: new Decimal(1e10), // Can be a function that takes requirement increases into account
     resource: "Boron",
-	canReset() {if (hasUpgrade("B", 22)) return player.H.points.gte(3.2e11)
+	canReset() {if (hasUpgrade("B", 22)) return player.H.points.gte(2.43e12)
 		else return player.H.points.gte(tmp.Li.requires)
 	},
 branches: ["He"],	// Name of prestige currency
@@ -451,7 +445,8 @@ effectDisplay(x) {
     },
 	    12: {
 				 title: "Another one",
-				 purchaseLimit() { if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(20)
+				 purchaseLimit() { if (inChallenge("C", 12) || (hasChallenge("C", 12))) return new Decimal(25)
+				 if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(20)
 				 else return new Decimal(10) },
         cost(x) { return new Decimal(5).mul(x)	},
         display() { let data = tmp[this.layer].buyables[this.id]
@@ -476,7 +471,8 @@ effectDisplay(x) {
     },
 		    13: {
 				 title: "Just Buy It...",
-				 purchaseLimit() { if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(12)
+				 purchaseLimit() {if (inChallenge("C", 12) || (hasChallenge("C", 12))) return new Decimal(14)
+					 if (inChallenge("C", 11) || (hasChallenge("C", 11))) return new Decimal(12)
 				 else return new Decimal(10) },
         cost(x) { return new Decimal(10).mul(x)	},
         display() { let data = tmp[this.layer].buyables[this.id]
@@ -529,6 +525,11 @@ unlocked() { return (inChallenge("C", 11))}, // The upgrade is only visible when
         done() { return player.H.points.gte(2500) },
     },
 },
+		doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+				if (hasChallenge("C", 12) && resettingLayer=="B") keep.push("upgrades");
+		},
 layerShown(){return (hasUpgrade("Be", 22) || player[this.layer].unlocked )}
 })
 addLayer("C", {
@@ -540,9 +541,11 @@ addLayer("C", {
 		points: new Decimal(0),
     }},
     color: "#F72C36",
-    requires: new Decimal(1e21), // Can be a function that takes requirement increases into account
+    requires() { if (hasUpgrade("C", 11)) return new Decimal(3e24)
+		else return new Decimal(1e21)}, // Can be a function that takes requirement increases into account
     resource: "Carbon",
-		canReset() { if (hasChallenge("C", 11)) return player.points.gte(1.7e21)
+		canReset() { if (hasUpgrade("C", 11) && (hasUpgrade("C", 21))) return player.points.gte(3.49e24)
+		if (hasChallenge("C", 11)) return player.points.gte(1.7e21)
 		else return player.points.gte(tmp.C.requires)},
 branches: ["Be"],	// Name of prestige currency
     baseResource: "Atoms",	// Name of resource prestige is based on
@@ -552,6 +555,8 @@ branches: ["Be"],	// Name of prestige currency
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
 		if (hasChallenge("C", 11)) mult = mult.mul(0.3)
+			if (hasUpgrade("C", 21)) mult = mult.mul(3)
+				if (hasUpgrade("C", 23)) mult = mult.mul(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -559,12 +564,12 @@ branches: ["Be"],	// Name of prestige currency
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "B", description: "c: Reset for Carbon", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "с", description: "С : Reset for Carbon", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 			challenges: {
 			11: {
 				name: "Carbon I",
-				completionLimit: 2,
+				completionLimit: 1,
 				challengeDescription: "Boron buyables effects are divided by 4, but you have 2 upgrades that gain x4 bonus and Powered Limit on 2nd and 3rd buyable (20, 12)",
 				unlocked() { return player.C.unlocked },
 				goal() { return new Decimal(player.current=="H"?"1e24":"1e24") },
@@ -572,6 +577,73 @@ branches: ["Be"],	// Name of prestige currency
 				currencyInternalName: "points",
 				rewardDescription: "Unlock next challenge and 2 Carbon Upgrades",
 },
+			12: {
+				name: "Carbon II",
+				completionLimit: 1,
+				challengeDescription: "Powered Limit on 2nd and 3rd buyable (25, 14)",
+				unlocked() { return player.C.unlocked },
+				goal() { return new Decimal(player.current=="H"?"1e25":"1e25") },
+				currencyDisplayName: "points",
+				currencyInternalName: "points",
+				rewardDescription: "Unlock next challenge and 2 Carbon Upgrades",
+},
+		},
+		upgrades: {
+			rows: 5,
+			cols: 5,
+			11: {
+			title: "Inplanetary Boost",
+description: "Boosts Atoms gain by x5.00",
+cost() { if (hasUpgrade("C", 12)) return new Decimal(120)
+else return new Decimal(1)	},
+unlocked() { return (hasChallenge("C", 11))},
+			},
+			12: {
+			title: "Idling Boost",
+description: "Boosts Hydrogen gain by x2.00",
+cost() { if (hasUpgrade("C", 11)) return new Decimal(120)
+else return new Decimal(1)	},
+unlocked() { return (hasChallenge("C", 11))},
+			},
+			21: {
+			title: "Cheaper Carbon",
+description: "Reduces Carbon Cost by x3.00",
+cost() { if (hasUpgrade("C", 22)) return new Decimal(1200)
+else return new Decimal(5)	},
+unlocked() { return (hasChallenge("C", 12))},
+			},
+			22: {
+			title: "Unlocker",
+description: "Unlocks next Layer",
+cost() { if (hasUpgrade("C", 21)) return new Decimal(1200)
+else return new Decimal(5)	},
+unlocked() { return (hasChallenge("C", 12))},
+			},
+			23: {
+			title: "???",
+description: "OUHIHSLOQGIUGK",
+cost() { return new Decimal(5)	},
+unlocked() { if (hasUpgrade("C", 21) ||(hasUpgrade("C", 22))) return new Decimal(1200)
+	else return (hasChallenge("C", 12))},
+			},
+			33: {
+			title: "Sin........",
+description: "Buy 33, 42 and 43 upgrade to get [LOCKED]",
+cost() { return new Decimal(10)	},
+unlocked() { return (hasUpgrade("C", 23))},
+			},
+			42: {
+			title: "...gula....",
+description: "Buy 42 and 43 upgrade to get [LOCKED]",
+cost() { return new Decimal(20)	},
+unlocked() { return (hasUpgrade("C", 33))},
+			},
+			43: {
+			title: ".......rity",
+description: "Buy this upgrade to get [UNLOCKED / <p>x11.00 to Atoms gain]</p>",
+cost() { return new Decimal(20)	},
+unlocked() { return (hasUpgrade("C", 42))},
+			},
 		},
 layerShown(){return (hasUpgrade("B", 11) || player[this.layer].unlocked )},
 })

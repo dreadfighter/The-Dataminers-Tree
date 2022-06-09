@@ -55,6 +55,8 @@ function getPointGen() {
 if (hasUpgrade("H", 11)) gain = gain.times(2.2);
 if (hasUpgrade("B", 11)) gain = gain.times(2.);
 if (inChallenge("Li", 11)) gain = gain.times(2);
+if (hasUpgrade("C", 11)) gain = gain.times(5);
+if (hasUpgrade("C", 33) && (hasUpgrade("C", 42) && (hasUpgrade("C", 43)))) gain = gain.times(11);
 if (inChallenge("Li", 12)) gain = gain.div(5);
 if (hasUpgrade("H", 12)) gain = gain.times(1.5);
 if (hasChallenge("Li", 11) || inChallenge("C", 11)) gain = gain.times(2);
