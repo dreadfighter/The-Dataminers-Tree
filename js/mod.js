@@ -1,30 +1,26 @@
 let modInfo = {
-	name: "The Chemistry Lab",
-	id: "atom",
+	name: "The Geometry Dash Tree",
+	id: "stars",
 	author: "Seder3214",
-	pointsName: "Atoms",
+	pointsName: "Stars",
 	modFiles: ["layers.js", "tree.js"],
 	endgame: new Decimal("e1e15"),
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3.3.8b",
+	num: "0.3.4b",
 	name: "The Chemistry Lab",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.3.3.8b</h3><br>
-		<p>- Added new Carbon Challenge.</p><br>
-		<p>- More balanced gameplay.</p><br>
-		<p>- Fixed bug with Lithium.</p><br>
-		<p>- More will be released soon!</p><br>
-		<p>* Stay focused on next updates!</p><br>
+		<p>- Added new layer.</p><br>
 		                        <p><b><br>+Seder3214+</br></b></p>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -47,42 +43,12 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
-	if (player.He.unlocked) gain = gain.plus(player.He.points.pow(0.5).plus(1))
-			if (player.Be.unlocked) gain = gain.times(player.Be.points.plus(2))
-		if (inChallenge("Li", 21)) gain = gain.div(1.5);
-			if (player.Li.unlocked) gain = gain.times(player.Li.points.add(0.2).pow(0.2))
-if (hasUpgrade("H", 11)) gain = gain.times(2.2);
-if (hasUpgrade("B", 11)) gain = gain.times(2.);
-if (inChallenge("Li", 11)) gain = gain.times(2);
-if (hasUpgrade("C", 11)) gain = gain.times(5);
-if (hasUpgrade("C", 33) && (hasUpgrade("C", 42) && (hasUpgrade("C", 43)))) gain = gain.times(11);
-if (inChallenge("Li", 12)) gain = gain.div(5);
-if (hasUpgrade("H", 12)) gain = gain.times(1.5);
-if (hasChallenge("Li", 11) || inChallenge("C", 11)) gain = gain.times(2);
-if (inChallenge("C", 11)) gain = gain.div(4);
-if (hasChallenge("Li", 21)  || inChallenge("C", 11)) gain = gain.times(3);
-if (hasUpgrade("H", 21)) gain = gain.times(2);
-if (inChallenge("Li", 21)) gain = gain.times(upgradeEffect("H", 43));
-if (hasUpgrade("H", 33)) gain = gain.times(2);
-if (hasUpgrade("B", 21)) gain = gain.times(16);
-if (hasUpgrade("B", 22)) gain = gain.times(16);
-if (hasUpgrade("H", 23)) gain = gain.times(1.7);
-if (hasUpgrade("H", 31)) gain = gain.times(1.8);
-if (hasUpgrade("H", 41)) gain = gain.times(3);
-if (hasUpgrade("H", 42)) gain = gain.times(7);
-if (hasUpgrade("He", 11)) gain = gain.times(2.5);
-if (hasUpgrade("He", 12)) gain = gain.times(1.5);
-if (hasUpgrade("He", 13)) gain = gain.plus(player.He.points.pow(0.5).plus(1));
-if (hasUpgrade("He", 21)) gain = gain.times(1.3);
-if (player.B.buyables[11].gte(1)) gain = gain.times(buyableEffect("B", 11));
-if (hasUpgrade("He", 22)) gain = gain.times(1.1);		
-if (hasUpgrade("Li", 11)) gain = gain.times(1.65);
-if (hasUpgrade("Li", 12)) gain = gain.times(1.85);
-if (hasUpgrade("Li", 21)) gain = gain.times(2);
-if (hasUpgrade("Be", 11)) gain = gain.times(2);
-if (hasUpgrade("Be", 12)) gain = gain.times(1.3);
-if (hasUpgrade("Be", 21)) gain = gain.times(1.7);
+	let gain = new Decimal(0)
+	if (hasUpgrade("SM", 11)) gain = gain.plus(1)
+		if (hasUpgrade("SM", 12)) gain = gain.times(upgradeEffect("SM", 12))
+					if (hasUpgrade("SM", 22)) gain = gain.times(upgradeEffect("SM", 22))
+						if (hasChallenge("BT", 11)) gain = gain.times(3)
+			if (hasUpgrade("BT", 11)) gain = gain.times(4)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values

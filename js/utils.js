@@ -89,7 +89,23 @@ function buyUpg(layer, id) {
 		run(upg.onPurchase, upg)
 	needCanvasUpdate = true
 }
-
+function unlockUpg(layer, id) {
+    if (!player[layer].unlocked)
+        return
+    if (!tmp[layer].upgrades[id].pseudoUnl)
+        return
+    if (tmp[layer].upgrades[id].unlocked)
+        return
+    if (player[layer].pseudoUpgs.includes(id))
+        return
+    let upg = tmp[layer].upgrades[id]
+    if (!upg.pseudoCan)
+        return;
+    player[layer].pseudoUpgs.push(id);
+}
+function pseudoUnl(layer, id) {
+    return tmp[layer].upgrades[id].pseudoUnl && !tmp[layer].upgrades[id].unlocked;
+} 
 function buyMaxBuyable(layer, id) {
 	if (!player[layer].unlocked) return
 	if (!tmp[layer].buyables[id].unlocked) return
