@@ -45,6 +45,7 @@ function getPointGen() {
 
 	let gain = new Decimal(0)
 	if (hasUpgrade("SM", 11)) gain = gain.plus(1)
+			if (hasUpgrade("SM", 33)) gain = gain.times(5)
 		if (hasAchievement("ac", 15)) gain = gain.times(1.2)
 			if (hasUpgrade("BT", 32)) gain = gain.times(2)
 if (hasUpgrade("SM", 32)) gain = gain.times(20)	

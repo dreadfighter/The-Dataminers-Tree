@@ -12,6 +12,8 @@ addLayer("SM", {
 		auto: false,
     }},
     color: "lightblue",
+	automate() {},
+	autoUpgrade() { return (hasMilestone("BAB", 12) && player.SM.auto)},
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "Stereo Madness",
     baseResource: "Stars",	// Name of resource prestige is based on
@@ -132,7 +134,7 @@ else return "Stars Gain multiplied by Stereo Madness amount"},
 		},
 														33: {
 			title: "Claim 3 coins",
-			description: "???('ll be available soon)",
+			description: "5.00x Stars Gain",
 			cost() { if (player.DO.buyables[23].gte(2)) return new Decimal(1e24).div(12)
 				else return new Decimal(1e24) },
 			unlocked() {return (hasUpgrade("BT", 33))},
@@ -140,9 +142,11 @@ else return "Stars Gain multiplied by Stereo Madness amount"},
 	},
 	milestones: {
 		11: {
-			        requirementDescription: "0.5e9 Stereo Madness",
+			        requirementDescription() { if (hasMilestone("BAB", 12)) return "1 Stereo Madness"
+					else return "0.5e9 Stereo Madness" },
         effectDescription: "Gain 100% of Stereo Madness per/s",
-        done() { return player.SM.points.gte(0.5e9) },
+        done() { if (hasMilestone("BAB", 12)) return player.points.gte(1)
+		else return player.SM.points.gte(0.5e9) },
 		},
 			12: {
 			        requirementDescription: "1.48e12 Stereo Madness",
@@ -315,6 +319,11 @@ if (challengeCompletions("BT", 11) == 2) return "1 Completion: ✓<br> 2 Complet
 if (challengeCompletions("BT", 11) == 0) return "1 Completion: <b>Unlock new BT upgrades</b><br> 2 Completions: <b>Gain 3.00x multiplier to the Stars Gain</b> <br> 3 Completions: <b>Unlock new Layer</b>"	},
 },
 	},
+			doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+				if (hasMilestone("BAB", 11) && resettingLayer=="BT") keep.push("upgrades", "challenges");
+		},
 	layerShown(){return (player.SM.points.gte(99) || player[this.layer].unlocked)}
 })
 
@@ -396,6 +405,7 @@ addLayer("DO", {
 		best: new Decimal(0),
 		megaeff: new Decimal(1),
 		total: new Decimal(1),
+		pseudoUpgs: [],
 		auto: false,
     }},
     color: "darkgreen",
@@ -502,9 +512,8 @@ buyables: {
             setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
         },
 					unlocked() {return (hasUpgrade("DO", 11))},
-		effect(x) {if (hasMilestone("DO", 11)) return eff = x.pow(1.25).pow(buyableEffect("DO", 13)).times(1.29)
+		effect(x) {if (hasMilestone("DO", 11)) return eff = x.pow(1.25).pow(buyableEffect("DO", 13))
 	else return eff = x.pow(1.25).pow(buyableEffect("DO", 13));
-	return eff;
 },
 	},
 			13: {
@@ -526,9 +535,8 @@ buyables: {
             setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
         },
 					unlocked() {return (hasUpgrade("DO", 11))},
-		effect(x) {
-	let eff = x.pow(0.4);
-	return eff;
+		effect(x) { if (hasMilestone("DO", 11)) return eff = x.pow(0.4).times(1.29)
+	else return eff = x.pow(0.4);
 },
 	},
 				21: {
@@ -552,7 +560,7 @@ buyables: {
 					22: {
 				 title: "Complete Level",
 				 purchaseLimit: new Decimal(2),
-        cost(x) {return new Decimal(50).mul(x) },
+        cost(x) {return new Decimal(200).mul(x) },
         display() { let data = tmp[this.layer].buyables[this.id]
 			return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<p></p>" +
 		"Multiplies Stars Gain by <b>25.00x</b><p></p>" +
@@ -569,7 +577,7 @@ buyables: {
 						23: {
 				 title: "Complete Level 2.0",
 				 purchaseLimit: new Decimal(2),
-        cost(x) {return new Decimal(100).mul(x) },
+        cost(x) {return new Decimal(400).mul(x) },
         display() { let data = tmp[this.layer].buyables[this.id]
 			return "Level: " + formatWhole(player[this.layer].buyables[this.id]) + "<p></p>" +
 		"Divides <b>Claim 3 coins</b> cost by<p>12.00x</p>" +
@@ -583,6 +591,11 @@ buyables: {
         },
 		unlocked() {return (hasMilestone("DO", 13))},
 },
+		doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+				if (hasMilestone("BAB", 11) && resettingLayer=="DO") keep.push("buyables", "milestones");
+		},
 },
 milestones: {
 		11: {
@@ -616,12 +629,18 @@ addLayer("BAB", {
 		best: new Decimal(0),
 		megaeff: new Decimal(1),
 		total: new Decimal(1),
+		energy: new Decimal(0),
+		one: new Decimal(10),
 		auto: false,
+		pseudoUpgs: [],
     }},
     color: "yellow",
-    requires: new Decimal(1e12), // Can be a function that takes requirement increases into account
+    requires: new Decimal(5.34e18), // Can be a function that takes requirement increases into account
     resource: "Base After Base",
 	branches: ["BT", "DO"],
+	effectDescription() {
+		return "You have " + format(player.BAB.energy) + " Base Energy."
+	},
     baseResource: "Stars",	// Name of resource prestige is based on
     baseAmount() {return player.points},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -638,21 +657,168 @@ addLayer("BAB", {
         {key: "b", description: "b: Reset for BT", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	upgrades: {
+		11: {
+			title: "Complete 10%",
+			description: "Soon...",
+			cost: new Decimal(3),
+			unlocked() {
+ return player[this.layer].pseudoUpgs.includes(Number(this.id))
+		},
+		            pseudoUnl() {
+                return (hasMilestone("BAB", 13))
+            },
+            pseudoReq: "Req: 100 Base Energy",
+            pseudoCan() {
+                return player.BAB.energy.gte(100)
+            },
+	},
+			12: {
+			title: "Complete 20%",
+			description: "Soon...",
+			cost: new Decimal(5),
+			unlocked() {
+ return player[this.layer].pseudoUpgs.includes(Number(this.id))
+		},
+		            pseudoUnl() {
+                return (hasMilestone("BAB", 13))
+            },
+            pseudoReq: "Req: 10000 Base Energy",
+            pseudoCan() {
+                return player.BAB.energy.gte(10000)
+            },
+	},
+				13: {
+			title: "Complete 40%",
+			description: "Soon...",
+			cost: new Decimal(7),
+			unlocked() {
+ return player[this.layer].pseudoUpgs.includes(Number(this.id))
+		},
+		            pseudoUnl() {
+                return (hasMilestone("BAB", 13))
+            },
+            pseudoReq: "Req: 200000 Base Energy",
+            pseudoCan() {
+                return player.BAB.energy.gte(200000)
+            },
+	},
+					14: {
+			title: "Complete 40%",
+			description: "Soon...",
+			cost: new Decimal(10),
+			unlocked() {
+ return player[this.layer].pseudoUpgs.includes(Number(this.id))
+		},
+		            pseudoUnl() {
+                return (hasMilestone("BAB", 13))
+            },
+            pseudoReq: "Req: 1000000 Base Energy",
+            pseudoCan() {
+                return player.BAB.energy.gte(1000000)
+            },
+	},
 	},
 		tabFormat: {
         "Main": {
         content:[
-            function() {if (player.tab == "DO") return "main-display"},
+            function() {if (player.tab == "BAB") return "main-display"},
             "prestige-button",
-            function() {if (player.tab == "DO") return "resource-display"},
+            function() {if (player.tab == "BAB") return "resource-display"},
+            "blank",
+            "upgrades"
+            ]
+        },
+        "Milestones": {
+            content:[
+                function() {if (player.tab == "BAB") return "main-display"},
+            function() {if (player.tab == "BAB") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "milestones"
+            ],
+        },
+		        "Upgrades": {
+            content:[
+                function() {if (player.tab == "BAB") return "main-display"},
+            function() {if (player.tab == "BAB") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "upgrades"
+            ],
+        },
+    },
+	milestones: {
+		11: {
+			        requirementDescription: "1 Total Base After Base",
+        effectDescription: "Keep BT/DO upgrades on reset",
+        done() { return player.BAB.total.gte(0) },
+	},
+			12: {
+			        requirementDescription: "2 Total Base After Base",
+        effectDescription: "Automate SM upgrades",
+        done() { return player.BAB.total.gte(1) },
+				toggles: [["SM", "auto"]]
+	},
+				13: {
+			        requirementDescription: "3 Total Base After Base",
+        effectDescription: "Unlock a row of upgrades",
+        done() { return player.BAB.total.gte(2) },
+	},
+	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
+		return (hasChallenge("BT", 11) || player[this.layer].unlocked)
+		},
+		update(diff) {
+			if (hasUpgrade("BAB", 12)) return player.BAB.energy = player.BAB.energy.plus(player.BAB.points.times(25))
+				else return player.BAB.energy = player.BAB.energy.plus(player.BAB.points)
+		},
+})
+addLayer("CLG", {
+    name: "Cant Let Go", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "CLG", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: -2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		best: new Decimal(0),
+		megaeff: new Decimal(1),
+		total: new Decimal(1),
+		auto: false,
+    }},
+    color: "darkyellow",
+    requires: new Decimal(2.74e23), // Can be a function that takes requirement increases into account
+    resource: "Base After Base",
+	branches: ["BT"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.43, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "c: Reset for CLG", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+	},
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "CLG") return "main-display"},
+            "prestige-button",
+            function() {if (player.tab == "CLG") return "resource-display"},
             "blank",
             "upgrades"
             ]
         },
         "Buyables": {
             content:[
-                function() {if (player.tab == "DO") return "main-display"},
-            function() {if (player.tab == "DO") return "resource-display"},
+                function() {if (player.tab == "CLG") return "main-display"},
+            function() {if (player.tab == "CLG") return "resource-display"},
             "prestige-button",
             "blank",
                 "buyables"
@@ -660,16 +826,84 @@ addLayer("BAB", {
         },
 		        "Milestones": {
             content:[
-                function() {if (player.tab == "DO") return "main-display"},
-            function() {if (player.tab == "DO") return "resource-display"},
+                function() {if (player.tab == "CLG") return "main-display"},
+            function() {if (player.tab == "CLG") return "resource-display"},
             "prestige-button",
             "blank",
                 "milestones"
             ],
         },
     },
-	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
-		return (hasChallenge("BT", 11) || player[this.layer].unlocked)
+	milestones: {
+	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
+		return (hasMilestone("BAB", 11) || player[this.layer].unlocked)
+		},
+})
+addLayer("JMP", {
+    name: "Jumper", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "JMP", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		best: new Decimal(0),
+		megaeff: new Decimal(1),
+		total: new Decimal(1),
+		auto: false,
+    }},
+    color: "darkyellow",
+    requires: new Decimal(3.89e40), // Can be a function that takes requirement increases into account
+    resource: "Base After Base",
+	branches: ["DO"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.43, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "c: Reset for CLG", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+	},
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "JMP") return "main-display"},
+            "prestige-button",
+            function() {if (player.tab == "JMP") return "resource-display"},
+            "blank",
+            "upgrades"
+            ]
+        },
+        "Buyables": {
+            content:[
+                function() {if (player.tab == "JMP") return "main-display"},
+            function() {if (player.tab == "JMP") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "buyables"
+            ],
+        },
+		        "Milestones": {
+            content:[
+                function() {if (player.tab == "JMP") return "main-display"},
+            function() {if (player.tab == "JMP") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "milestones"
+            ],
+        },
+    },
+	milestones: {
+	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
+		return (hasMilestone("BAB", 11) || player[this.layer].unlocked)
 		},
 })
 addLayer("ac", {
@@ -749,9 +983,9 @@ addLayer("ac", {
 		},
 							21: {
 			name: "Waiting for a new layer? It'll be soon",
-			done() {return (hasUpgrade("SM", 32))
+			done() {return (hasMilestone("SM", 14))
 			},
-			tooltip: "Buy <b>Claim 2 coins SM</b>",
+			tooltip: "Complete <b>last SM</b> milestone ",
 			image: "achicons/21.jpg"
 		},
 					22: {
