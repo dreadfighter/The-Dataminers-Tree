@@ -628,7 +628,7 @@ addLayer("BAB", {
 		points: new Decimal(0),
 		best: new Decimal(0),
 		megaeff: new Decimal(1),
-		total: new Decimal(1),
+		total: new Decimal(0),
 		energy: new Decimal(0),
 		one: new Decimal(10),
 		auto: false,
@@ -751,18 +751,18 @@ addLayer("BAB", {
 		11: {
 			        requirementDescription: "1 Total Base After Base",
         effectDescription: "Keep BT/DO upgrades on reset",
-        done() { return player.BAB.total.gte(0) },
+        done() { return player.BAB.total.gte(1) },
 	},
 			12: {
 			        requirementDescription: "2 Total Base After Base",
         effectDescription: "Automate SM upgrades",
-        done() { return player.BAB.total.gte(1) },
+        done() { return player.BAB.total.gte(2) },
 				toggles: [["SM", "auto"]]
 	},
 				13: {
 			        requirementDescription: "3 Total Base After Base",
         effectDescription: "Unlock a row of upgrades",
-        done() { return player.BAB.total.gte(2) },
+        done() { return player.BAB.total.gte(3) },
 	},
 	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
 		return (hasChallenge("BT", 11) || player[this.layer].unlocked)
