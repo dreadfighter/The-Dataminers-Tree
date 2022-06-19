@@ -8,7 +8,33 @@ function respecBuyables(layer) {
 	updateBuyableTemp(layer)
 	document.activeElement.blur()
 }
-
+var statsResources = [
+	{
+		layer: "·",
+		name: "Points",
+		unl: () => true,
+		points: () => format(player.points, 2),
+	},
+	{
+		layer: "SM",
+		name: "Stereo Madness",
+		unl: () => player.SM.unl,
+		points: () => formatWhole(player.SM.points),
+	},
+	{
+		layer: "BT",
+		name: "Back On Track",
+		unl: () => player.BT.unl,
+		points: () => formatWhole(player.BT.points),
+		best: () => formatWhole(player.BT.best),
+	},
+	{
+		layer: "PG",
+		name: "Polargeist",
+		unl: () => player.PG.unl,
+		points: () => formatWhole(player.PG.points),
+	},
+]
 function canAffordUpgrade(layer, id) {
 	let upg = tmp[layer].upgrades[id]
 	if(tmp[layer].deactivated) return false

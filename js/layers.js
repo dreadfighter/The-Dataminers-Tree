@@ -9,6 +9,8 @@ addLayer("SM", {
 		formulag: new Decimal(1),
         effectb: new Decimal(1200),
 		upgpoint: new Decimal(22),
+		best: new Decimal(0),
+		total: new Decimal(0),
 		auto: false,
     }},
     color: "lightblue",
@@ -170,8 +172,8 @@ else return "Stars Gain multiplied by Stereo Madness amount"},
 		},
 	},
 			passiveGeneration() {			
-					return (hasMilestone("SM", 11)?1:0)
-						return (hasUpgrade("BT", 12)?0.1:0)
+					if (hasMilestone("SM", 11)) return (hasMilestone("SM", 11)?1:0)
+						else if (hasUpgrade("BT", 12)) return (hasUpgrade("BT", 12)?0.1:0)
   },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -258,8 +260,8 @@ else return "30% Completed"},
 			cost: new Decimal(15),
 			effect() { if (hasUpgrade("PG", 21)) return player.BT.best.times(4).div(player.BT.points.add(1))
 			if (inChallenge("BT", 11)) return (upgradeEffect("BT", 21)).div(upgradeEffect("BT", 21))
-				if (player.BT.points.lt(5)) return player.BT.best.times(2).div(player.BT.points.add(1).times(8))
-					else return player.BT.best.times(2).div(player.BT.points.add(1))
+				if (player.BT.points.lt(5)) return player.BT.best.times(2).div(player.BT.points.add(1)).times(0.4)
+					else return player.BT.best.times(2).div(player.BT.points)
 			},
 		},
 		22: {
@@ -321,7 +323,7 @@ if (challengeCompletions("BT", 11) == 0) return "1 Completion: <b>Unlock new BT 
 	},
 			doReset(resettingLayer) {
 			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
 				if (hasMilestone("BAB", 11) && resettingLayer=="BT") keep.push("upgrades", "challenges");
 		},
 	layerShown(){return (player.SM.points.gte(99) || player[this.layer].unlocked)}
@@ -391,6 +393,10 @@ addLayer("PG", {
 	},
 	challenges: {
 },
+			doReset(resettingLayer) {
+			let keep = [];
+			layerDataReset("BT")
+			},
 	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
 		return (hasChallenge("BT", 11) || player[this.layer].unlocked)}
 })
@@ -1009,3 +1015,27 @@ addLayer("ac", {
     ], "blank", "blank", "achievements", ],
 })
             
+addLayer("ST", {
+    startData() {
+        return {
+            unlocked: true,
+        }
+    },
+    color: "white",
+    row: "side",
+    layerShown() {
+        return true
+    },
+    tooltip() {
+        return ("Statistics")
+    },
+	    tabFormat: 
+		["blank", ["display-text", function() {
+			if (player.DO.unlocked) return "<h1>Layer Statistics</h1><br>Stereo Madness:  " + format(player.SM.total) + "<br> Back On Track: " + format(player.BT.total) + "<br> Polargeist: " + format(player.PG.best) + "Dry Out:  " + format(player.DO.best)
+					else if (player.PG.unlocked) return "<h1>Layer Statistics</h1><br>Stereo Madness:  " + format(player.SM.total) + "<br> Back On Track: " + format(player.BT.total) + "<br> Polargeist: " + format(player.PG.total) + "<br> ??? ???:  " + " ????"
+					else if (player.BT.unlocked) return "<h1>Layer Statistics</h1><br>Stereo Madness:" + " " + " " + " " + " " + " " + format(player.SM.total) + "<br> Back On Track:      " + format(player.BT.total) + "<br> ??????????:  " + " ????" + "<br> ??? ???:  " + " ????"
+		else if (player.SM.unlocked) return "<h1>Layer Statistics</h1><br>Stereo Madness:  " + format(player.SM.points) + "<br> ???? ?? ?????:" + "           ????" + "<br> ??????????:   " + "    ????" + "<br> ??? ???:  " + " ????"
+		}
+    ]],
+})
+  			
