@@ -14,13 +14,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3.4b",
+	num: "0.4.1f",
 	name: "The Chemistry Lab",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.3.3.8b</h3><br>
-		<p>- Added new layer.</p><br>
+	<h3>v0.4.1f</h3><br>
+		<p>- Fixed BAB milestones</p><br>
+		<p>- New Layers with fully balanced features</p><br>
+		<p>- New achievements</p><br>
 		                        <p><b><br>+Seder3214+</br></b></p>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
