@@ -749,20 +749,20 @@ addLayer("BAB", {
     },
 	milestones: {
 		11: {
-			        requirementDescription: "1 Total Base After Base",
+			        requirementDescription: "1 Base After Base",
         effectDescription: "Keep BT/DO upgrades on reset",
-        done() { return player.BAB.total.gte(1) },
+        done() { return player.BAB.points.gte(1) },
 	},
 			12: {
-			        requirementDescription: "2 Total Base After Base",
+			        requirementDescription: "2 Base After Base",
         effectDescription: "Automate SM upgrades",
-        done() { return player.BAB.total.gte(2) },
+        done() { return player.BAB.points.gte(2) },
 				toggles: [["SM", "auto"]]
 	},
 				13: {
-			        requirementDescription: "3 Total Base After Base",
+			        requirementDescription: "3 Base After Base",
         effectDescription: "Unlock a row of upgrades",
-        done() { return player.BAB.total.gte(3) },
+        done() { return player.BAB.points.gte(3) },
 	},
 	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
 		return (hasChallenge("BT", 11) || player[this.layer].unlocked)
