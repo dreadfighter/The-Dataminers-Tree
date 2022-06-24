@@ -43,7 +43,7 @@ addLayer("SM", {
 			"player.SM.points",
             function() {if (player.tab == "SM") return "resource-display"},
             "blank",
-            "upgrades",
+            "upgrades"
             ]
         },
 		        "Milestones": {
@@ -213,11 +213,18 @@ addLayer("BT", {
 		if (hasUpgrade("PG", 12)) mult = mult.mul(2)
         return mult
     },
+		infoboxes: {
+    lore: {
+        title: "Бэк он трек",
+        body() { return "После покупки первого апгрейда этого слоя, вам необходимо купить все вплоть до 5-ого, после чего для вас откроется первое испытание... Описание испытания: 2-ое улучшение Стерео Маднесса будет уменьшено вдвое и 4-ое улучшение Бэк Он Трека будет выключено... Постарайтесь выполнить испытание дважды для комфортного прохождения." },
+    },
+},
 	tabFormat: {
         "Main": {
         content:[
             function() {if (player.tab == "BT") return "main-display"},
             "prestige-button",
+			"infoboxes",
             function() {if (player.tab == "BT") return "resource-display"},
             "blank",
             "upgrades"
@@ -230,6 +237,16 @@ addLayer("BT", {
             "prestige-button",
             "blank",
                 "challenges"
+            ],
+			unlocked() {return (hasUpgrade("BT", 22))},
+        },
+		        "Infoboxes": {
+            content:[
+                function() {if (player.tab == "BT") return "main-display"},
+            function() {if (player.tab == "BT") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "infoboxes"
             ],
 			unlocked() {return (hasUpgrade("BT", 22))},
         },
@@ -1047,3 +1064,44 @@ addLayer("ST", {
     ]],
 })
   			
+			
+			
+			
+addLayer("HP", {
+    startData() {
+        return {
+            unlocked: true,
+        }
+    },
+    color: "white",
+    row: "side",
+    layerShown() {
+        return true
+    },
+    tooltip() {
+        return ("Help")
+    },	
+tabFormat: {
+	"Help": {
+		content: [
+		["display-text",
+	],
+	"blank",
+	["infobox", "one"],
+		["infobox", "two"]
+	],
+	},
+	},	
+				infoboxes: {
+    one: {
+        title: "Стерео Маднесс",
+        body() { return "Как только вы зашли в игру, вас ожидает первый слой (первый уровень гд). В начале игры убедитесь, что приобрели все апгрейды до 2х последних...<br>" },
+    },
+	    two: {
+        title: "Бэк он трек",
+        body() { return "После покупки первого апгрейда этого слоя, вам необходимо купить все вплоть до 5-ого, после чего для вас откроется первое испытание... Описание испытания: 2-ое улучшение Стерео Маднесса будет уменьшено вдвое и 4-ое улучшение Бэк Он Трека будет выключено... Постарайтесь выполнить испытание дважды для комфортного прохождения." },
+		unlocked() { return (player.BT.unlocked)
+		},
+    },
+},
+})
