@@ -51,14 +51,14 @@ function getPointGen() {
 if (hasUpgrade("SM", 32)) gain = gain.times(20)	
 if (hasMilestone("SM", 15)) gain = gain.times(4)
 	if (hasUpgrade("DO", 11)) gain = gain.times(2)
-if (player.DO.buyables[11].gte(1)) gain = gain.times(buyableEffect("DO", 11));
-if (player.DO.buyables[22].gte(1)) gain = gain.times(25);		
+if (player.DO.buyables[11].gte(1)) gain = gain.times(buyableEffect("DO", 11));		
 	if (hasUpgrade("PG", 11)) gain = gain.times(upgradeEffect("PG", 11))
 		if (hasUpgrade("SM", 12)) gain = gain.times(upgradeEffect("SM", 12))
 			if (hasUpgrade("PG", 13)) gain = gain.times(11)
 				if (hasUpgrade("SM", 31)) gain = gain.times(upgradeEffect("SM", 31))
 					if (hasUpgrade("SM", 22)) gain = gain.times(upgradeEffect("SM", 22))
 			if (hasUpgrade("BT", 11)) gain = gain.times(4)
+						if (player.DO.buyables[22].gte(0)) gain = gain.times(25);
 					if (hasAchievement("ac", 14)) gain = gain.times(3)
 	return gain
 }

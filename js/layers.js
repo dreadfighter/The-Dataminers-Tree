@@ -43,7 +43,7 @@ addLayer("SM", {
 			"player.SM.points",
             function() {if (player.tab == "SM") return "resource-display"},
             "blank",
-            "upgrades"
+            "upgrades",
             ]
         },
 		        "Milestones": {
@@ -71,7 +71,8 @@ addLayer("SM", {
 else return "Stars Gain multiplied by Stereo Madness amount"},
 			cost: new Decimal(3),
 			unlocked() {return true},
-			effect() { if (hasUpgrade("PG", 21)) return player.SM.effboost.times(100)
+			effect() { if (hasMilestone("SM", 16)) return player[this.layer].points.div(player.SM.points.div(2)).plus(1).pow(1.4)
+			if (hasUpgrade("PG", 21)) return player.SM.effboost.times(100)
 				if (inChallenge("BT", 11)) return player.SM.effboost.times(2)
 				if (hasUpgrade("BT", 13)) return player.SM.effboost.times(4)
 		if (hasUpgrade("SM", 13)) return player.SM.effboost.times(2)
@@ -169,6 +170,11 @@ else return "Stars Gain multiplied by Stereo Madness amount"},
 			        requirementDescription: "3.24e11 Stars",
         effectDescription: "Just another 4.00x stars gain...",
         done() { return player.points.gte(3.24e11) },
+		},
+										16: {
+			        requirementDescription: "7.89e32 Stereo Madness",
+        effectDescription: "12 SM upgrade will have a better formula",
+        done() { return player.SM.points.gte(200) },
 		},
 	},
 			passiveGeneration() {			
@@ -321,11 +327,6 @@ if (challengeCompletions("BT", 11) == 2) return "1 Completion: ✓<br> 2 Complet
 if (challengeCompletions("BT", 11) == 0) return "1 Completion: <b>Unlock new BT upgrades</b><br> 2 Completions: <b>Gain 3.00x multiplier to the Stars Gain</b> <br> 3 Completions: <b>Unlock new Layer</b>"	},
 },
 	},
-			doReset(resettingLayer) {
-			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
-				if (hasMilestone("BAB", 11) && resettingLayer=="BT") keep.push("upgrades", "challenges");
-		},
 	layerShown(){return (player.SM.points.gte(99) || player[this.layer].unlocked)}
 })
 
@@ -424,6 +425,7 @@ addLayer("DO", {
     exponent: 0.43, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		if (hasMilestone("BAB", 11)) mult = mult.mul(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -599,7 +601,7 @@ buyables: {
 },
 		doReset(resettingLayer) {
 			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("H", keep)
+			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
 				if (hasMilestone("BAB", 11) && resettingLayer=="DO") keep.push("buyables", "milestones");
 		},
 },
@@ -756,7 +758,7 @@ addLayer("BAB", {
 	milestones: {
 		11: {
 			        requirementDescription: "1 Base After Base",
-        effectDescription: "Keep BT/DO upgrades on reset",
+        effectDescription: "Keep BT/DO upgrades on reset and 2.00x DO gain",
         done() { return player.BAB.points.gte(1) },
 	},
 			12: {
@@ -776,6 +778,12 @@ addLayer("BAB", {
 		update(diff) {
 			if (hasUpgrade("BAB", 12)) return player.BAB.energy = player.BAB.energy.plus(player.BAB.points.times(25))
 				else return player.BAB.energy = player.BAB.energy.plus(player.BAB.points)
+		},
+					doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
+				if (hasMilestone("BAB", 11) && resettingLayer=="BT") keep.push("upgrades");
+							if (hasMilestone("BAB", 11) && resettingLayer=="DO") keep.push("upgrades");
 		},
 })
 addLayer("CLG", {

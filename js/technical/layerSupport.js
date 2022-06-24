@@ -282,7 +282,10 @@ addLayer("info-tab", {
     tabFormat: ["info-tab"],
     row: "otherside"
 })
-
+addLayer("help-tab", {
+    tabFormat: ["help-tab"],
+    row: "otherside"
+})
 addLayer("options-tab", {
     tabFormat: ["options-tab"],
     row: "otherside"
