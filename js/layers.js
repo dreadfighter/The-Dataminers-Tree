@@ -71,8 +71,9 @@ addLayer("SM", {
 else return "Stars Gain multiplied by Stereo Madness amount"},
 			cost: new Decimal(3),
 			unlocked() {return true},
-			effect() { if (hasMilestone("SM", 16)) return player[this.layer].points.div(player.SM.points.div(20)).plus(1).pow(1.4)
+			effect() {
 			if (hasUpgrade("PG", 21)) return player.SM.effboost.times(100)
+				if (hasMilestone("SM", 16)) return player[this.layer].points.div(player.SM.points.div(20)).plus(1).pow(1.4)
 				if (inChallenge("BT", 11)) return player.SM.effboost.times(2)
 				if (hasUpgrade("BT", 13)) return player.SM.effboost.times(4)
 		if (hasUpgrade("SM", 13)) return player.SM.effboost.times(2)
