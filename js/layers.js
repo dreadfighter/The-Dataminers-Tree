@@ -412,10 +412,11 @@ addLayer("PG", {
 	},
 	challenges: {
 },
-			doReset(resettingLayer) {
+				doReset(resettingLayer) {
 			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
 			layerDataReset("BT")
-			},
+		},
 	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
 		return (hasChallenge("BT", 11) || player[this.layer].unlocked)}
 })
@@ -617,11 +618,6 @@ buyables: {
         },
 		unlocked() {return (hasMilestone("DO", 13))},
 },
-		doReset(resettingLayer) {
-			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
-				if (hasMilestone("BAB", 11) && resettingLayer=="DO") keep.push("buyables", "milestones");
-		},
 },
 milestones: {
 		11: {
@@ -640,6 +636,11 @@ milestones: {
         done() { return player.DO.total.gte(200) },
 		},
 },
+		doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("SM", keep)
+				if (hasMilestone("BAB", 11) && resettingLayer=="DO") keep.push("buyables", "milestones");
+		},
 	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
 		return (hasChallenge("BT", 11) || player[this.layer].unlocked)
 		},
@@ -938,6 +939,244 @@ addLayer("JMP", {
 		return (hasMilestone("BAB", 11) || player[this.layer].unlocked)
 		},
 })
+addLayer("B", {
+    name: "Bread", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "B", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		best: new Decimal(0),
+		total: new Decimal(1),
+		auto: false,
+    }},
+    color: "#FFE4C4",
+    requires: new Decimal(1e18), // Can be a function that takes requirement increases into account
+    resource: "Bread",
+	branches: ["BAB", "PG"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.55, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		if (hasUpgrade("B", 11)) mult = mult.mul(2)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "0", description: "0: Reset for Bread", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+		11: {
+			title: "Dai",
+			description: "Doubles bread gain",
+			cost: new Decimal(2),
+		},
+				12: {
+			title: "Edu",
+			description: "1.50x to stars gain",
+			cost: new Decimal(5),
+		},
+						13: {
+			title: "Pj",
+			description: "3.50x to stars gain",
+			cost: new Decimal(12),
+		},
+	},
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "B") return "main-display"},
+            "prestige-button",
+            function() {if (player.tab == "B") return "resource-display"},
+            "blank",
+            "upgrades"
+            ]
+        },
+		        "Milestones": {
+            content:[
+                function() {if (player.tab == "B") return "main-display"},
+            function() {if (player.tab == "B") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "milestones"
+            ],
+        },
+    },
+	milestones: {
+					    11: {   
+		requirementDescription: "30 Bread - Blya",
+        effectDescription: "2.00x to stars gain",
+        done() { return player.B.total.gte(29) }
+},
+					    12: {   
+		requirementDescription: "60 Bread - Otebis",
+        effectDescription: "Boost previous milestone",
+        done() { return player.B.total.gte(59) }
+},
+					    13: {   
+		requirementDescription: "90 Bread - Nahui",
+        effectDescription: "Boost first milestone",
+        done() { return player.B.total.gte(79) }
+}
+	},	layerShown(){ let boost = Decimal.mul(challengeCompletions("BT", 11))
+		return (hasMilestone("BAB", 11) || player[this.layer].unlocked)
+		},
+})
+addLayer("MRK", {
+    name: "Mrkiller228", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "MRK", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		best: new Decimal(0),
+		total: new Decimal(1),
+		auto: false,
+    }},
+    color: "#00FFFF",
+    requires: new Decimal(6e20), // Can be a function that takes requirement increases into account
+    resource: "Mrkiller228",
+	branches: ["PG", "JMP", "BAB"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.55, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+	if (hasUpgrade("MRK", 12)) mult = mult.mul(1.45)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "0", description: "0: Reset for Bread", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+		11: {
+			title: "Mrrkiller'a",
+			description: "Adds x5.00 to stars gain",
+			cost: new Decimal(1),
+		},
+				12: {
+			title: "Sud'ba - Zhit'",
+			description: "1.45x to Mrkiller228 gain",
+			cost: new Decimal(2),
+		},
+						13: {
+			title: "Bez",
+			description: "3.50x to stars gain",
+			cost: new Decimal(8),
+		},
+	},
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "MRK") return "main-display"},
+            "prestige-button",
+            function() {if (player.tab == "MRk") return "resource-display"},
+            "blank",
+            "upgrades"
+            ]
+        },
+		        "Milestones": {
+            content:[
+                function() {if (player.tab == "MRK") return "main-display"},
+            function() {if (player.tab == "MRk") return "resource-display"},
+            "prestige-button",
+            "blank",
+                "milestones"
+            ],
+        },
+    },
+	milestones: {
+					    11: {   
+		requirementDescription: "10 Mrkiller228 - Hleba",
+        effectDescription: "2.00x to stars gain",
+        done() { return player.MRK.total.gte(9) }
+},
+					    12: {   
+		requirementDescription: "18 Mrkiller228 - Nav",
+        effectDescription: "Boost previous milestone",
+        done() { return player.MRK.total.gte(17) }
+},
+					    13: {   
+		requirementDescription: "26 Mrkiller228 - Segda",
+        effectDescription: "Boost first milestone",
+        done() { return player.MRK.total.gte(25) }
+}
+	},	layerShown(){
+		return (hasMilestone("B", 13) || player[this.layer].unlocked)
+		},
+})
+addLayer("END", {
+    name: "Enderman", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "END", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		best: new Decimal(0),
+		total: new Decimal(1),
+		auto: false,
+    }},
+    color: "purple",
+    requires: new Decimal(3e22), // Can be a function that takes requirement increases into account
+    resource: "Enderman",
+	branches: ["CLG", "BAB", "PG"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.55, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "0", description: "0: Reset for Bread", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	upgrades: {
+		11: {
+			title: "Mrkiller228",
+			description: "END",
+			cost: new Decimal(1),
+		},
+				12: {
+			title: "Bul",
+			description: "END",
+			cost: new Decimal(2),
+		},
+						13: {
+			title: "Ybit Endermenom",
+			description: "END",
+			cost: new Decimal(3),
+		},
+	},
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "END") return "main-display"},
+            "prestige-button",
+            function() {if (player.tab == "END") return "resource-display"},
+            "blank",
+            "upgrades"
+            ]
+        },
+		},
+		layerShown(){
+		return (hasMilestone("MRK", 13) || player[this.layer].unlocked)
+		},
+})
 addLayer("ac", {
     startData() {
         return {
@@ -1032,6 +1271,12 @@ addLayer("ac", {
 			done() {return (player.DO.unlocked)
 			},
 			tooltip: "Unlock Dry Out",
+		},
+											24: {
+			name: "Bread Hunt Event Trophy",
+			done() {return (hasUpgrade("END", 13))
+			},
+			tooltip: "Complete Bread Hunt Event",
 		},
 	},
 	    tabFormat: 

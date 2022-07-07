@@ -14,13 +14,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.6.5",
-	name: "The Chemistry Lab",
+	num: "0.7.1",
+	name: "The Geometry Dash Tree",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.6.5f</h3><br>
-		<p>- Fixed 6th milestone of SM
+	<h3>v0.7.1</h3><br>
+		<p>- Bread Hunt Event is Started
 		                        <p><b><br>+Seder3214+</br></b></p>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -51,6 +51,18 @@ function getPointGen() {
 if (hasUpgrade("SM", 32)) gain = gain.times(20)	
 if (hasMilestone("SM", 15)) gain = gain.times(4)
 	if (hasUpgrade("DO", 11)) gain = gain.times(2)
+	if (hasMilestone("B", 11)) gain = gain.times(2)
+	if (hasMilestone("MRK", 11)) gain = gain.times(2)
+	if (hasMilestone("MRK", 12)) gain = gain.times(2)
+			if (hasMilestone("END", 11)) gain = gain.times(2)
+		if (hasAchievement("ac", 24)) gain = gain.times(2)
+	if (hasMilestone("MRK", 13)) gain = gain.times(2)
+	if (hasMilestone("B", 12)) gain = gain.times(3)
+	if (hasMilestone("B", 13)) gain = gain.times(2)		
+		if (hasUpgrade("B", 12)) gain = gain.times(1.5)
+					if (hasUpgrade("MRK", 11)) gain = gain.times(5)
+		if (hasUpgrade("MRK", 13)) gain = gain.times(3.5)
+			if (hasUpgrade("B", 13)) gain = gain.times(3.5)
 if (player.DO.buyables[11].gte(1)) gain = gain.times(buyableEffect("DO", 11));		
 	if (hasUpgrade("PG", 11)) gain = gain.times(upgradeEffect("PG", 11))
 		if (hasUpgrade("SM", 12)) gain = gain.times(upgradeEffect("SM", 12))
