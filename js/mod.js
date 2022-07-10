@@ -44,34 +44,10 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(0)
-	if (hasUpgrade("SM", 11)) gain = gain.plus(1)
-			if (hasUpgrade("SM", 33)) gain = gain.times(5)
-		if (hasAchievement("ac", 15)) gain = gain.times(1.2)
-			if (hasUpgrade("BT", 32)) gain = gain.times(2)
-if (hasUpgrade("SM", 32)) gain = gain.times(20)	
-if (hasMilestone("SM", 15)) gain = gain.times(4)
-	if (hasUpgrade("DO", 11)) gain = gain.times(2)
-	if (hasMilestone("B", 11)) gain = gain.times(2)
-	if (hasMilestone("MRK", 11)) gain = gain.times(2)
-	if (hasMilestone("MRK", 12)) gain = gain.times(2)
-			if (hasMilestone("END", 11)) gain = gain.times(2)
-		if (hasAchievement("ac", 24)) gain = gain.times(2)
-	if (hasMilestone("MRK", 13)) gain = gain.times(2)
-	if (hasMilestone("B", 12)) gain = gain.times(3)
-	if (hasMilestone("B", 13)) gain = gain.times(2)		
-		if (hasUpgrade("B", 12)) gain = gain.times(1.5)
-					if (hasUpgrade("MRK", 11)) gain = gain.times(5)
-		if (hasUpgrade("MRK", 13)) gain = gain.times(3.5)
-			if (hasUpgrade("B", 13)) gain = gain.times(3.5)
-if (player.DO.buyables[11].gte(1)) gain = gain.times(buyableEffect("DO", 11));		
-	if (hasUpgrade("PG", 11)) gain = gain.times(upgradeEffect("PG", 11))
-		if (hasUpgrade("SM", 12)) gain = gain.times(upgradeEffect("SM", 12))
-			if (hasUpgrade("PG", 13)) gain = gain.times(11)
-				if (hasUpgrade("SM", 31)) gain = gain.times(upgradeEffect("SM", 31))
-					if (hasUpgrade("SM", 22)) gain = gain.times(upgradeEffect("SM", 22))
-			if (hasUpgrade("BT", 11)) gain = gain.times(4)
-						if (player.DO.buyables[22].gte(0)) gain = gain.times(25);
-					if (hasAchievement("ac", 14)) gain = gain.times(3)
+if (hasUpgrade("R", 11)) gain = gain.plus(1)
+if (hasUpgrade("R", 12)) gain = gain.times(2.35)
+if (hasUpgrade("R", 13)) gain = gain.times(upgradeEffect("R", 13))
+if (hasUpgrade("R", 14)) gain = gain.times(25)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
