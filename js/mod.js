@@ -1,6 +1,6 @@
 let modInfo = {
-	name: "The Geometry Dash Tree",
-	id: "stars",
+	name: "Color Tree",
+	id: "points",
 	author: "Seder3214",
 	pointsName: "Stars",
 	modFiles: ["layers.js", "tree.js"],
@@ -14,13 +14,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.7.1",
-	name: "The Geometry Dash Tree",
+	num: "0.1.5",
+	name: "Color Tree",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.7.1</h3><br>
-		<p>- Bread Hunt Event is Started
+	<h3>v0.1.5</h3><br>
+		<p>- Just a beta
 		                        <p><b><br>+Seder3214+</br></b></p>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -48,6 +48,12 @@ if (hasUpgrade("R", 11)) gain = gain.plus(1)
 if (hasUpgrade("R", 12)) gain = gain.times(2.35)
 if (hasUpgrade("R", 13)) gain = gain.times(upgradeEffect("R", 13))
 if (hasUpgrade("R", 14)) gain = gain.times(25)
+if (player.op.points.gte(0)) gain = gain.times(player.o.points.plus(1).add(1.5).pow(player.op.points.add(0.2).plus(0.15)))
+if (challengeCompletions("y", 11) == 3) gain = gain.times(2.45)
+if (challengeCompletions("y", 11) == 2) gain = gain.times(1.89)
+if (challengeCompletions("y", 11) == 1) gain = gain.times(1.3)
+else if (player.o.points.gte(0)) gain = gain.times(player.o.points.plus(1).add(1.5))
+if (hasUpgrade("o", 11)) gain = gain.times(upgradeEffect("o", 11))
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
