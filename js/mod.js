@@ -54,6 +54,10 @@ if (challengeCompletions("y", 11) == 2) gain = gain.times(1.89)
 if (challengeCompletions("y", 11) == 1) gain = gain.times(1.3)
 else if (player.o.points.gte(0)) gain = gain.times(player.o.points.plus(1).add(1.5))
 if (hasUpgrade("o", 11)) gain = gain.times(upgradeEffect("o", 11))
+if (challengeCompletions("y", 12) >= 3) gain = gain.times(3.46)
+	if (hasUpgrade("y", 11)) gain = gain.times(upgradeEffect("y", 11))
+		if (hasUpgrade("R", 21)) gain = gain.times(1.76)
+if (hasUpgrade("R", 22)) gain = gain.times(upgradeEffect("R", 22))
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
