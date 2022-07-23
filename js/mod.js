@@ -52,7 +52,7 @@ if (player.op.points.gte(1)) gain = gain.times(player.o.points.plus(1).add(1.5).
 if (challengeCompletions("y", 11) == 3) gain = gain.times(2.45)
 if (challengeCompletions("y", 11) == 2) gain = gain.times(1.89)
 if (challengeCompletions("y", 11) == 1) gain = gain.times(1.3)
-else if (player.o.points.gte(1)) gain = gain.times(player.o.points.plus(1).add(1.5))
+else if (player.o.points.gte(1)) gain = gain.times(player.o.points.add(1.5).pow(2.13))
 if (hasUpgrade("o", 11)) gain = gain.times(upgradeEffect("o", 11))
 if (challengeCompletions("y", 12) >= 3) gain = gain.times(3.46)
 	if (hasUpgrade("y", 11)) gain = gain.times(upgradeEffect("y", 11))

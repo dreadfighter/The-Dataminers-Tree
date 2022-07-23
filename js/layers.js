@@ -59,9 +59,9 @@ else return "1.2"						},
 			description: "Multiplies stars gain by Red amount",
 			cost: new Decimal(10),
 			unlocked() {return true},
-			effect() {  if (inChallenge("y", 12)) return player.R.x.times(player.RP.points.add(1).add(player.RSP.points.add(3)))
-			else if (player.RSP.unlocked) return player.R.x.times(player.RP.points.add(1).add(player.RSP.points.add(3).plus(2)))
-			if (player.RP.unlocked) return player.R.x.times(player.RP.points.add(1))
+			effect() {  if (inChallenge("y", 12)) return player.R.x.times(player.RP.points.add(0.15).pow(2.35).add(player.RSP.points.add(3)))
+			else if (player.RSP.unlocked) return player.R.x.times(player.RP.points.add(0.15).pow(2.35).add(player.RSP.points.add(3).plus(2)))
+			if (player.RP.unlocked) return player.R.x.times(player.RP.points.add(0.15).pow(2.35).add(0.05))
 			 else if (upgradeEffect("R", 13).gte(50)) return player.R.x
 				return player.R.points.add(1).pow(0.70)
 			},
@@ -88,13 +88,13 @@ else return "1.2"						},
 						title: "C.1",
 			description: "1.76x to point gain",
 			cost: new Decimal(9.62e15),
-			unlocked() {return (player.yp.points.gte(0))},
+			unlocked() {return (player.yp.points.gte(1))},
 		},
 										22: {
 						title: "C.2",
 			description: "Boost point gain by Green amount",
 			cost: new Decimal(2.13e16),
-			unlocked() {return (player.yp.points.gte(0))},
+			unlocked() {return (player.yp.points.gte(1))},
 			effect() {
 				return player.g.points.add(1).times(1.87)
 			},
@@ -103,7 +103,7 @@ else return "1.2"						},
 						title: "C.3",
 			description: "Unlock Green Prestige layer",
 			cost: new Decimal(3.49e17),
-			unlocked() {return (player.yp.points.gte(0))},
+			unlocked() {return (player.yp.points.gte(1))},
 		},
 	},
 			passiveGeneration() {			
@@ -131,9 +131,9 @@ addLayer("RP", {
     }},
     color: "darkred",
 	automate() {},
-	effectDescription() { if (inChallenge("y", 12)) return " which is gaining " +format(player.RP.points.add(1).plus(player.RSP.points.add(0.2))) + " x to red upgrades"
-		else if (player.RSP.unlocked) return " which is gaining " +format(player.RP.points.add(1).plus(player.RSP.points.add(3).plus(2))) + " x to red upgrades"
-		else return " which is gaining " +format(player.RP.points.add(1)) + " x to red upgrades"},
+	effectDescription() { if (inChallenge("y", 12)) return " which is gaining " +format(player.RP.points.pow(2.35).plus(player.RSP.points.add(0.2))) + " x to red upgrades"
+		else if (player.RSP.unlocked) return " which is gaining " +format(player.RP.points.pow(2.35).plus(player.RSP.points.add(3).plus(2))) + " x to red upgrades"
+		else return " which is gaining " +format(player.RP.points.pow(2.35)) + " x to red upgrades"},
 	branches: ["R"],
     requires: new Decimal(100000), // Can be a function that takes requirement increases into account
     resource: "Red Prestige",
@@ -243,10 +243,10 @@ addLayer("o", {
     color: "orange",
 	automate() {},
 	effectDescription() { 
-	if (challengeCompletions("y", 11) == 3) return " which is gaining " +format(player.o.points.plus(1).add(1.5).pow(player.op.points.add(0.2).plus(0.15)).times(2.45)) + "x to points gain"
-		else if (challengeCompletions("y", 11) == 2) return " which is gaining " +format(player.o.points.plus(1).add(1.5).pow(player.op.points.add(0.2).plus(0.15)).times(1.89)) + "x to points gain"
-		else if (challengeCompletions("y", 11) == 1) return " which is gaining " +format(player.o.points.plus(1).add(1.5).pow(player.op.points.add(0.2).plus(0.15)).times(1.3)) + "x to points gain"
-	else return " which is gaining " +format(player.o.points.plus(1).add(1.5)) + " x to points gain"},
+	if (challengeCompletions("y", 11) == 3) return " which is gaining " +format(player.o.points.add(1.5).pow(2.13).pow(player.op.points.add(0.2).plus(0.15)).times(2.45)) + "x to points gain"
+		else if (challengeCompletions("y", 11) == 2) return " which is gaining " +format(player.o.points.add(1.5).pow(2.13).pow(player.op.points.add(0.2).plus(0.15)).times(1.89)) + "x to points gain"
+		else if (challengeCompletions("y", 11) == 1) return " which is gaining " +format(player.o.points.add(1.5).pow(2.13).pow(player.op.points.add(0.2).plus(0.15)).times(1.3)) + "x to points gain"
+	else return " which is gaining " +format(player.o.points.add(1.5).pow(2.13)) + " x to points gain"},
     requires: new Decimal(1700000), // Can be a function that takes requirement increases into account
     resource: "Orange",
 	branches: ["R"],
@@ -280,7 +280,7 @@ addLayer("o", {
 			description: "Multiplies points gain by Red Prestige amount",
 			cost: new Decimal(3),
 			unlocked() {return true},
-			effect() { if (inChallenge("y", 11)) return (upgradeEffect("o", 11)).div(upgradeEffect("o", 11))
+			effect() { if (inChallenge("y", 11)) return player.RP.points.add(1).plus(0.5).pow(3.5).div(2)
 				else return player.RP.points.add(1).plus(0.5).pow(3.5)
 			},
 		},
@@ -591,19 +591,19 @@ addLayer("g", {
         requirementDescription: "4 Green",
         effectDescription: "Reduces cost of Orange Prestige by 2e14x",
         done() { return player.g.points.gte(4) },
-		unlocked() { return (player.gp.points.gte(0))},
+		unlocked() { return (player.gp.points.gte(1))},
     },
 			    12: {
         requirementDescription: "5 Green",
         effectDescription: "Reduces cost of Red Prestige by 2e105x",
         done() { return player.g.points.gte(5) },
-		unlocked() { return (player.gp.points.gte(1))},
+		unlocked() { return (player.gp.points.gte(2))},
     },
 				    13: {
         requirementDescription: "6 Green",
         effectDescription: "Unlock a new layer and 35.00x to point gain",
         done() { return player.g.points.gte(6) },
-		unlocked() { return (player.gp.points.gte(1))},
+		unlocked() { return (player.gp.points.gte(3))},
     },
 	},
 							doReset(resettingLayer) {
