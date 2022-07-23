@@ -144,6 +144,7 @@ addLayer("RP", {
 		else return 3}, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+		if (hasMilestone("g", 12)) mult = mult.div(2e105)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -327,6 +328,7 @@ addLayer("op", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
 		if (challengeCompletions("y", 12) >= 1) mult = mult.div(4.67e13)
+			if (hasMilestone("g", 11)) mult = mult.div(2e14)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -591,6 +593,18 @@ addLayer("g", {
         done() { return player.g.points.gte(4) },
 		unlocked() { return (player.gp.points.gte(0))},
     },
+			    12: {
+        requirementDescription: "5 Green",
+        effectDescription: "Reduces cost of Red Prestige by 2e105x",
+        done() { return player.g.points.gte(5) },
+		unlocked() { return (player.gp.points.gte(1))},
+    },
+				    13: {
+        requirementDescription: "6 Green",
+        effectDescription: "Unlock a new layer and 35.00x to point gain",
+        done() { return player.g.points.gte(6) },
+		unlocked() { return (player.gp.points.gte(1))},
+    },
 	},
 							doReset(resettingLayer) {
 			let keep = [];
@@ -602,7 +616,7 @@ if (player.RP.unlocked && resettingLayer=="RP") keep.push("upgrades")
 })
 addLayer("gp", {
     name: "Green Prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "OP", // This appears on the layer's node. Default is the id with the first letter capitalized
+    symbol: "GP", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
@@ -617,7 +631,9 @@ addLayer("gp", {
     }},
     color: "#004800",
 	automate() {},
-	effectDescription() { return " which unlocks " +format(player.gp.points) + " Green milestones"},
+	effectDescription() {if (player.gp.points.gte(5)) return " which unlocks " +format(player.gp.points) + " (MAXED) Green milestones and gains 50.00x to point gain boost"
+		else if (player.gp.points.gte(4)) return " which unlocks " +format(player.gp.points) + " Green milestones and gains 25.00x to point gain boost"
+		else return " which unlocks " +format(player.gp.points) + " Green milestones"},
     requires: new Decimal(3e19), // Can be a function that takes requirement increases into account
     resource: "Green Prestige",
 	branches: ["g"],
@@ -654,6 +670,177 @@ if (player.R.unlocked && resettingLayer=="R") keep.push("upgrades")
 if (player.RP.unlocked && resettingLayer=="RP") keep.push("upgrades")
 		},
 	layerShown(){return (hasUpgrade("R", 23) || player[this.layer].unlocked)},
+})
+addLayer("c", {
+    name: "Cyan", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		effboost: new Decimal(10),
+		formulag: new Decimal(1),
+        effectb: new Decimal(1200),
+		upgpoint: new Decimal(22),
+		best: new Decimal(0),
+		total: new Decimal(0),
+		auto: false,
+    }},
+    color: "cyan",
+	automate() {},
+    requires: new Decimal(5e24), // Can be a function that takes requirement increases into account
+    resource: "Cyan",
+	branches: ["g"],
+	effectDescription() {
+		return "Just buy one to unlock Blue and Violet"
+	},
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "c") return "main-display"},
+            "prestige-button",
+			"blank",
+            function() {if (player.tab == "c") return "resource-display"},
+            "blank",
+            "milestones"
+            ]
+        },
+		},
+    row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "c: Reset for Cyan", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+							doReset(resettingLayer) {
+			let keep = [];
+if (layers[resettingLayer].row > this.row) layerDataReset("R", keep)
+if (player.R.unlocked && resettingLayer=="R") keep.push("upgrades")
+if (player.RP.unlocked && resettingLayer=="RP") keep.push("upgrades")
+		},
+	layerShown(){return (hasMilestone("g", 13) || player[this.layer].unlocked)},
+})
+addLayer("b", {
+    name: "Blue", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "B", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		effboost: new Decimal(10),
+		formulag: new Decimal(1),
+        effectb: new Decimal(1200),
+		upgpoint: new Decimal(22),
+		best: new Decimal(0),
+		total: new Decimal(0),
+		auto: false,
+    }},
+    color: "blue",
+	automate() {},
+    requires: new Decimal(1e25), // Can be a function that takes requirement increases into account
+    resource: "Blue",
+	branches: ["c"],
+	effectDescription() {
+		return "Just buy one to unlock Violet"
+	},
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "c") return "main-display"},
+            "prestige-button",
+			"blank",
+            function() {if (player.tab == "c") return "resource-display"},
+            "blank",
+            "milestones"
+            ]
+        },
+		},
+    row: 5, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "c: Reset for Cyan", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+							doReset(resettingLayer) {
+			let keep = [];
+if (layers[resettingLayer].row > this.row) layerDataReset("R", keep)
+if (player.R.unlocked && resettingLayer=="R") keep.push("upgrades")
+if (player.RP.unlocked && resettingLayer=="RP") keep.push("upgrades")
+		},
+	layerShown(){return (player.c.points.gte(1) || player[this.layer].unlocked)},
+})
+addLayer("v", {
+    name: "Violet", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "V", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		effboost: new Decimal(10),
+		formulag: new Decimal(1),
+        effectb: new Decimal(1200),
+		upgpoint: new Decimal(22),
+		best: new Decimal(0),
+		total: new Decimal(0),
+		auto: false,
+    }},
+    color: "violet",
+	automate() {},
+    requires: new Decimal(1e25), // Can be a function that takes requirement increases into account
+    resource: "Violet",
+	branches: ["b"],
+    baseResource: "Stars",	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 8, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+		tabFormat: {
+        "Main": {
+        content:[
+            function() {if (player.tab == "c") return "main-display"},
+            "prestige-button",
+			"blank",
+            function() {if (player.tab == "c") return "resource-display"},
+            "blank",
+            "milestones"
+            ]
+        },
+		},
+    row: 6, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "c", description: "c: Reset for Cyan", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+							doReset(resettingLayer) {
+			let keep = [];
+if (layers[resettingLayer].row > this.row) layerDataReset("R", keep)
+if (player.R.unlocked && resettingLayer=="R") keep.push("upgrades")
+if (player.RP.unlocked && resettingLayer=="RP") keep.push("upgrades")
+		},
+	layerShown(){return (player.c.points.gte(1) || player[this.layer].unlocked)},
 })
 addLayer("ac", {
     startData() {
