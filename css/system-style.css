@@ -10,6 +10,11 @@
 
 }
 
+
+h4 {color: blue;}
+strong {
+    color: red;
+}
 *:focus {
 	outline: none;
 	webkit-outline: none;
@@ -23,7 +28,6 @@ html, body {
 td {
 	padding: 0
 }
-
 .upgTable {
 	display: flex !important;
 	flex-flow: column wrap;

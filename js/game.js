@@ -261,6 +261,68 @@ function startChallenge(layer, x) {
 	updateChallengeTemp(layer)
 }
 
+function shouldNotify(layer) {
+    if (player.tab == layer || player.navTab == layer)
+        return false
+    if (!player.redGlowActive)
+        return false;
+    for (id in tmp[layer].upgrades) {
+        if (!isNaN(id)) {
+            if (canAffordUpgrade(layer, id) && !hasUpgrade(layer, id) && tmp[layer].upgrades[id].unlocked) {
+                return true
+            } else if (tmp[layer].upgrades[id].pseudoUnl && tmp[layer].upgrades[id].pseudoCan && !tmp[layer].upgrades[id].unlocked)
+                return true;
+        }
+    }
+    for (id in tmp[layer].buyables) {
+        if (!isNaN(id)) {
+            if (tmp[layer].buyables[id].autoed)
+                continue;
+            if (tmp[layer].buyables[id].unlocked && tmp[layer].buyables[id].canAfford) {
+                if (layer == "s") {
+                    if (player.spaceGlow == "never")
+                        continue;
+                    if (player.spaceGlow != "normal") {
+                        let str = player.spaceGlow
+                        if (str.includes("+"))
+                            str = str.split("+")[0];
+                        str = Number(str);
+                        let trueId = id - 10;
+                        if (str > trueId)
+                            continue;
+                    }
+                } else if (layer == "o") {
+                    if (player.solGlow == "never")
+                        continue;
+                    if (player.solGlow != "normal") {
+                        let buyableData = {
+                            "solar cores onward": 11,
+                            "tachoclinal plasma onward": 12,
+                            "convectional energy": 13,
+                            "convectional energy onward": 13,
+                            "coronal waves": 21
+                        }
+                        let str = buyableData[player.solGlow]
+                        if (str > id)
+                            continue;
+                    }
+                } else if (layer == "m") {
+                    if (player.majGlow == "never" || (player.m.auto && hasMilestone("hn", 2)))
+                        continue;
+                    if (player.majGlow == "uncasted")
+                        if (Object.values(player.m.spellTimes).some(x=>Decimal.eq(x, 0)))
+                            continue;
+                } else if (layer == "mc" && id == 11 && !player.shellGlow)
+                    continue;
+                return true
+            }
+        }
+    }
+    if (tmp[layer].shouldNotify) {
+        return tmp[layer].shouldNotify
+    } else
+        return false
+}
 function canCompleteChallenge(layer, x)
 {
 	if (x != player[layer].activeChallenge) return
