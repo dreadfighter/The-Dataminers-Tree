@@ -2,13 +2,13 @@ let modInfo = {
 	name: "The Chemistry Lab",
 	id: "atom",
 	author: "Seder3214",
-	pointsName: "Atoms",
+	pointsName: "Particles",
 	modFiles: ["layers.js", "tree.js"],
 	endgame: new Decimal("1e388"),
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -42,16 +42,13 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-
-	let gain = new Decimal(1)
-if (hasUpgrade("H", 11)) gain = gain.times(1.7);
-if (hasUpgrade("H", 12)) gain = gain.times(1.85);
-if (hasUpgrade("H", 21)) gain = gain.times(1.6);
-if (hasUpgrade("H", 22)) gain = gain.times(1.5);
-if (hasUpgrade("H", 31)) gain = gain.times(1.7);
-if (hasUpgrade("He", 11)) gain = gain.times(2);
-if (hasUpgrade("He", 12)) gain = gain.times(4);
-if (hasUpgrade("He", 21)) gain = gain.times(1.5);		
+		let gain = new Decimal(0)
+if (player.cp.points.gte(1)) gain = gain.plus(1)		
+if (inChallenge("cp", 11)) gain = gain.times(0.8)
+if (hasChallenge("cp", 11)) gain = gain.times(20.15)
+if (inChallenge("cp", 12)) gain = gain.div(player.cp.points.div(1.23))	
+if (hasChallenge("cp", 12)) gain = gain.times(player.points.pow(0.24)).add(1)
+if (inChallenge("cp", 13)) gain = gain.div(2)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
