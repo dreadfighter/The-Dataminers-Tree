@@ -72,8 +72,8 @@ addLayer("dr", {
     requires: new Decimal(100), // Can be a function that takes requirement increases into account
     resource: "Dimensional Rift",	// Name of prestige currency
     baseResource: "challenge points",
-	effectDescription() {
-		return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.25)) + "x to point gain" 
+	effectDescription() {if (inChallenge("e", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.25).times(5)) + "x to point gain" 
+		else return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.25)) + "x to point gain" 
 	},
 branches: ["cp"],	// Name of resource prestige is based on
     baseAmount() {return player.cp.points}, // Get the current amount of baseResource
@@ -145,7 +145,10 @@ addLayer("e", {
     resource: "Emptiness",	// Name of prestige currency
     baseResource: "challenge points",
 branches: ["cp"],	// Name of resource prestige is based on
-    baseAmount() {return player.cp.points}, // Get the current amount of baseResource
+    baseAmount() {return player.cp.points},
+effectDescription() { if (challengeCompletions("e", 12) >= 1) return " Power boost - " + format(player.dr.power.pow(0.15).times(5)) + "x"
+	if (inChallenge("e", 12)) return " Power boost - " + format(player.dr.power.pow(0.15).times(5)) + "x"
+	else return " Power boost - " + format(player.dr.power.pow(0.15)) + "x"},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -158,7 +161,7 @@ branches: ["cp"],	// Name of resource prestige is based on
 	challenges: {
 		    11: {
         name: "14. Collect dust",
-        challengeDescription: "There are nothing that can slow down all production",
+        challengeDescription: "There are nothing that can slow down your production",
         canComplete: function() {return player.cp.points.gte(1000)},
 		unlocked() {
 			return true},
@@ -166,15 +169,19 @@ branches: ["cp"],	// Name of resource prestige is based on
 		rewardDescription: "Unlock an <b>Expedition</b> challenge",
     },
 			    12: {
-        name: "15. Expedition",
+        name() { if (challengeCompletions("e", 12)) return "16. Expedition II"
+			else return "15. Expedition"},
 		completionLimit: 10,
         challengeDescription() { let comps = this.completionLimit
-			return "Gather Sand. Completed " + format(challengeCompletions("e", 12)) + " / "+ format(comps)},
-        canComplete: function() {return player.cp.points.gte(2000)},
+			return "Gather Sand. x5.00 <b>Power</b> boost. Completed " + format(challengeCompletions("e", 12)) + " / "+ format(comps)},
+        canComplete: function() { if (challengeCompletions("e", 12) == 1) return player.cp.points.gte(8500) 
+			else return player.cp.points.gte(2000)},
 		unlocked() {
-			return true},
-		goalDescription: " 2000 Challenge Points",
-		rewardDescription: "Unlock an <b>Expedition</b> challenge",
+			return hasChallenge("e", 11)},
+		goalDescription() { if (challengeCompletions("e", 12) == 1) return " 8500 Challenge Points"
+			else return " 2000 Challenge Points"},
+		rewardDescription() {let r = challengeCompletions("e", 12)
+			if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
     },
 	},
     row: 2, // Row the layer is in on the tree (0 is the first row)

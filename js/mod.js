@@ -57,9 +57,11 @@ if (inChallenge("cp", 12)) gain = gain.div(player.cp.points.div(1.23))
 if (hasChallenge("cp", 12)) gain = gain.times(player.points.pow(0.24)).add(1)
 if (inChallenge("cp", 13)) gain = gain.div(2)
 	if (inChallenge("dr", 12)) gain = gain.div(1.27)
-	if (player.dr.unlocked) gain = gain.times(player.dr.power.pow(0.25))
+	if (player.dr.unlocked) gain = gain.times(player.dr.power.pow(0.15))
 		if (hasChallenge("dr", 12)) gain = gain.times(2.15)
 				if (inChallenge("dr", 13)) gain = gain.div(1.34)
+			if (inChallenge("e", 12)) gain = gain.times(5)
+				if (challengeCompletions("e", 12) >= 1) gain = gain.add(11) 
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
