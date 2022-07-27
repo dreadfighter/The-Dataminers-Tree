@@ -1,10 +1,10 @@
 let modInfo = {
-	name: "The Chemistry Lab",
-	id: "atom",
+	name: "The Challenge Tree",
+	id: "particles",
 	author: "Seder3214",
 	pointsName: "Particles",
 	modFiles: ["layers.js", "tree.js"],
-	endgame: new Decimal("1e388"),
+	endgame: new Decimal("1e15000"),
 
 	discordName: "",
 	discordLink: "",
@@ -14,16 +14,24 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1b",
-	name: "The Chemistry LabBeta",
+	num: "0.2",
+	name: "The Challenge Tree: Emptiness Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.1</h3><br>
+		- Added Challenge Points Layer<br>
+		- Added some challenges<br>
+			<h3>v0.1.5</h3><br>
+		- Added Dimensional Rift Layer<br>
+		- Added more challenges<br>
+					<h3>v0.2</h3><br>
+		- Added Emptiness Layer<br>
+		- Added 2 challenges`
+		
+		
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have competed all the challenges up to 128th!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -42,13 +50,16 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-		let gain = new Decimal(0)
-if (player.cp.points.gte(1)) gain = gain.plus(1)		
+		let gain = new Decimal(1)	
 if (inChallenge("cp", 11)) gain = gain.times(0.8)
 if (hasChallenge("cp", 11)) gain = gain.times(20.15)
 if (inChallenge("cp", 12)) gain = gain.div(player.cp.points.div(1.23))	
 if (hasChallenge("cp", 12)) gain = gain.times(player.points.pow(0.24)).add(1)
 if (inChallenge("cp", 13)) gain = gain.div(2)
+	if (inChallenge("dr", 12)) gain = gain.div(1.27)
+	if (player.dr.unlocked) gain = gain.times(player.dr.power.pow(0.25))
+		if (hasChallenge("dr", 12)) gain = gain.times(2.15)
+				if (inChallenge("dr", 13)) gain = gain.div(1.34)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
