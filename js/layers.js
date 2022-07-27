@@ -34,12 +34,41 @@ addLayer("R", {
             function() {if (player.tab == "R") return "main-display"},
             "prestige-button",
 			"blank",
+					["bar", "bigBar"],
             function() {if (player.tab == "R") return "resource-display"},
             "blank",
-            "upgrades"
+            "upgrades",
+            ]
+        },
+		        "Buyables": {
+        content:[
+            function() {if (player.tab == "R") return "main-display"},
+			"blank",
+            function() {if (player.tab == "R") return "resource-display"},
+            "blank",
+            "buyables"
             ]
         },
 		},
+			bars: {
+    bigBar: {
+        direction: RIGHT,
+        width: 400,
+        height: 25,
+		instant: true,
+        progress() { if (player.o.unlocked) return 1
+		else return Math.max(0, player.RP.points.div(2)) },
+		display() {const percentage = Math.max(0, player.RP.points.times(50));
+               if (player.RP.points.gte(2) || player.o.unlocked) return `Layer Unlocked`
+			   else return `${format(percentage)}% Red Prestige to unlock next Layer`},
+		fillStyle: {'background': 'linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(219,155,65,1) 60%)', },
+		style() {
+			return {
+				'color':'white',
+			}
+		},
+    },
+},
 	upgrades: {
 		11: {
 			title: "Start a colourful journey",
@@ -85,13 +114,13 @@ else return "1.2"						},
 			unlocked() {return true},
 		},
 								21: {
-						title: "C.1",
+						title: "D.1",
 			description: "1.76x to point gain",
 			cost: new Decimal(9.62e15),
 			unlocked() {return (player.yp.points.gte(1))},
 		},
 										22: {
-						title: "C.2",
+						title: "D.2",
 			description: "Boost point gain by Green amount",
 			cost: new Decimal(2.13e16),
 			unlocked() {return (player.yp.points.gte(1))},
@@ -100,14 +129,96 @@ else return "1.2"						},
 			},
 		},
 			23: {
-						title: "C.3",
+						title: "D.3",
 			description: "Unlock Green Prestige layer",
 			cost: new Decimal(3.49e17),
 			unlocked() {return (player.yp.points.gte(1))},
 		},
+					31: {
+						title: "C.1",
+			description: "Unlock 2 Red Buyables",
+			cost: new Decimal(9.87e17),
+			unlocked() {return (player.yp.points.gte(2))},
+		},
+							32: {
+						title: "C.2",
+			description: "<b>[Pallete]</b> boost <b>[Color]</b> effect",
+			cost: new Decimal(3.68e35),
+			unlocked() {return (player.yp.points.gte(2))},
+		},
+		41: {
+			title: "B.1",
+			description: "SOON",
+			cost: new Decimal(1.67e52),
+			unlocked() {return (player.yp.points.gte(3))},
+			style() {
+			   return {
+                            'height': '100px',
+                            'width':  '240px',
+		        }
+			},
+		},
+				42: {
+			title: "B.2",
+			description: "SOON",
+			cost: new Decimal(3.37e63),
+			unlocked() {return (player.yp.points.gte(3))},
+			style() {
+			   return {
+                            'height': '100px',
+                            'width':  '120px',
+		        }
+			},
+		},
+						43: {
+			title: "B.3",
+			description: "SOON",
+			cost: new Decimal(2.33e72),
+			unlocked() {return (player.yp.points.gte(3))},
+			style() {
+			   return {
+                            'height': '100px',
+                            'width':  '240px',
+		        }
+			},
+		},
 	},
-			passiveGeneration() {			
-  },
+	buyables: {
+    11: {
+        cost(x) { return new Decimal(5e23).mul(x) },
+		purchaseLimit() {return 10},
+        display() { let data = tmp[this.layer].buyables[this.id]
+		return "<h2>Color</h2> <br>" + "<h3>Description:</h3> Multiplies point gain. <br>" + "<h3>Level:</h3> " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" + "<h3>Cost:</h3> " + format(data.cost) + " Red<p></p>" +
+        "<h3>Currently effect:</h3> " +format(data.effect) + "x."},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+		unlocked() {return (hasUpgrade("R", 31))},
+        buy() {
+			cost = tmp[this.layer].buyables[this.id].cost
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+		effect(x) { if (hasUpgrade("R", 32)) return eff = x.times(10).pow(x.div(2)).pow(player.R.buyables[12].div(2))
+			else return eff = x.times(10).pow(x.div(2))
+		},
+    },
+	    12: {
+        cost(x) { return new Decimal(5e30).mul(x) },
+		purchaseLimit() {return 5},
+        display() { let data = tmp[this.layer].buyables[this.id]
+		return "<h2>Pallete</h2> <br>" + "<h3>Description:</h3> Multiplies Orange Prestige gain. <br>" + "<h3>Level:</h3> " + formatWhole(player[this.layer].buyables[this.id]) + "<br>" + "<h3>Cost:</h3> " + format(data.cost) + " Red<p></p>" +
+        "<h3>Currently effect:</h3> " +format(data.effect) + "x."},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+		unlocked() {return (hasUpgrade("R", 31))},
+        buy() {
+			cost = tmp[this.layer].buyables[this.id].cost
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+		effect(x) {
+			return eff = x.times(200).pow(x).pow(player.RP.points)
+		},
+    },
+},
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "r", description: "r: Reset for Red", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -168,6 +279,7 @@ addLayer("RP", {
     hotkeys: [
         {key: "r", description: "r: Reset for Red", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+
 	layerShown(){return true}
 })
 addLayer("RSP", {
@@ -268,11 +380,31 @@ addLayer("o", {
             function() {if (player.tab == "o") return "main-display"},
             "prestige-button",
 			"blank",
+			["bar", "bigBar2"],
             function() {if (player.tab == "o") return "resource-display"},
             "blank",
             "upgrades"
             ]
         },
+		},
+		bars: {
+			    bigBar2: {
+        direction: RIGHT,
+        width: 400,
+        height: 25,
+		instant: true,
+        progress() { if (player.y.unlocked) return 1
+		else return Math.max(0, player.op.points.div(2)) },
+		display() {const percentage = Math.max(0, player.op.points.times(50));
+               if (player.op.points.gte(2) || player.y.unlocked) return `Layer Unlocked`
+			   else return `${format(percentage)}% Orange Prestige to unlock next Layer`},
+		fillStyle: {'background': 'linear-gradient(90deg, rgba(253,47,29,1) 0%, rgba(219,217,65,1) 60%)', },
+		style() {
+			return {
+				'color':'white',
+			}
+		},
+    },
 		},
 		upgrades: {
 					11: {
@@ -329,6 +461,7 @@ addLayer("op", {
         mult = new Decimal(1)
 		if (challengeCompletions("y", 12) >= 1) mult = mult.div(4.67e13)
 			if (hasMilestone("g", 11)) mult = mult.div(2e14)
+						if (player.R.buyables[12].gte(1)) mult = mult.div(buyableEffect("R", 12));
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -871,4 +1004,5 @@ addLayer("ac", {
     },
     ], "blank", "blank", "achievements", ],
 })
+
             

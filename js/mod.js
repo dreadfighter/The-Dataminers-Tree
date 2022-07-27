@@ -61,6 +61,7 @@ if (hasUpgrade("R", 22)) gain = gain.times(upgradeEffect("R", 22))
 	if (hasMilestone("g", 13)) gain = gain.times(35)
 			if (player.gp.points.gte(4)) gain = gain.times(25)
 			if (player.gp.points.gte(5)) gain = gain.times(2)
+				if (player.R.buyables[11].gte(1)) gain = gain.times(buyableEffect("R", 11));
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
