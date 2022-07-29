@@ -14,12 +14,12 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.45",
-	name: "The Challenge Tree: Challenge Matter Update",
+	num: "0.51",
+	name: "The Challenge Tree: Matter/Antimatter Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.45</h3><br>
+	<h3>v0.51</h3><br>
 		- USing TMT Forum (No one uses this thing...)`
 		
 		
