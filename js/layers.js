@@ -457,10 +457,11 @@ unlocked() { return (inChallenge("mg", 13))},
     hotkeys: [
         {key: "m", description: "m: Reset for Challenge Matter", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-										doReset(resettingLayer) {
-									let keep = [];
-				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
-			if (layers[resettingLayer].row > this.row) layerDataReset("cp", keep)
+  		doReset(resettingLayer) {
+			if (layers[resettingLayer].row <= layers[this.layer].row) return
+			let keep = [];
+			 if (player.mf.points.gte(1)) keep.push("challenges");
+		 layerDataReset("cm", keep)
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (r == 10 || player[this.layer].unlocked)},
@@ -544,11 +545,6 @@ if (inChallenge("mf", 11)) return player.mf.matter = player.mf.matter.add(diff)
 			else if (hasChallenge("mf", 11)) return player.mf.matter = player.mf.matter.div(minus)
 				 if (hasChallenge("cm", 13) && (inChallenge("mf", 12))) return player.mf.amatter = player.mf.amatter.add(diff).add(diff)
 			      else if (inChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.add(diff)
-		},
-			doReset(resettingLayer) {
-			let keep = [];
-			if (layers[resettingLayer].row > this.row) layerDataReset("cp", keep)
-				layerDataReset("cm")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasChallenge('cm', 11) || player[this.layer].unlocked)},

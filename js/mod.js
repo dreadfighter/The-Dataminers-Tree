@@ -43,7 +43,7 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-		let gain = new Decimal(1)	
+		let gain = new Decimal(1000)	
 if (inChallenge("cp", 11)) gain = gain.times(1.6)
 	if (hasUpgrade("cp", 11)) gain = gain.div(20)
 			if (hasUpgrade("e", 11)) gain = gain.div(100)
