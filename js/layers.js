@@ -44,7 +44,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Point gain is x1.6 faster.",
         canComplete: function() {return player.points.gte(32)},
-		unlocked() {if (!inChallenge("mg", 12)) return 
+		unlocked() {if (inChallenge("mg", 12)) return false
 			else return true},
 		goalDescription: " 32 Particles",
 		rewardDescription() { let r = player.dr.power.pow(0.35).times(6).add(50)
@@ -57,9 +57,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         challengeDescription: "Point gain is slower by CP amount",
         canComplete: function() {if (player.cm.unlocked) return player.points.gte(116)
 			else return player.points.gte(232)},
-		unlocked() { return !inChallenge("mg", 12)
-		return !inChallenge('cm', 11)
-			 return (player.cp.points.gte(5) || (hasChallenge("cm", 11)))},
+		unlocked() { return !inChallenge("mg", 12) &&  !inChallenge('cm', 11) &&(player.cp.points.gte(5) || (hasChallenge("cm", 11)))},
 		goalDescription() { if (player.cm.unlocked) return " 116 Particles"
 		else return " 232 Particles"},
 		rewardDescription() { let r =  challengeCompletions("e", 12)
@@ -73,8 +71,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Divides point gain by completed challenges",
         canComplete: function() {return player.points.gte(630)},
-		unlocked() {return !inChallenge("mg", 12)
-			 return (player.cp.points.gte(25) || (hasChallenge("cm", 11)))},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (player.cp.points.gte(25) || hasChallenge("cm", 11))},
 		goalDescription: " 630 Particles",
 		rewardDescription: "Unlock a new layer",
     },
@@ -83,8 +81,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Point gain ^0.65 slower",
         canComplete: function() {return player.points.gte(1750000)},
-		unlocked() {return !inChallenge("mg", 12) 
-			 return hasChallenge('cm', 12)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return hasChallenge('cm', 12)},
 		goalDescription: " 1.75M Particles",
 		rewardDescription: "Point gain ^1.2",
     },
@@ -93,8 +91,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "This challenge contains twiced <b>Pointer</b>, <b>Exponentialer</b> conditions",
         canComplete: function() {return player.points.gte(12000)},
-		unlocked() {return !inChallenge("mg", 12) 
-			 return hasChallenge('cm', 12)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return hasChallenge('cm', 12)},
 		goalDescription: " 12K Particles",
 		rewardDescription: "Double <b>Booster</b> effect",
     },
@@ -103,8 +101,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "This challenge contains 10x <b>Pointer</b>, <b>Exponentialer</b> conditions",
         canComplete: function() {return player.points.gte(7e18)},
-		unlocked() {return !inChallenge("mg", 12)
-			 return hasChallenge('cp', 32)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return hasChallenge('cp', 32)},
 		goalDescription: " 7e18 Particles",
 		rewardDescription: "Triple <b>Booster</b> effect",
     },
@@ -113,8 +111,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Each layer gains x1000 boost to point gain(without DR)",
         canComplete: function() {return player.points.gte(5e20)},
-		unlocked() {return !inChallenge("mg", 12) 
-			 return hasChallenge('mg', 12)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return hasChallenge('mg', 12)},
 		goalDescription: " 5e20 Particles",
 		rewardDescription: "Gain x1e18 boost to point gain (really big)",
     },
@@ -123,8 +121,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "CP boost point gain again",
         canComplete: function() {return player.points.gte(7e56)},
-		unlocked() {return !inChallenge("mg", 12) 
-			 return hasChallenge('mg', 12)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return hasChallenge('mg', 12)},
 		goalDescription: " 7e56 Particles",
 		rewardDescription: "Unlock Infinity layer and <b>Booster II</b> challenge",
     },
@@ -194,8 +192,8 @@ branches: ["cp"],	// Name of resource prestige is based on
 						completionLimit: 1,
         challengeDescription: "CP gain is 1.74x slower",
         canComplete: function() {return player.cp.points.gte(45)},
-		unlocked() {return !inChallenge("mg", 12)
-			return true},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return true},
 		goalDescription: " 45 Challenge Points",
 		rewardDescription(){ return "Unlock next dimension and boost point gain by CP amount. Currently: x" + format(player.cp.points.pow(0.05).add(1))},
     },
@@ -205,8 +203,8 @@ branches: ["cp"],	// Name of resource prestige is based on
         challengeDescription: "CP gain is 2.36x slower and point gain is 1.27x slower",
         canComplete: function() {return player.cp.points.gte(75)},
 		unlocked() {
-if (!inChallenge("mg", 12)) return 
-			return hasChallenge("dr", 11)},
+if (inChallenge("mg", 12)) return false
+			else return hasChallenge("dr", 11)},
 		goalDescription: " 75 Challenge Points",
 		rewardDescription: "Unlock challenge and provide 2.15x boost to point gain",
     },
@@ -225,8 +223,8 @@ if (!inChallenge("mg", 12)) return
 						completionLimit: 1,
         challengeDescription: "Just click at this challenge",
         canComplete: function() {return player.cp.points.gte(0)},
-		unlocked() {return !inChallenge("mg", 12)
-			 return (hasChallenge("dr", 13))},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (hasChallenge("dr", 13))},
 		goalDescription: " 0 Challenge Points",
 		rewardDescription: "Unlock a new layer, but destroy this layer",
     },
@@ -286,9 +284,9 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 				completionLimit: 1,
         challengeDescription: "There are nothing that can slow down your production",
         canComplete: function() {return player.cp.points.gte(260)},
-		unlocked() { return !inChallenge("mg", 12) 
-		return inChallenge(!'cm', 12)
-			return player.e.unlocked},
+		unlocked() { if (inChallenge("mg", 12)) return false
+		if (inChallenge('cm', 12)) return false
+			else return player.e.unlocked},
 		goalDescription: " 260 Challenge Points",
 		rewardDescription: "Unlock an <b>Expedition</b> levelling challenge",
     },
@@ -327,9 +325,9 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 										if (challengeCompletions("e", 12) == 2) return player.cp.points.gte(7420)
 		if (challengeCompletions("e", 12) == 1) return player.cp.points.gte(2350) 
 			else return player.cp.points.gte(1450)},
-		unlocked() {return !inChallenge("mg", 12) 
-			return !inChallenge('cm', 12)
-			 return hasChallenge("e", 11)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			if (inChallenge('cm', 12)) return false
+			else return hasChallenge("e", 11)},
 		goalDescription() { 
 		if (challengeCompletions("e", 12) == 9) return " 6.45M Challenge Points"
 		if (challengeCompletions("e", 12) == 8) return " 1.23M Challenge Points"
@@ -359,8 +357,8 @@ if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
         canComplete: function() { let r = challengeCompletions("e", 13)
 		if (r == 2) return player.e.points.gte(100000)
 			else return player.e.points.gte(1000)},
-		unlocked() {return !inChallenge("mg", 12) 
-			return (inChallenge('cm', 13) || (hasChallenge("cm", 13)))},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			if (inChallenge('cm', 13) || (hasChallenge("cm", 13))) return true},
 		goalDescription() {let r = challengeCompletions("e", 13)
 		if (r == 2) return "100K Emptiness"
 			else return " 1000 Emptiness"},
@@ -414,7 +412,7 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
 				completionLimit: 1,
         challengeDescription: "When you in this challenge, your point gain is 15.00x faster but you cant enter <b>2. Booster</b> challenge",
         canComplete: function() {return (player.points.gte(100000000) || player.mf.unlocked)},
-		unlocked() {if (!inChallenge("mg", 12)) return
+		unlocked() {if (inChallenge("mg", 12)) return false
 			else return player.cm.points.gte(1)},
 		goalDescription: " 100M Points but after Matter Fabric is unlocked you can auto-finish this challenge.",
 		rewardDescription: "Unlock a new layer and keep CP challenges on reset",
@@ -424,8 +422,8 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
 				completionLimit: 1,
         challengeDescription: "You can't enter <b>Emptiness</b> challenges.",
         canComplete: function() {return (player.points.gte(100000))},
-		unlocked() {return !inChallenge("mg", 12)
-			return player.cm.points.gte(2)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return player.cm.points.gte(2)},
 		goalDescription: " 100000 Points",
 		rewardDescription: "Unlock a new row of Challenge Power challenges and gain 10% of Challenge Points on reset",
     },
@@ -434,8 +432,8 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
 				completionLimit: 1,
         challengeDescription: "All the layers can only be buyed for Antimatter/Matter and all layers cost massively divided. After getting 1000 Emptiness while in this challenge unlocks 30. Pound of Emptiness, which completion adds x100.00 to E gain. Can be used twice.",
         canComplete: function() {return (player.e.points.gte(1e9))},
-		unlocked() {return !inChallenge("mg", 12) 
-			return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))
  if (hasChallenge("cm", 13)) return true},
 		goalDescription: " 1e9 Emptiness",
 		rewardDescription: "Keep this challenge even if you dont have 40 AM, Doubles AM gain",
@@ -502,17 +500,17 @@ addLayer("mf", {
 		11: {        name: "27. Create Matter",
         challengeDescription: "You can only enter in one of this row challenges. Produces Matter, which boost point gain",
         canComplete: function() {return (player.points.gte(1))},
-		unlocked() { return !inChallenge("mg", 12)
-		return (!hasChallenge("mf", 12) || (inChallenge("mf", 12))) 
-			 return player.mf.points.gte(1)},
+		unlocked() { if (inChallenge("mg", 12)) return false
+		if (hasChallenge("mf", 12) || (inChallenge("mf", 12))) return false
+			else return player.mf.points.gte(1)},
 				rewardDescription() {return "Matter boost point gain by " + format(player.mf.matter.pow(0.24)) + "x"},
 		goalDescription() {return "You generated " + format(player.mf.matter) + " Matter, but after exiting a challenge the Matter turns out to 0"},},
 		12: {name: "28. Create Antimatter",
         challengeDescription: "You can only enter in one of this row challenges. Produces Antimatter, which can unlock new challenges.",
         canComplete: function() {return (player.points.gte(1))},
-		unlocked() { return !inChallenge("mg", 12)
-			return (!hasChallenge("mf", 11) || (inChallenge("mf", 11)))
-			return player.mf.points.gte(1)},
+		unlocked() { if (inChallenge("mg", 12)) return false
+			if (hasChallenge("mf", 11) || (inChallenge("mf", 11))) return false
+			else return player.mf.points.gte(1)},
 		goalDescription() {return "You generated " + format(player.mf.amatter) + " Antimatter, but after exiting a challenge the Antimatter turns out to 0"},
 		rewardDescription() {return "Each 40 Antimatter unlocks a CM challenge"},
 		},
@@ -524,8 +522,8 @@ addLayer("mf", {
         effectDescription: "Unlock a new layer with 3 challenges",
         done() { if (inChallenge("mf", 12) || (hasChallenge("mf", 12))) return player.mf.amatter.gte(25)
 			else return player.mf.matter.gte(25) },
-		unlocked() {return  (inChallenge("mf",12) || (hasChallenge("mf", 12)))
-			 return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
+		unlocked() {if (inChallenge("mf",12) || (hasChallenge("mf", 12))) return true
+			else return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
 		},
 	},
     row: 4, // Row the layer is in on the tree (0 is the first row)
@@ -581,8 +579,8 @@ challenges: {
 		11: {        name: "31. Galaxy Boost",
         challengeDescription: "When you in this challenge, you get 100x to point gain.",
         canComplete: function() {return (player.points.gte(4e16))},
-		unlocked() { return !inChallenge("mg", 12)
-			 return player.mg.points.gte(1)},
+		unlocked() { if (inChallenge("mg", 12)) return false
+			else return player.mg.points.gte(1)},
 				rewardDescription() {return "Double Matter Gain"},
 		goalDescription() {return " 4e16 Points"},
 	},
@@ -646,8 +644,8 @@ challenges: {
 		11: {        name: "31. Galaxy Boost",
         challengeDescription: "When you in this challenge, you get 100x to point gain.",
         canComplete: function() {return (player.points.gte(4e16))},
-		unlocked() { return !inChallenge("mg", 12)
-			 return player.mg.points.gte(1)},
+		unlocked() { if (inChallenge("mg", 12)) return false
+			else return player.mg.points.gte(1)},
 				rewardDescription() {return "Double Matter Gain"},
 		goalDescription() {return " 4e16 Points"},
 	},
