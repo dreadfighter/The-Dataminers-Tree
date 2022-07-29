@@ -346,7 +346,7 @@ if (r == 7) return "Adds additional boost to Challenge Point gain. Currently: 4.
 if (r == 6) return "After Expedition VII each completion adds additional boost to Challenge Point gain. Currently: 2.48x"
 if (r == 5) return "Double Challenge point gain"
 if (r == 4) return "Add effect to <b>1. Pointer</b> challenge"
-if (r == 3) return "The <b>2. Booster</b> effect is Way better"
+if (r == 3) return "The <b>2. Boooster</b> effect is Way better"
 if (r == 2) return "Adds 13.45x multiplier to the Power effect base"
 if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
     },
