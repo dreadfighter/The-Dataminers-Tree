@@ -104,7 +104,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         challengeDescription: "This challenge contains 10x <b>Pointer</b>, <b>Exponentialer</b> conditions",
         canComplete: function() {return player.points.gte(7e18)},
 		unlocked() {if (inChallenge("mg", 12)) return false
-			else return hasChallenge('cm', 12)},
+			else return hasChallenge('cp', 32)},
 		goalDescription: " 7e18 Particles",
 		rewardDescription: "Triple <b>Booster</b> effect",
     },
@@ -114,7 +114,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         challengeDescription: "Each layer gains x1000 boost to point gain(without DR)",
         canComplete: function() {return player.points.gte(5e20)},
 		unlocked() {if (inChallenge("mg", 12)) return false
-			else return hasChallenge('cm', 12)},
+			else return hasChallenge('mg', 12)},
 		goalDescription: " 5e20 Particles",
 		rewardDescription: "Gain x1e18 boost to point gain (really big)",
     },
@@ -124,16 +124,16 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         challengeDescription: "CP boost point gain again",
         canComplete: function() {return player.points.gte(1e69)},
 		unlocked() {if (inChallenge("mg", 12)) return false
-			else return hasChallenge('cm', 12)},
+			else return hasChallenge('mg', 12)},
 		goalDescription: " 1e69 Particles",
-		rewardDescription: "Unlock Infinity layer",
+		rewardDescription: "Unlock Infinity layer and <b>Booster II</b> challenge",
     },
 							    33: {
         name: "36. Infinity is here",
 						completionLimit: 1,
         challengeDescription: "You can buy 1 infinity in this challenge",
         canComplete: function() {return player.i.points.gte(1)},
-		unlocked() { return hasChallenge('cm', 12)},
+		unlocked() { return hasChallenge('mg', 12)},
 		goalDescription: " 1 Infinity",
 		rewardDescription: "Just obtain 1 infinity",
     },
