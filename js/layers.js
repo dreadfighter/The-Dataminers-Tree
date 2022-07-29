@@ -286,7 +286,7 @@ let eff2 = player.dr.power.pow(0.15).add(11)
         canComplete: function() {return player.cp.points.gte(260)},
 		unlocked() { if (inChallenge("mg", 12)) return false
 		if (inChallenge('cm', 12)) return false
-			else return player.E.unlocked},
+			else return player.e.unlocked},
 		goalDescription: " 260 Challenge Points",
 		rewardDescription: "Unlock an <b>Expedition</b> levelling challenge",
     },
