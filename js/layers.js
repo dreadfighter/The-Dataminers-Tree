@@ -443,7 +443,7 @@ addLayer("mf", {
 			doubl = new Decimal(2)
 if (inChallenge("mf", 11)) return player.mf.matter = player.mf.matter.add(diff)
 			else if (hasChallenge("mf", 11)) return player.mf.matter = player.mf.matter.div(minus)
-				 if (hasChallenge("cm", 13) && (inChallenge("mf", 13))) return player.mf.amatter = player.mf.amatter.add(diff).add(diff)
+				 if (hasChallenge("cm", 13) && (inChallenge("mf", 12))) return player.mf.amatter = player.mf.amatter.add(diff).add(diff)
 			      else if (inChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.add(diff)
 
 							if (hasChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.div(minus)
