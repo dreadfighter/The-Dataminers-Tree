@@ -38,10 +38,10 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
     11: {
         name: "1. Pointer",
 						completionLimit: 1,
-        challengeDescription: "Point gain is x0.8 slower.",
-        canComplete: function() {return player.points.gte(68)},
-		unlocked() {return player.cp.points.gte(5)},
-		goalDescription: " 68 Particles",
+        challengeDescription: "Point gain is x1.6 faster.",
+        canComplete: function() {return player.points.gte(32)},
+		unlocked() {return true},
+		goalDescription: " 32 Particles",
 		rewardDescription() { let r = player.dr.power.pow(0.35).times(6).add(50)
 		if (challengeCompletions("e", 12) >= 4) return "Point gain is boosted by power amount. Currently: " + format(r) + "x"
 		else return "Point gain is x20.15 faster"},
@@ -53,7 +53,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         canComplete: function() {if (player.cm.unlocked) return player.points.gte(116)
 			else return player.points.gte(232)},
 		unlocked() { if (inChallenge('cm', 11)) return false
-			else return player.cp.points.gte(10)},
+			else return player.cp.points.gte(5)},
 		goalDescription() { if (player.cm.unlocked) return " 116 Particles"
 		else return " 232 Particles"},
 		rewardDescription() { let r =  challengeCompletions("e", 12)
@@ -65,9 +65,9 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         name: "3. Scaler",
 						completionLimit: 1,
         challengeDescription: "Divides point gain by completed challenges",
-        canComplete: function() {return player.points.gte(3450)},
-		unlocked() {return player.cp.points.gte(35)},
-		goalDescription: " 3450 Particles",
+        canComplete: function() {return player.points.gte(630)},
+		unlocked() {return player.cp.points.gte(25)},
+		goalDescription: " 630 Particles",
 		rewardDescription: "Unlock a new layer",
     },
 			    21: {
@@ -111,8 +111,8 @@ addLayer("dr", {
     requires: new Decimal(100), // Can be a function that takes requirement increases into account
     resource: "Dimensional Rift",	// Name of prestige currency
     baseResource: "challenge points",
-	effectDescription() {if (inChallenge("e", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.25).times(5)) + "x to point gain" 
-		else return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.25)) + "x to point gain" 
+	effectDescription() {if (inChallenge("e", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15).times(5)) + "x to point gain" 
+		else return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15)) + "x to point gain" 
 	},
 branches: ["cp"],	// Name of resource prestige is based on
     baseAmount() {return player.cp.points}, // Get the current amount of baseResource
@@ -130,29 +130,29 @@ branches: ["cp"],	// Name of resource prestige is based on
         name: "4. 1st dimension",
 						completionLimit: 1,
         challengeDescription: "CP gain is 1.74x slower",
-        canComplete: function() {return player.cp.points.gte(85)},
+        canComplete: function() {return player.cp.points.gte(45)},
 		unlocked() {
 			return true},
-		goalDescription: " 85 Challenge Points",
-		rewardDescription: "Unlock 2 challenges, which can unlock one more layer",
+		goalDescription: " 45 Challenge Points",
+		rewardDescription(){ return "Unlock next dimension and boost point gain by CP amount. Currently: ^" + format(player.cp.points.pow(0.35))},
     },
 	    12: {
         name: "5. 2nd dimension",				
 		completionLimit: 1,
         challengeDescription: "CP gain is 2.36x slower and point gain is 1.27x slower",
-        canComplete: function() {return player.cp.points.gte(155)},
+        canComplete: function() {return player.cp.points.gte(75)},
 		unlocked() {return hasChallenge("dr", 11)},
-		goalDescription: " 155 Challenge Points",
+		goalDescription: " 75 Challenge Points",
 		rewardDescription: "Unlock challenge and provide 2.15x boost to point gain",
     },
 		    13: {
         name: "6. 3rd dimension",
 						completionLimit: 1,
         challengeDescription: "CP gain is 2.84x slower and point gain is 1.35x slower",
-        canComplete: function() {return player.cp.points.gte(265)},
+        canComplete: function() {return player.cp.points.gte(145)},
 		unlocked() {
 			return hasChallenge("dr", 12)},
-		goalDescription: " 265 Challenge Points",
+		goalDescription: " 145 Challenge Points",
 		rewardDescription: "Unlock next challenge and upgrade <b>Power</b> effect",
     },
 		    21: {
@@ -189,12 +189,13 @@ addLayer("e", {
     baseResource: "challenge points",
 branches: ["cp"],	// Name of resource prestige is based on
     baseAmount() {return player.cp.points},
-effectDescription() {
+effectDescription() { let eff = player.dr.power.pow(0.15).times(5)
 let eff2 = player.dr.power.pow(0.15).add(11)
 		if (inChallenge("e", 12) && (challengeCompletions("e", 12) == 2)) return " Power boost - " + format(player.dr.power.pow(0.35).times(5)) + "x"
+				if (inChallenge("e", 12) && (challengeCompletions("e", 12) == 1)) return " Power boost - " + format(eff) + "x"
 	if (challengeCompletions("e", 12) >= 2) return " Power boost - " + format(eff2.times(13.45)) + "x"
 	if (challengeCompletions("e", 12) == 1) return " Power boost - " + format(eff2) + "x"
-	if (inChallenge("e", 12)) return " Power boost - " + format(eff2) + "x"
+	if (inChallenge("e", 12)) return " Power boost - " + format(eff) + "x"
 	else return " Power boost - " + format(player.dr.power.pow(0.15)) + "x"},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
@@ -210,10 +211,10 @@ let eff2 = player.dr.power.pow(0.15).add(11)
         name: "14. Collect dust",
 				completionLimit: 1,
         challengeDescription: "There are nothing that can slow down your production",
-        canComplete: function() {return player.cp.points.gte(640)},
+        canComplete: function() {return player.cp.points.gte(260)},
 		unlocked() { if (inChallenge('cm', 12)) return false
 			else return player.e.unlocked},
-		goalDescription: " 640 Challenge Points",
+		goalDescription: " 260 Challenge Points",
 		rewardDescription: "Unlock an <b>Expedition</b> levelling challenge",
     },
 			    12: {
@@ -241,7 +242,6 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 			if (challengeCompletions("e", 12) == 2) return "Gather Coal. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
 			else return "Gather Sand. x5.00 <b>Power</b> boost. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"},
         canComplete: function() { 
-		if (challengeCompletions("e", 12) == 10) return player.cp.points.gte(12545678)
 			if (challengeCompletions("e", 12) == 9) return player.cp.points.gte(6455783)
 				if (challengeCompletions("e", 12) == 8) return player.cp.points.gte(1235354)
 					if (challengeCompletions("e", 12) == 7) return player.cp.points.gte(368344)
@@ -250,12 +250,11 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 								if (challengeCompletions("e", 12) == 4) return player.cp.points.gte(45320)
 									if (challengeCompletions("e", 12) == 3) return player.cp.points.gte(26720)
 										if (challengeCompletions("e", 12) == 2) return player.cp.points.gte(7420)
-		if (challengeCompletions("e", 12) == 1) return player.cp.points.gte(4860) 
+		if (challengeCompletions("e", 12) == 1) return player.cp.points.gte(2350) 
 			else return player.cp.points.gte(1450)},
 		unlocked() { if (inChallenge('cm', 12)) return false
 			else return hasChallenge("e", 11)},
 		goalDescription() { 
-				if (challengeCompletions("e", 12) == 10) return " 12.54M Challenge Points [LOCKED]"
 		if (challengeCompletions("e", 12) == 9) return " 6.45M Challenge Points"
 		if (challengeCompletions("e", 12) == 8) return " 1.23M Challenge Points"
 		if (challengeCompletions("e", 12) == 7) return " 368.344 Challenge Points"
@@ -264,7 +263,7 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 		if (challengeCompletions("e", 12) == 4) return " 45320 Challenge Points"
 		if (challengeCompletions("e", 12) == 3) return " 26720 Challenge Points"
 		if (challengeCompletions("e", 12) == 2) return " 7420 Challenge Points"
-		if (challengeCompletions("e", 12) == 1) return " 4860 Challenge Points"
+		if (challengeCompletions("e", 12) == 1) return " 2350 Challenge Points"
 			else return " 1450 Challenge Points"},
 		rewardDescription() {let r = challengeCompletions("e", 12)
 		if (r == 9) return "Adds additional boost to Challenge Point gain. Currently: 19.84x"
@@ -282,6 +281,9 @@ if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
     hotkeys: [
         {key: "e", description: "e: Reset for Emptiness", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+								doReset(resettingLayer) {
+				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
+		},
 	layerShown(){return (hasChallenge("dr", 13) || player[this.layer].unlocked)},
 })
 addLayer("cm", {
@@ -334,6 +336,9 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
     hotkeys: [
         {key: "m", description: "m: Reset for Challenge Matter", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+								doReset(resettingLayer) {
+				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
+		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (r == 10 || player[this.layer].unlocked)},
 })
@@ -374,8 +379,8 @@ addLayer("mf", {
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-							doReset(resettingLayer) {
-				if (hasChallenge("cm", 11) && resettingLayer=="cm") keep.push("upgrades");
+								doReset(resettingLayer) {
+				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasChallenge('cm', 11) || player[this.layer].unlocked)},
