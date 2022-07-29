@@ -119,13 +119,13 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 		rewardDescription: "Gain x1e18 boost to point gain (really big)",
     },
 						    32: {
-        name: "35. 69 Time",
+        name: "35. Strenghter",
 						completionLimit: 1,
         challengeDescription: "CP boost point gain again",
-        canComplete: function() {return player.points.gte(1e69)},
+        canComplete: function() {return player.points.gte(7e56)},
 		unlocked() {if (inChallenge("mg", 12)) return false
 			else return hasChallenge('mg', 12)},
-		goalDescription: " 1e69 Particles",
+		goalDescription: " 7e56 Particles",
 		rewardDescription: "Unlock Infinity layer and <b>Booster II</b> challenge",
     },
 							    33: {
