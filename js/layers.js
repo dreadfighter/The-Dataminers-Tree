@@ -134,7 +134,7 @@ branches: ["cp"],	// Name of resource prestige is based on
 		unlocked() {
 			return true},
 		goalDescription: " 45 Challenge Points",
-		rewardDescription(){ return "Unlock next dimension and boost point gain by CP amount. Currently: x" + format(player.cp.points.pow(0.45).add(1))},
+		rewardDescription(){ return "Unlock next dimension and boost point gain by CP amount. Currently: x" + format(player.cp.points.pow(0.05).add(1))},
     },
 	    12: {
         name: "5. 2nd dimension",				
