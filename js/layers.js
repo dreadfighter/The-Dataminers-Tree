@@ -13,8 +13,12 @@ addLayer("cp", {
     resource: "Challenge Points",
 effectDescription() {
 return "Endgame: 128th Challenge, each 5 of Challenge Points forming a challenge (scales up to 25 after 2nd challenge"},	// Name of prestige currency
-    baseResource: "particles", // Name of resource prestige is based on
-    baseAmount() {return player.points}, // Get the current amount of baseResource
+    baseResource() {  if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return "Matter"
+	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return "Antimatter"
+		else return "particles"}, // Name of resource prestige is based on
+    baseAmount() { if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return player.mf.matter
+	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return player.mf.amatter
+		else return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.55, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -184,11 +188,17 @@ addLayer("e", {
 		points: new Decimal(0),
     }},
     color: "#484d5b",
-    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    requires() {  if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return new Decimal(.01)
+	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return new Decimal(.01)
+	else return new Decimal(1000)}, // Can be a function that takes requirement increases into account
     resource: "Emptiness",	// Name of prestige currency
-    baseResource: "challenge points",
+    baseResource() { if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return "Matter"
+	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return "Antimatter"
+	else return "challenge points"},
 branches: ["cp"],	// Name of resource prestige is based on
-    baseAmount() {return player.cp.points},
+    baseAmount() { if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return player.mf.matter
+	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return player.mf.amatter
+		else return player.cp.points},
 effectDescription() { let eff = player.dr.power.pow(0.15).times(5)
 let eff2 = player.dr.power.pow(0.15).add(11)
 		if (inChallenge("e", 12) && (challengeCompletions("e", 12) == 2)) return " Power boost - " + format(player.dr.power.pow(0.35).times(5)) + "x"
@@ -201,6 +211,8 @@ let eff2 = player.dr.power.pow(0.15).add(11)
     exponent: 0.31, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+				if (inChallenge("cm", 13) && (hasChallenge("e", 13))|| (hasChallenge("cm", 13))) mult = mult.mul(100)
+									if (inChallenge("cm", 13) && (challengeCompletions("e", 13) == 2) || (hasChallenge("cm", 13))) mult = mult.mul(10000)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -276,6 +288,19 @@ if (r == 3) return "The <b>2. Booster</b> effect is Way better"
 if (r == 2) return "Adds 13.45x multiplier to the Power effect base"
 if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
     },
+			    13: {
+        name: "30. Galaxy of Emptiness",
+				completionLimit: 2,
+        challengeDescription: "Just a galaxy, created from Matter/Antimatter",
+        canComplete: function() { let r = challengeCompletions("e", 13)
+		if (r == 2) return player.e.points.gte(100000)
+			else return player.e.points.gte(1000)},
+		unlocked() { if (inChallenge('cm', 13) || (hasChallenge("cm", 13))) return true},
+		goalDescription() {let r = challengeCompletions("e", 13)
+		if (r == 2) return "100K Emptiness"
+			else return " 1000 Emptiness"},
+		rewardDescription: "Completing that challenge first time gets you x100 to Emptiness gain, and second time - x10000",
+    },
 	},
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -302,7 +327,7 @@ addLayer("cm", {
 effectDescription() {return "which unlocks "+ format(player.cm.points) +" challenges and 10.00x to challenge points gain"},	// Name of resource prestige is based on
     baseAmount() {return player.cp.points},	// Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 6, // Prestige currency exponent
+    exponent: 2, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -331,6 +356,15 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
 		goalDescription: " 100000 Points",
 		rewardDescription: "Unlock a new row of Challenge Power challenges and gain 10% of Challenge Points on reset",
     },
+						    13: {
+        name: "29. Antimatter",
+				completionLimit: 1,
+        challengeDescription: "All the layers can only be buyed for Antimatter/Matter and all layers cost massively divided. After getting 1000 Emptiness while in this challenge unlocks 30. Pound of Emptiness, which completion adds x100.00 to E gain. Can be used twice.",
+        canComplete: function() {return (player.e.points.gte(1e9))},
+		unlocked() {return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))},
+		goalDescription: " 1e9 Emptiness",
+		rewardDescription: "Keep this challenge even if you dont have 40 AM, Doubles AM gain",
+    },
 	},
     row: 3, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -349,10 +383,12 @@ addLayer("mf", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+		matter: new Decimal(0),
+		amatter: new Decimal(0),
     }},
     color: "#5b5b5b",
 	nodeStyle() {
-		return {
+		if (player.mf.unlocked) return {
 			'background': 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%)',
 		}
 	},
@@ -362,7 +398,7 @@ addLayer("mf", {
     requires: new Decimal(5), // Can be a function that takes requirement increases into account
     resource: "Matter Fabric",	// Name of prestige currency
     baseResource: "challenge matter",
-	branches: ["e"],	// Name of resource prestige is based on
+	branches: ["cm"],	// Name of resource prestige is based on
     baseAmount() {return player.cm.points},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
@@ -373,14 +409,44 @@ addLayer("mf", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-	challenges: {
+    effect() {
+            return new Decimal(2);
+        let eff = player.mf.matter.div(8)
+        return eff;
+    },	challenges: {
+		11: {        name: "27. Create Matter",
+        challengeDescription: "You can only enter in one of this row challenges. Produces Matter, which boost point gain",
+        canComplete: function() {return (player.points.gte(1))},
+		unlocked() { if (hasChallenge("mf", 12) || (inChallenge("mf", 12))) return false
+			else return player.mf.points.gte(1)},
+		goalDescription() {return "You generated " + format(player.mf.matter) + "Antimatter, but after exiting a challenge the Matter turns out to 0"},},
+		12: {name: "28. Create Antimatter",
+        challengeDescription: "You can only enter in one of this row challenges. Produces Antimatter, which can unlock new challenges.",
+        canComplete: function() {return (player.points.gte(1))},
+		unlocked() {if (hasChallenge("mf", 11) || (inChallenge("mf", 11))) return false
+			else return player.mf.points.gte(2)},
+		goalDescription() {return "You generated " + format(player.mf.amatter) + " Antimatter, but after exiting a challenge the Antimatter turns out to 0"},
+		rewardDescription() {return "Each 40 Antimatter unlocks a CM challenge"},
+		},
+		
 	},
-    row: 3, // Row the layer is in on the tree (0 is the first row)
+    row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 								doReset(resettingLayer) {
 				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
+				layerDataReset("cm")
+		},
+		update(diff) {
+			minus = new Decimal(1.2)
+			doubl = new Decimal(2)
+if (inChallenge("mf", 11)) return player.mf.matter = player.mf.matter.add(diff)
+			else if (hasChallenge("mf", 11)) return player.mf.matter = player.mf.matter.div(minus)
+				 if (hasChallenge("cm", 13) && (inChallenge("mf", 13))) return player.mf.amatter = player.mf.amatter.add(diff).add(diff)
+			      else if (inChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.add(diff)
+
+							if (hasChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.div(minus)
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasChallenge('cm', 11) || player[this.layer].unlocked)},
