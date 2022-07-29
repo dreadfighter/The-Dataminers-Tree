@@ -449,7 +449,7 @@ unlocked() { return (inChallenge("mg", 13))},
 										doReset(resettingLayer) {
 									let keep = [];
 				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
-				if (hasChallenge("cm", 11) && resettingLayer=="cm") keep.push("challenges");
+			if (layers[resettingLayer].row > this.row) layerDataReset("cp", keep)
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (r == 10 || player[this.layer].unlocked)},
@@ -518,11 +518,6 @@ addLayer("mf", {
 		unlocked() {return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
 		},
 	},
-									doReset(resettingLayer) {
-									let keep = [];
-				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
-				if (hasChallenge("cm", 11) && resettingLayer=="cm") keep.push("challenges");
-		},
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -535,8 +530,11 @@ if (inChallenge("mf", 11)) return player.mf.matter = player.mf.matter.add(diff)
 			else if (hasChallenge("mf", 11)) return player.mf.matter = player.mf.matter.div(minus)
 				 if (hasChallenge("cm", 13) && (inChallenge("mf", 12))) return player.mf.amatter = player.mf.amatter.add(diff).add(diff)
 			      else if (inChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.add(diff)
-
-							if (hasChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.div(minus)
+		},
+			doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("cp", keep)
+				layerDataReset("cm")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasChallenge('cm', 11) || player[this.layer].unlocked)},
@@ -587,12 +585,17 @@ challenges: {
 	},
 				13: {        name: "33. Hardcap Adventure",
         challengeDescription: "Adds 1 upgrade to each layer that you should buy to complete this challenge.",
-        canComplete: function() {return (hasChallenge("cp", 11) && (hasChallenge("e", 11) && (hasChallenge("cm", 11))))},
+        canComplete: function() {return (hasChallenge("cm", 11) && (hasChallenge("e", 11) && (hasChallenge("cp", 11))))},
 		unlocked() { return player.mg.points.gte(1)},
 				rewardDescription() {return "CM amount boost point gain Currently: " + format(player.cm.points.pow(0.78).add(1)) + "x"},
 		goalDescription() {return " 3 Hardcap Upgrades"},
 	},
 },
+			doReset(resettingLayer) {
+			let keep = [];
+			if (layers[resettingLayer].row > this.row) layerDataReset("cp", keep)
+				layerDataReset("mf")
+		},
     row: 5, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -645,6 +648,7 @@ challenges: {
     ],
 								doReset(resettingLayer) {
 layerDataReset("mf")
+layerDataReset("mg")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasMilestone("mf", 11) || player[this.layer].unlocked)},
