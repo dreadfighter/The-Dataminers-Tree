@@ -14,7 +14,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.55f",
+	num: "0.57",
 	name: "The Challenge Tree: Matter/Antimatter Update",
 }
 

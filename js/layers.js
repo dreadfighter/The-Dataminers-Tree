@@ -419,12 +419,12 @@ addLayer("mf", {
         canComplete: function() {return (player.points.gte(1))},
 		unlocked() { if (hasChallenge("mf", 12) || (inChallenge("mf", 12))) return false
 			else return player.mf.points.gte(1)},
-		goalDescription() {return "You generated " + format(player.mf.matter) + "Antimatter, but after exiting a challenge the Matter turns out to 0"},},
+		goalDescription() {return "You generated " + format(player.mf.matter) + "Matter, but after exiting a challenge the Matter turns out to 0"},},
 		12: {name: "28. Create Antimatter",
         challengeDescription: "You can only enter in one of this row challenges. Produces Antimatter, which can unlock new challenges.",
         canComplete: function() {return (player.points.gte(1))},
 		unlocked() {if (hasChallenge("mf", 11) || (inChallenge("mf", 11))) return false
-			else return player.mf.points.gte(2)},
+			else return player.mf.points.gte(1)},
 		goalDescription() {return "You generated " + format(player.mf.amatter) + " Antimatter, but after exiting a challenge the Antimatter turns out to 0"},
 		rewardDescription() {return "Each 40 Antimatter unlocks a CM challenge"},
 		},
