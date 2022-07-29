@@ -172,7 +172,7 @@ addLayer("dr", {
     requires: new Decimal(75), // Can be a function that takes requirement increases into account
     resource: "Dimensional Rift",	// Name of prestige currency
     baseResource: "challenge points",
-	effectDescription() {if (inChallenge("e", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15).times(5)) + "x to point gain" 
+	effectDescription() {if (inChallenge("E", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15).times(5)) + "x to point gain" 
 		else return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15)) + "x to point gain" 
 	},
 branches: ["cp"],	// Name of resource prestige is based on
