@@ -14,20 +14,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3.1",
-	name: "The Challenge Tree: Emptiness Update",
+	num: "0.45",
+	name: "The Challenge Tree: Challenge Matter Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.1</h3><br>
-		- Added Challenge Points Layer<br>
-		- Added some challenges<br>
-			<h3>v0.1.5</h3><br>
-		- Added Dimensional Rift Layer<br>
-		- Added more challenges<br>
-					<h3>v0.2</h3><br>
-		- Added Emptiness Layer<br>
-		- Added 2 challenges`
+	<h3>v0.45</h3><br>
+		- USing TMT Forum (No one uses this thing...)`
 		
 		
 

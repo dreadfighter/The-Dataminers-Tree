@@ -108,7 +108,7 @@ addLayer("dr", {
 		power: new Decimal(0),
     }},
     color: "#523e8b",
-    requires: new Decimal(100), // Can be a function that takes requirement increases into account
+    requires: new Decimal(75), // Can be a function that takes requirement increases into account
     resource: "Dimensional Rift",	// Name of prestige currency
     baseResource: "challenge points",
 	effectDescription() {if (inChallenge("e", 12)) return " which provides " + format(player.dr.power) + " Power, which gains " + format(player.dr.power.pow(0.15).times(5)) + "x to point gain" 
