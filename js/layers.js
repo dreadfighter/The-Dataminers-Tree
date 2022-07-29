@@ -651,5 +651,5 @@ layerDataReset("mf")
 layerDataReset("mg")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
-		return (hasMilestone("cp", 32) || player[this.layer].unlocked)},
+		return (hasChallenge("cp", 32) || player[this.layer].unlocked)},
 })
