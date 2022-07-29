@@ -373,6 +373,12 @@ cost: new Decimal(1e9),
 unlocked() { return (inChallenge("mg", 13))},	
 	},
 },
+  		doReset(resettingLayer) {
+			if (layers[resettingLayer].row <= layers[this.layer].row) return
+			let keep = [];
+			 if (hasChallenge("cm", 11)) keep.push("challenges");
+		 layerDataReset("e", keep)
+		},
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "e", description: "e: Reset for Emptiness", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
