@@ -309,7 +309,7 @@ if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
 								doReset(resettingLayer) {
 				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
 		},
-	layerShown(){return (hasChallenge("dr", 13) || player[this.layer].unlocked)},
+	layerShown(){return (hasChallenge("dr", 21) || player[this.layer].unlocked)},
 })
 addLayer("cm", {
     name: "Challenge Matter", // This is optional, only used in a few places, If absent it just uses the layer id.
