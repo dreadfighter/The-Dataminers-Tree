@@ -428,7 +428,8 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
         challengeDescription: "All the layers can only be buyed for Antimatter/Matter and all layers cost massively divided. After getting 1000 Emptiness while in this challenge unlocks 30. Pound of Emptiness, which completion adds x100.00 to E gain. Can be used twice.",
         canComplete: function() {return (player.e.points.gte(1e9))},
 		unlocked() {if (inChallenge("mg", 12)) return false
-			else return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))},
+			else return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))
+ if (hasChallenge("cm", 13)) return true},
 		goalDescription: " 1e9 Emptiness",
 		rewardDescription: "Keep this challenge even if you dont have 40 AM, Doubles AM gain",
     },
@@ -445,8 +446,10 @@ unlocked() { return (inChallenge("mg", 13))},
     hotkeys: [
         {key: "m", description: "m: Reset for Challenge Matter", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-								doReset(resettingLayer) {
+										doReset(resettingLayer) {
+									let keep = [];
 				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
+				if (hasChallenge("cm", 11) && resettingLayer=="cm") keep.push("challenges");
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (r == 10 || player[this.layer].unlocked)},
@@ -493,7 +496,7 @@ addLayer("mf", {
         challengeDescription: "You can only enter in one of this row challenges. Produces Matter, which boost point gain",
         canComplete: function() {return (player.points.gte(1))},
 		unlocked() { if (inChallenge("mg", 12)) return false
-		if (hasChallenge("mf", 12) || (inChallenge("mf", 12))) return true
+		if (hasChallenge("mf", 12) || (inChallenge("mf", 12))) return false
 			else return player.mf.points.gte(1)},
 				rewardDescription() {return "Matter boost point gain by " + format(player.mf.matter.pow(0.24)) + "x"},
 		goalDescription() {return "You generated " + format(player.mf.matter) + " Matter, but after exiting a challenge the Matter turns out to 0"},},
@@ -515,14 +518,15 @@ addLayer("mf", {
 		unlocked() {return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
 		},
 	},
+									doReset(resettingLayer) {
+									let keep = [];
+				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
+				if (hasChallenge("cm", 11) && resettingLayer=="cm") keep.push("challenges");
+		},
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-								doReset(resettingLayer) {
-				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
-				layerDataReset("cm")
-		},
 		update(diff) {
 			minus = new Decimal(1.2)
 			doubl = new Decimal(2)
@@ -553,7 +557,7 @@ addLayer("mg", {
 	},
     requires: new Decimal(3), // Can be a function that takes requirement increases into account
     resource: "Matter Galaxy",	// Name of prestige currency
-    baseResource: "challenge matter",
+    baseResource: "matter fabric",
 	branches: ["mf"],	// Name of resource prestige is based on
     baseAmount() {return player.mf.points},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -593,9 +597,6 @@ challenges: {
     hotkeys: [
         {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-								doReset(resettingLayer) {
-layerDataReset("mf")
-		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasMilestone("mf", 11) || player[this.layer].unlocked)},
 })
