@@ -229,6 +229,12 @@ if (inChallenge("mg", 12)) return false
 		rewardDescription: "Unlock a new layer, but destroy this layer",
     },
 },
+  		doReset(resettingLayer) {
+			if (layers[resettingLayer].row <= layers[this.layer].row) return
+			let keep = [];
+			 if (player.e.unlocked) keep.push("challenges");
+			             layerDataReset("e", keep)
+		},
 update(diff) {
 	if (player.dr.unlocked) return player.dr.power = player.dr.power.add(diff)
 },
