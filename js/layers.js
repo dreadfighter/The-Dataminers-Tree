@@ -232,8 +232,8 @@ if (inChallenge("mg", 12)) return false
   		doReset(resettingLayer) {
 			if (layers[resettingLayer].row <= layers[this.layer].row) return
 			let keep = [];
-			 if (player.e.unlocked) keep.push("challenges");
-			             layerDataReset("e", keep)
+			 if (player.E.unlocked) keep.push("challenges");
+			             layerDataReset("dr", keep)
 		},
 update(diff) {
 	if (player.dr.unlocked) return player.dr.power = player.dr.power.add(diff)
@@ -245,7 +245,7 @@ update(diff) {
 	layerShown(){if (hasChallenge('dr', 21) || player.e.unlocked) return "ghost"
 		return (hasChallenge("cp", 13) || player[this.layer].unlocked)},
 })
-addLayer("e", {
+addLayer("E", {
     name: "Emptiness", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "E", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
@@ -254,31 +254,25 @@ addLayer("e", {
 		points: new Decimal(0),
     }},
     color: "#484d5b",
-    requires() {  if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return new Decimal(.01)
-	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return new Decimal(.01)
-	else return new Decimal(1000)}, // Can be a function that takes requirement increases into account
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
     resource: "Emptiness",	// Name of prestige currency
-    baseResource() { if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return "Matter"
-	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return "Antimatter"
-	else return "challenge points"},
+    baseResource: "challenge points",
 branches: ["cp"],	// Name of resource prestige is based on
-    baseAmount() { if (inChallenge("cm", 13) && (hasChallenge("mf", 11))) return player.mf.matter
-	if (inChallenge("cm", 13) && (hasChallenge("mf", 12))) return player.mf.amatter
-		else return player.cp.points},
+    baseAmount() {return player.cp.points},
 effectDescription() { let eff = player.dr.power.pow(0.15).times(5)
 let eff2 = player.dr.power.pow(0.15).add(11)
-		if (inChallenge("e", 12) && (challengeCompletions("e", 12) == 2)) return " Power boost - " + format(player.dr.power.pow(0.35).times(5)) + "x"
-				if (inChallenge("e", 12) && (challengeCompletions("e", 12) == 1)) return " Power boost - " + format(eff) + "x"
-	if (challengeCompletions("e", 12) >= 2) return " Power boost - " + format(eff2.times(13.45)) + "x"
-	if (challengeCompletions("e", 12) == 1) return " Power boost - " + format(eff2) + "x"
-	if (inChallenge("e", 12)) return " Power boost - " + format(eff) + "x"
+		if (inChallenge("E", 12) && (challengeCompletions("E", 12) == 2)) return " Power boost - " + format(player.dr.power.pow(0.35).times(5)) + "x"
+				if (inChallenge("E", 12) && (challengeCompletions("E", 12) == 1)) return " Power boost - " + format(eff) + "x"
+	if (challengeCompletions("E", 12) >= 2) return " Power boost - " + format(eff2.times(13.45)) + "x"
+	if (challengeCompletions("E", 12) == 1) return " Power boost - " + format(eff2) + "x"
+	if (inChallenge("E", 12)) return " Power boost - " + format(eff) + "x"
 	else return " Power boost - " + format(player.dr.power.pow(0.15)) + "x"},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-				if (inChallenge("cm", 13) && (hasChallenge("e", 13))|| (hasChallenge("cm", 13))) mult = mult.mul(100)
-									if (inChallenge("cm", 13) && (challengeCompletions("e", 13) == 2) || (hasChallenge("cm", 13))) mult = mult.mul(10000)
+		if (inChallenge("cm", 13) && (hasChallenge("e", 13))|| (hasChallenge("cm", 13))) mult = mult.mul(100)
+		if (inChallenge("cm", 13) && (challengeCompletions("e", 13) == 2) || (hasChallenge("cm", 13))) mult = mult.mul(10000)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -292,60 +286,60 @@ let eff2 = player.dr.power.pow(0.15).add(11)
         canComplete: function() {return player.cp.points.gte(260)},
 		unlocked() { if (inChallenge("mg", 12)) return false
 		if (inChallenge('cm', 12)) return false
-			else return player.e.unlocked},
+			else return player.E.unlocked},
 		goalDescription: " 260 Challenge Points",
 		rewardDescription: "Unlock an <b>Expedition</b> levelling challenge",
     },
 			    12: {
         name() { let comps = this.completionLimit
-		if (challengeCompletions("e", 12) >= 9) return "22. Expedition X"
-						if (challengeCompletions("e", 12) == 8) return "21. Expedition IX"
-		if (challengeCompletions("e", 12) == 7) return "20. Expedition VIII"
-				if (challengeCompletions("e", 12) == 6) return "21. Expedition VII"
-		if (challengeCompletions("e", 12) == 5) return "20. Expedition VI"
-				if (challengeCompletions("e", 12) == 4) return "19. Expedition V"
-		if (challengeCompletions("e", 12) == 3) return "18. Expedition IV"
-		if (challengeCompletions("e", 12) == 2) return "17. Expedition III"
-		if (challengeCompletions("e", 12) == 1) return "16. Expedition II"
+		if (challengeCompletions("E", 12) >= 9) return "22. Expedition X"
+						if (challengeCompletions("E", 12) == 8) return "21. Expedition IX"
+		if (challengeCompletions("E", 12) == 7) return "20. Expedition VIII"
+				if (challengeCompletions("E", 12) == 6) return "21. Expedition VII"
+		if (challengeCompletions("E", 12) == 5) return "20. Expedition VI"
+				if (challengeCompletions("E", 12) == 4) return "19. Expedition V"
+		if (challengeCompletions("E", 12) == 3) return "18. Expedition IV"
+		if (challengeCompletions("E", 12) == 2) return "17. Expedition III"
+		if (challengeCompletions("E", 12) == 1) return "16. Expedition II"
 			else return "15. Expedition"},
 		completionLimit: 10,
         challengeDescription() { let comps = this.completionLimit
-			if (challengeCompletions("e", 12) == 10) return "Gather Planets. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-					if (challengeCompletions("e", 12) == 9) return "Gather Stars. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-								if (challengeCompletions("e", 12) == 8) return "Gather Space. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-											if (challengeCompletions("e", 12) == 7) return "Gather Diamonds. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-														if (challengeCompletions("e", 12) == 6) return "Gather Platinum. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-																	if (challengeCompletions("e", 12) == 5) return "Gather Silver. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-																				if (challengeCompletions("e", 12) == 4) return "Gather Gold. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-																							if (challengeCompletions("e", 12) == 3) return "Gather Iron. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-			if (challengeCompletions("e", 12) == 2) return "Gather Coal. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"
-			else return "Gather Sand. x5.00 <b>Power</b> boost. Finished " + format(challengeCompletions("e", 12)) + " / "+ format(comps) + " Expeditions"},
+			if (challengeCompletions("E", 12) == 10) return "Gather Planets. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+					if (challengeCompletions("E", 12) == 9) return "Gather Stars. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+								if (challengeCompletions("E", 12) == 8) return "Gather Space. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+											if (challengeCompletions("E", 12) == 7) return "Gather Diamonds. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+														if (challengeCompletions("E", 12) == 6) return "Gather Platinum. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+																	if (challengeCompletions("E", 12) == 5) return "Gather Silver. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+																				if (challengeCompletions("E", 12) == 4) return "Gather Gold. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+																							if (challengeCompletions("E", 12) == 3) return "Gather Iron. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+			if (challengeCompletions("E", 12) == 2) return "Gather Coal. <b>Power</b> effect is boosted. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"
+			else return "Gather Sand. x5.00 <b>Power</b> boost. Finished " + format(challengeCompletions("E", 12)) + " / "+ format(comps) + " Expeditions"},
         canComplete: function() { 
-			if (challengeCompletions("e", 12) == 9) return player.cp.points.gte(6455783)
-				if (challengeCompletions("e", 12) == 8) return player.cp.points.gte(1235354)
-					if (challengeCompletions("e", 12) == 7) return player.cp.points.gte(368344)
-						if (challengeCompletions("e", 12) == 6) return player.cp.points.gte(124000)
-							if (challengeCompletions("e", 12) == 5) return player.cp.points.gte(74320)
-								if (challengeCompletions("e", 12) == 4) return player.cp.points.gte(45320)
-									if (challengeCompletions("e", 12) == 3) return player.cp.points.gte(26720)
-										if (challengeCompletions("e", 12) == 2) return player.cp.points.gte(7420)
-		if (challengeCompletions("e", 12) == 1) return player.cp.points.gte(2350) 
+			if (challengeCompletions("E", 12) == 9) return player.cp.points.gte(6455783)
+				if (challengeCompletions("E", 12) == 8) return player.cp.points.gte(1235354)
+					if (challengeCompletions("E", 12) == 7) return player.cp.points.gte(368344)
+						if (challengeCompletions("E", 12) == 6) return player.cp.points.gte(124000)
+							if (challengeCompletions("E", 12) == 5) return player.cp.points.gte(74320)
+								if (challengeCompletions("E", 12) == 4) return player.cp.points.gte(45320)
+									if (challengeCompletions("E", 12) == 3) return player.cp.points.gte(26720)
+										if (challengeCompletions("E", 12) == 2) return player.cp.points.gte(7420)
+		if (challengeCompletions("E", 12) == 1) return player.cp.points.gte(2350) 
 			else return player.cp.points.gte(1450)},
 		unlocked() {if (inChallenge("mg", 12)) return false
 			if (inChallenge('cm', 12)) return false
-			else return hasChallenge("e", 11)},
+			else return hasChallenge("E", 11)},
 		goalDescription() { 
-		if (challengeCompletions("e", 12) == 9) return " 6.45M Challenge Points"
-		if (challengeCompletions("e", 12) == 8) return " 1.23M Challenge Points"
-		if (challengeCompletions("e", 12) == 7) return " 368.344 Challenge Points"
-		if (challengeCompletions("e", 12) == 6) return " 124.000 Challenge Points"
-		if (challengeCompletions("e", 12) == 5) return " 74320 Challenge Points"
-		if (challengeCompletions("e", 12) == 4) return " 45320 Challenge Points"
-		if (challengeCompletions("e", 12) == 3) return " 26720 Challenge Points"
-		if (challengeCompletions("e", 12) == 2) return " 7420 Challenge Points"
-		if (challengeCompletions("e", 12) == 1) return " 2350 Challenge Points"
+		if (challengeCompletions("E", 12) == 9) return " 6.45M Challenge Points"
+		if (challengeCompletions("E", 12) == 8) return " 1.23M Challenge Points"
+		if (challengeCompletions("E", 12) == 7) return " 368.344 Challenge Points"
+		if (challengeCompletions("E", 12) == 6) return " 124.000 Challenge Points"
+		if (challengeCompletions("E", 12) == 5) return " 74320 Challenge Points"
+		if (challengeCompletions("E", 12) == 4) return " 45320 Challenge Points"
+		if (challengeCompletions("E", 12) == 3) return " 26720 Challenge Points"
+		if (challengeCompletions("E", 12) == 2) return " 7420 Challenge Points"
+		if (challengeCompletions("E", 12) == 1) return " 2350 Challenge Points"
 			else return " 1450 Challenge Points"},
-		rewardDescription() {let r = challengeCompletions("e", 12)
+		rewardDescription() {let r = challengeCompletions("E", 12)
 		if (r == 9) return "Adds additional boost to Challenge Point gain. Currently: 19.84x"
 		if (r == 8) return "Adds additional boost to Challenge Point gain. Currently: 9.92x"
 if (r == 7) return "Adds additional boost to Challenge Point gain. Currently: 4.96x"
@@ -361,11 +355,11 @@ if (r == 1) return "Add + 1" + format(r) + " to the Power effect base"},
 				completionLimit: 2,
         challengeDescription: "Just a galaxy, created from Matter/Antimatter",
         canComplete: function() { let r = challengeCompletions("e", 13)
-		if (r == 2) return player.e.points.gte(100000)
-			else return player.e.points.gte(1000)},
+		if (r == 2) return player.E.points.gte(100000)
+			else return player.E.points.gte(1000)},
 		unlocked() {if (inChallenge("mg", 12)) return false
 			if (inChallenge('cm', 13) || (hasChallenge("cm", 13))) return true},
-		goalDescription() {let r = challengeCompletions("e", 13)
+		goalDescription() {let r = challengeCompletions("E", 13)
 		if (r == 2) return "100K Emptiness"
 			else return " 1000 Emptiness"},
 		rewardDescription: "Completing that challenge first time gets you x100 to Emptiness gain, and second time - x10000",
@@ -383,9 +377,6 @@ unlocked() { return (inChallenge("mg", 13))},
     hotkeys: [
         {key: "e", description: "e: Reset for Emptiness", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-								doReset(resettingLayer) {
-				if (hasChallenge("dr", 21) && resettingLayer=="dr") keep.push("challenges");
-		},
 	layerShown(){return (hasChallenge("dr", 21) || player[this.layer].unlocked)},
 })
 addLayer("cm", {
@@ -400,11 +391,11 @@ addLayer("cm", {
     requires: new Decimal(10000000), // Can be a function that takes requirement increases into account
     resource: "Challenge Matter",	// Name of prestige currency
     baseResource: "challenge points",
-	branches: ["e"],
+	branches: ["E"],
 effectDescription() {return "which unlocks "+ format(player.cm.points) +" challenges and 10.00x to challenge points gain"},	// Name of resource prestige is based on
     baseAmount() {return player.cp.points},	// Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 1.45, // Prestige currency exponent
+    exponent: 2.15, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -437,7 +428,7 @@ effectDescription() {return "which unlocks "+ format(player.cm.points) +" challe
         name: "29. Antimatter",
 				completionLimit: 1,
         challengeDescription: "All the layers can only be buyed for Antimatter/Matter and all layers cost massively divided. After getting 1000 Emptiness while in this challenge unlocks 30. Pound of Emptiness, which completion adds x100.00 to E gain. Can be used twice.",
-        canComplete: function() {return (player.e.points.gte(1e9))},
+        canComplete: function() {return (player.E.points.gte(1e9))},
 		unlocked() {if (inChallenge("mg", 12)) return false
 			else return (player.mf.amatter.gte(40) || (hasChallenge("cm", 13)))
  if (hasChallenge("cm", 13)) return true},
@@ -595,7 +586,7 @@ challenges: {
 	},
 				13: {        name: "33. Hardcap Adventure",
         challengeDescription: "Adds 1 upgrade to each layer that you should buy to complete this challenge.",
-        canComplete: function() {return (hasChallenge("cm", 11) && (hasChallenge("e", 11) && (hasChallenge("cp", 11))))},
+        canComplete: function() {return (hasChallenge("cm", 11) && (hasChallenge("E", 11) && (hasChallenge("cp", 11))))},
 		unlocked() { return player.mg.points.gte(1)},
 				rewardDescription() {return "CM amount boost point gain Currently: " + format(player.cm.points.pow(0.78).add(1)) + "x"},
 		goalDescription() {return " 3 Hardcap Upgrades"},
