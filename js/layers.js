@@ -512,10 +512,13 @@ addLayer("mf", {
 	},
 		milestones: {
 		11: {
-			        requirementDescription(){ return "25 Matter" },
+			        requirementDescription(){ if (inChallenge("mf", 12) || (hasChallenge("mf", 12))) return "25 Antimatter"
+					else return "25 Matter" },
         effectDescription: "Unlock a new layer with 3 challenges",
-        done() {return player.mf.matter.gte(25) },
-		unlocked() {return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
+        done() { if (inChallenge("mf", 12) || (hasChallenge("mf", 12))) return player.mf.amatter.gte(25)
+			else return player.mf.matter.gte(25) },
+		unlocked() {if (inChallenge("mf",12) || (hasChallenge("mf", 12))) return true
+			else return (inChallenge("mf",11) || (hasChallenge("mf", 11)))},
 		},
 	},
     row: 4, // Row the layer is in on the tree (0 is the first row)
