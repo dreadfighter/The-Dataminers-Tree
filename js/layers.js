@@ -293,11 +293,11 @@ let eff2 = player.dr.power.pow(0.15).add(11)
 			    12: {
         name() { let comps = this.completionLimit
 		if (challengeCompletions("e", 12) >= 9) return "22. Expedition X"
-						if (challengeCompletions("E", 12) == 8) return "21. Expedition IX"
+						if (challengeCompletions("e", 12) == 8) return "21. Expedition IX"
 		if (challengeCompletions("e", 12) == 7) return "20. Expedition VIII"
-				if (challengeCompletions("E", 12) == 6) return "21. Expedition VII"
+				if (challengeCompletions("e", 12) == 6) return "21. Expedition VII"
 		if (challengeCompletions("e", 12) == 5) return "20. Expedition VI"
-				if (challengeCompletions("E", 12) == 4) return "19. Expedition V"
+				if (challengeCompletions("e", 12) == 4) return "19. Expedition V"
 		if (challengeCompletions("e", 12) == 3) return "18. Expedition IV"
 		if (challengeCompletions("e", 12) == 2) return "17. Expedition III"
 		if (challengeCompletions("e", 12) == 1) return "16. Expedition II"
