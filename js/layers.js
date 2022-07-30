@@ -501,6 +501,7 @@ addLayer("mf", {
         let eff = player.mf.matter.div(8)
         return eff;
     },	challenges: {
+              showRespec() { return player.mf.unlocked },
 		11: {        name: "27. Create Matter",
         challengeDescription: "You can only enter in one of this row challenges. Produces Matter, which boost point gain",
         canComplete: function() {return (player.points.gte(1))},
