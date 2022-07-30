@@ -1,29 +1,30 @@
 let modInfo = {
-	name: "The Chemistry Lab",
-	id: "atom",
+	name: "The Challenge Tree",
+	id: "particles",
 	author: "Seder3214",
-	pointsName: "Atoms",
+	pointsName: "Particles",
 	modFiles: ["layers.js", "tree.js"],
-	endgame: new Decimal("1e388"),
+	endgame: new Decimal("1e15000"),
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1b",
-	name: "The Chemistry LabBeta",
+	num: "0.99",
+	name: "The Challenge Tree: Eternity and Infinite Particle Extenstion",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.51</h3><br>
+		- USing TMT Forum (No one uses this thing...)`
+		
+		
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have competed all the challenges up to 128th!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -42,11 +43,68 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-
-	let gain = new Decimal(1)
-if (hasUpgrade("H", 11)) gain = gain.times(1.7);
-if (hasUpgrade("H", 12)) gain = gain.times(1.85);
-if (hasUpgrade("H", 21)) gain = gain.times(1.6);		
+		let gain = new Decimal(1)	
+if (inChallenge("cp", 11)) gain = gain.times(1.6)
+	if (hasUpgrade("cp", 11)) gain = gain.div(20)
+			if (hasUpgrade("e", 11)) gain = gain.div(100)
+							if (hasUpgrade("cm", 11)) gain = gain.div(300)
+								if (hasChallenge("mg", 13)) gain = gain.times(420)
+if (hasChallenge("mg", 13)) gain = gain.times(player.cm.points.pow(0.78).add(1))
+if (hasChallenge("cp", 11)) gain = gain.times(20.15)
+	if (inChallenge("mf", 11) && player.mf.matter.gte(5)) gain = gain.times(player.mf.matter.pow(0.24))
+if (inChallenge("cp", 12)) gain = gain.div(player.cp.points.div(12))	
+if (hasChallenge("cp", 12)) gain = gain.times(player.points.pow(0.24)).add(1)
+	if (hasChallenge("cp", 12) && (challengeCompletions("e", 12) >= 3)) gain = gain.times(9.09)
+if (inChallenge("cp", 13)) gain = gain.div(2)
+	if (inChallenge("dr", 12)) gain = gain.div(1.27)
+	if (player.dr.unlocked) gain = gain.times(player.dr.power.pow(0.15))
+		if (hasChallenge("dr", 12)) gain = gain.times(2.15)
+					if (hasChallenge("dr", 11) && player.cp.points.gte(1) || player.e.unlocked) gain = gain.times(player.cp.points.pow(0.05).add(1))
+				if (inChallenge("dr", 13)) gain = gain.div(1.34)
+			if (inChallenge("e", 12)) gain = gain.times(5)
+					if (inChallenge("e", 12) && (challengeCompletions("e", 12) >= 2)) gain = gain.times(1.35)
+				if (challengeCompletions("e", 12) >= 1) gain = gain.plus(11)
+				if (challengeCompletions("e", 12) >= 2) gain = gain.times(13.45) 
+if (challengeCompletions("e", 12) >= 4) gain = gain.times(player.dr.power.pow(0.35).times(6).add(50))	
+if (inChallenge('cm', 11)) gain = gain.times(15)	
+	if (inChallenge('cp', 21)) gain = gain.pow(0.65)
+			if (hasChallenge('cp', 21)) gain = gain.pow(1.2)
+					if (inChallenge('cp', 22)) gain = gain.pow(0.325)
+				if (inChallenge('cp', 22)) gain = gain.times(0.4)
+				if (inChallenge('cp', 23)) gain = gain.pow(0.0325)
+				if (inChallenge('cp', 23)) gain = gain.times(0.04)
+								if (hasChallenge('cp', 22)) gain = gain.times(2)
+				if (hasChallenge('cp', 23)) gain = gain.pow(1.08)
+			if (inChallenge('mg', 11)) gain = gain.times(100)
+							if (inChallenge('cp', 31)) gain = gain.times(5000)
+if (hasChallenge('cp', 31)) gain = gain.times(1e18)
+	if (inChallenge('cp', 32)) gain = gain.times(player.cp.points.pow(0.45).div(50))
+			if (inChallenge('cp', 33)) gain = gain.times(12)
+				if (inChallenge('cp', 34)) gain = gain.div(1e9)
+			if (inChallenge('cp', 35)) gain = gain.div(1e48)
+									if (inChallenge('cp', 35)) gain = gain.pow(0.325)
+				if (inChallenge('cp', 35)) gain = gain.times(0.4)
+					if (hasChallenge('cp', 34)) gain = gain.times(1e45)
+				if (hasChallenge('cp', 34)) gain = gain.times(1e135)
+				if (inChallenge('cp', 14)) gain = gain.pow(0.95)
+				if (inChallenge('cp', 15)) gain = gain.pow(0.9)
+				if (inChallenge('cp', 16)) gain = gain.pow(0.85)
+				if (inChallenge('cp', 17)) gain = gain.pow(0.75)
+				if (inChallenge('cp', 18)) gain = gain.pow(0.5)
+				if (inChallenge('cp', 19)) gain = gain.pow(0.4)
+				if (hasChallenge('cp', 14)) gain = gain.pow(1.1)
+	if (hasChallenge('cp', 15)) gain = gain.pow(1.1)
+			if (hasChallenge('cp', 16)) gain = gain.pow(1.1)
+						if (hasChallenge('cp', 17)) gain = gain.pow(1.1)
+	if (hasChallenge('cp', 18)) gain = gain.pow(1.1)
+						if (hasChallenge('cp', 19)) gain = gain.pow(1.1)
+if (hasUpgrade('ip', 11)) gain = gain.times(player.ip.points.pow(0.15).add(1))
+	if (hasUpgrade('ip', 12)) gain = gain.pow(2.05)
+			if (hasUpgrade('ip', 13)) gain = gain.times(5)
+					if (player.et.unlocked) gain = gain.times(20)
+				if (hasChallenge('et', 11)) gain = gain.times(1e120)
+if (hasChallenge('i', 12)) gain = gain.times(80)
+				if (player.et.points.gte(4) && (inChallenge("i", 12))) gain = gain.times(1e182)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
