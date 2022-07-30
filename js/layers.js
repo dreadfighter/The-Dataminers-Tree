@@ -55,7 +55,8 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 	    12: {
         name: "2. Booster",
 						completionLimit: 1,
-        challengeDescription: "Point gain is slower by CP amount",
+        challengeDescription() { if (hasChallenge("et", 11)) return "You can't enter this challenge after Eternity challenge completion"
+			else return "Point gain is slower by CP amount"},
         canComplete: function() {if (player.cm.unlocked) return player.points.gte(116)
 			else return player.points.gte(232)},
 		unlocked() { return !inChallenge("mg", 12) &&  !inChallenge('cm', 11) && !inChallenge("ip", 11) && (player.cp.points.gte(5) || (hasChallenge("cm", 11)))},

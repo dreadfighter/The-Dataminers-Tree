@@ -14,7 +14,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.98",
+	num: "0.99",
 	name: "The Challenge Tree: Eternity and Infinite Particle Extenstion",
 }
 
