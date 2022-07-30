@@ -401,7 +401,7 @@ addLayer("cm", {
 effectDescription() {return "which unlocks "+ format(player.cm.points) +" challenges and 10.00x to challenge points gain"},	// Name of resource prestige is based on
     baseAmount() {return player.cp.points},	// Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 2.15, // Prestige currency exponent
+    exponent: 1.95, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
