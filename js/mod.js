@@ -14,8 +14,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.95",
-	name: "The Challenge Tree: Infinity Expansion",
+	num: "0.98",
+	name: "The Challenge Tree: Eternity and Infinite Particle Extenstion",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -80,6 +80,31 @@ if (inChallenge('cm', 11)) gain = gain.times(15)
 if (hasChallenge('cp', 31)) gain = gain.times(1e18)
 	if (inChallenge('cp', 32)) gain = gain.times(player.cp.points.pow(0.45).div(50))
 			if (inChallenge('cp', 33)) gain = gain.times(12)
+				if (inChallenge('cp', 34)) gain = gain.div(1e9)
+			if (inChallenge('cp', 35)) gain = gain.div(1e48)
+									if (inChallenge('cp', 35)) gain = gain.pow(0.325)
+				if (inChallenge('cp', 35)) gain = gain.times(0.4)
+					if (hasChallenge('cp', 34)) gain = gain.times(1e45)
+				if (hasChallenge('cp', 34)) gain = gain.times(1e125)
+				if (inChallenge('cp', 14)) gain = gain.pow(0.95)
+				if (inChallenge('cp', 15)) gain = gain.pow(0.9)
+				if (inChallenge('cp', 16)) gain = gain.pow(0.85)
+				if (inChallenge('cp', 17)) gain = gain.pow(0.75)
+				if (inChallenge('cp', 18)) gain = gain.pow(0.5)
+				if (inChallenge('cp', 19)) gain = gain.pow(0.4)
+				if (hasChallenge('cp', 14)) gain = gain.pow(1.1)
+	if (hasChallenge('cp', 15)) gain = gain.pow(1.1)
+			if (hasChallenge('cp', 16)) gain = gain.pow(1.1)
+						if (hasChallenge('cp', 17)) gain = gain.pow(1.1)
+	if (hasChallenge('cp', 18)) gain = gain.pow(1.1)
+						if (hasChallenge('cp', 19)) gain = gain.pow(1.1)
+if (hasUpgrade('ip', 11)) gain = gain.times(player.ip.points.pow(0.15).add(1))
+	if (hasUpgrade('ip', 12)) gain = gain.pow(2.05)
+			if (hasUpgrade('ip', 13)) gain = gain.times(5)
+					if (player.et.unlocked) gain = gain.times(20)
+				if (hasChallenge('et', 11)) gain = gain.times(1e120)
+if (hasChallenge('i', 12)) gain = gain.times(80)
+				if (player.et.points.gte(4) && (inChallenge("i", 12))) gain = gain.times(1e182)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values

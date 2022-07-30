@@ -26,6 +26,7 @@ return "Endgame: 50th Challenge, each 5 of Challenge Points forming a challenge 
 		if (inChallenge("dr", 11)) mult = mult.div(1.74)
 		if (inChallenge("dr", 12)) mult = mult.div(2.36)	
 		if (inChallenge("dr", 13)) mult = mult.div(2.84)
+		if (inChallenge("et", 11)) mult = mult.div(250)
 if (challengeCompletions("e", 12) >= 5) mult = mult.mul(2)
 if (challengeCompletions("e", 12) >= 6) mult = mult.mul(2.48)	
 if (challengeCompletions("e", 12) >= 7) mult = mult.mul(2)	
@@ -44,7 +45,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Point gain is x1.6 faster.",
         canComplete: function() {return player.points.gte(32)},
-		unlocked() {if (inChallenge("mg", 12)) return false
+		unlocked() {if (inChallenge("mg", 12) || (inChallenge("ip", 11))) return false
 			else return true},
 		goalDescription: " 32 Particles",
 		rewardDescription() { let r = player.dr.power.pow(0.35).times(6).add(50)
@@ -57,7 +58,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         challengeDescription: "Point gain is slower by CP amount",
         canComplete: function() {if (player.cm.unlocked) return player.points.gte(116)
 			else return player.points.gte(232)},
-		unlocked() { return !inChallenge("mg", 12) &&  !inChallenge('cm', 11) &&(player.cp.points.gte(5) || (hasChallenge("cm", 11)))},
+		unlocked() { return !inChallenge("mg", 12) &&  !inChallenge('cm', 11) && !inChallenge("ip", 11) && (player.cp.points.gte(5) || (hasChallenge("cm", 11)))},
 		goalDescription() { if (player.cm.unlocked) return " 116 Particles"
 		else return " 232 Particles"},
 		rewardDescription() { let r =  challengeCompletions("e", 12)
@@ -71,10 +72,70 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "Divides point gain by completed challenges",
         canComplete: function() {return player.points.gte(630)},
-		unlocked() {if (inChallenge("mg", 12)) return false
+		unlocked() {if (inChallenge("mg", 12) || (inChallenge("ip", 11))) return false
 			else return (player.cp.points.gte(25) || hasChallenge("cm", 11))},
 		goalDescription: " 630 Particles",
 		rewardDescription: "Unlock a new layer",
+    },
+				    14: {
+        name: "7. 4th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.95 slower",
+        canComplete: function() {return player.points.gte(200)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return inChallenge('ip', 11)},
+		goalDescription: " 200 Particles",
+		rewardDescription: "Unlock next dimension and each Dimension challenge adds ^0.1 to the point gain",
+    },
+					    15: {
+        name: "8. 5th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.90 slower",
+        canComplete: function() {return player.points.gte(450)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (inChallenge('ip', 11) && (hasChallenge("cp", 14)))},
+		goalDescription: " 450 Particles",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.2",
+    },
+						    16: {
+        name: "9. 6th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.85 slower",
+        canComplete: function() {return player.points.gte(750)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (inChallenge('ip', 11) && (hasChallenge("cp", 15)))},
+		goalDescription: " 750 Particles",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.3",
+    },
+							    17: {
+        name: "10. 7th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.75 slower",
+        canComplete: function() {return player.points.gte(350)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (inChallenge('ip', 11) && (hasChallenge("cp", 16)))},
+		goalDescription: " 350 Particles",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.4",
+    },
+								    18: {
+        name: "11. 8th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.50 slower",
+        canComplete: function() {return player.points.gte(175)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (inChallenge('ip', 11) && (hasChallenge("cp", 17)))},
+		goalDescription: " 175 Particles",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.5",
+    },
+									    19: {
+        name: "12. 9th Dimension",
+						completionLimit: 1,
+        challengeDescription: "Point gain ^0.40 slower",
+        canComplete: function() {return player.points.gte(80)},
+		unlocked() {if (inChallenge("mg", 12)) return false
+			else return (inChallenge('ip', 11) && (hasChallenge("cp", 18)))},
+		goalDescription: " 80 Particles",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.6",
     },
 			    21: {
         name: "25. Exponentialer",
@@ -84,7 +145,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 		unlocked() {if (inChallenge("mg", 12)) return false
 			else return hasChallenge('cm', 12)},
 		goalDescription: " 1.75M Particles",
-		rewardDescription: "Point gain ^1.2",
+		rewardDescription: "Unlock next dimension and adds ^0.1 to point gain. Summary: ^1.7",
     },
 				    22: {
         name: "26. Gainer",
@@ -101,7 +162,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "This challenge contains 10x <b>Pointer</b>, <b>Exponentialer</b> conditions",
         canComplete: function() {return player.points.gte(7e18)},
-		unlocked() {if (inChallenge("mg", 12)) return false
+		unlocked() {if (inChallenge("mg", 12) || (inChallenge("i", 11))) return false
 			else return hasChallenge('cp', 32)},
 		goalDescription: " 7e18 Particles",
 		rewardDescription: "Triple <b>Booster</b> effect",
@@ -121,7 +182,7 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "CP boost point gain again",
         canComplete: function() {return player.points.gte(7e79)},
-		unlocked() {if (inChallenge("mg", 12)) return false
+		unlocked() {if (inChallenge("mg", 12) || (inChallenge("i", 11))) return false
 			else return hasChallenge('mg', 12)},
 		goalDescription: " 7e79 Particles",
 		rewardDescription: "Unlock Infinity layer and <b>Booster II</b> challenge",
@@ -131,9 +192,28 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 						completionLimit: 1,
         challengeDescription: "You can buy 1 infinity in this challenge",
         canComplete: function() {return player.i.points.gte(1)},
-		unlocked() { return hasChallenge('mg', 12)},
+		unlocked() { if (inChallenge("i", 11) || player.i.points.gte(1)) return false
+		else return (hasChallenge('mg', 12))},
 		goalDescription: " 1 Infinity",
 		rewardDescription: "Just obtain 1 infinity",
+    },
+								    34: {
+        name: "38. Particler",
+						completionLimit: 1,
+        challengeDescription: "(on 1st and 2nd row) Each completed challenge in CP layer decreases your point gain by 0.2e9",
+        canComplete: function() {return player.points.gte(100)},
+		unlocked() { return (inChallenge('i', 11))},
+		goalDescription: " 100 Particles",
+		rewardDescription: "1e45x to point gain",
+    },
+									    35: {
+        name: "39. Infinitier",
+						completionLimit: 1,
+        challengeDescription: "This challenge is a combination of <b>Gainer</b> and <b>Particler</b> challenges",
+        canComplete: function() {return player.points.gte(3e39)},
+		unlocked() { return inChallenge('i', 11)},
+		goalDescription: " 3e39 Particles",
+		rewardDescription: "1e180x ti point gain",
     },
 },
 upgrades: {
@@ -383,7 +463,8 @@ unlocked() { return (inChallenge("mg", 13))},
     hotkeys: [
         {key: "e", description: "e: Reset for Emptiness", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-	layerShown(){return (hasChallenge("dr", 21) || player[this.layer].unlocked)},
+	layerShown(){ if (inChallenge("i", 12)) return "ghost"
+		else return (hasChallenge("dr", 21) || player[this.layer].unlocked)},
 })
 addLayer("cm", {
     name: "Challenge Matter", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -397,7 +478,7 @@ addLayer("cm", {
     requires: new Decimal(10000000), // Can be a function that takes requirement increases into account
     resource: "Challenge Matter",	// Name of prestige currency
     baseResource: "challenge points",
-	branches: ["e"],
+	branches: ["cp"],
 effectDescription() {return "which unlocks "+ format(player.cm.points) +" challenges and 10.00x to challenge points gain"},	// Name of resource prestige is based on
     baseAmount() {return player.cp.points},	// Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -462,7 +543,8 @@ unlocked() { return (inChallenge("mg", 13))},
 		 layerDataReset("cm", keep)
 		},
 	layerShown(){let r = challengeCompletions("e",12)
-		return (r == 10 || player[this.layer].unlocked)},
+				if (inChallenge("i", 12)) return "ghost"
+		else return (r == 10 || player[this.layer].unlocked)},
 })
 addLayer("mf", {
     name: "Matter Fabric", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -486,7 +568,7 @@ addLayer("mf", {
     requires: new Decimal(5), // Can be a function that takes requirement increases into account
     resource: "Matter Fabric",	// Name of prestige currency
     baseResource: "challenge matter",
-	branches: ["cm"],	// Name of resource prestige is based on
+	branches: ["cp"],	// Name of resource prestige is based on
     baseAmount() {return player.cm.points},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
@@ -545,7 +627,7 @@ if (inChallenge("mf", 11)) return player.mf.matter = player.mf.matter.add(diff)
 			      else if (inChallenge("mf", 12)) return player.mf.amatter = player.mf.amatter.add(diff)
 		},
 	layerShown(){let r = challengeCompletions("e",12)
-		return (hasChallenge('cm', 11) || player[this.layer].unlocked)},
+		 return (hasChallenge('cm', 11) || player[this.layer].unlocked)},
 		  		doReset(resettingLayer) {
 			if (layers[resettingLayer].row <= layers[this.layer].row) return
 			let keep = [];
@@ -570,7 +652,7 @@ addLayer("mg", {
     requires: new Decimal(3), // Can be a function that takes requirement increases into account
     resource: "Matter Galaxy",	// Name of prestige currency
     baseResource: "matter fabric",
-	branches: ["mf"],	// Name of resource prestige is based on
+	branches: ["cp"],	// Name of resource prestige is based on
     baseAmount() {return player.mf.points},	// Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.31, // Prestige currency exponent
@@ -648,20 +730,20 @@ addLayer("i", {
     },
 challenges: {
 		11: {        name: "37. Infinity Challenge 1",
-        challengeDescription: "Add 2 more CP challenges.",
+        challengeDescription: "Replace last 2 CP challenges.",
         canComplete: function() {return (player.points.gte(1.78e308))},
 		unlocked() {return player.i.points.gte(1)},
 				rewardDescription() {return "Unlock a new IC and x80.00 to point gain"},
 		goalDescription() {return " 1.78e308 Points"},
 	},
-12: {        name: "37. Infinity Challenge 2",
+12: {        name: "41. Infinity Challenge 2",
         challengeDescription: "Delete E and CM layers but replace it with new layers",
-        canComplete: function() {return (player.points.gte(1.78e308))},
+        canComplete: function() {return (player.et.points.gte(5))},
 		unlocked() {return hasChallenge("i", 11)},
 				rewardDescription() {return "Unlock a new IC and add one of the in-challenge layers"},
-		goalDescription() {return " 1.78e308 Points"},
+		goalDescription() {return " 5 Eternities"},
 	},
-13: {        name: "38. Infinity Challenge 3",
+13: {        name: "44. Infinity Challenge 3",
         challengeDescription: "New layer effects are 5.00x stronger",
         canComplete: function() {return (player.points.gte(1.78e308))},
 		unlocked() {return hasChallenge("i", 12)},
@@ -676,7 +758,127 @@ challenges: {
 								doReset(resettingLayer) {
 layerDataReset("mf")
 layerDataReset("mg")
+layerDataReset("cp")
+layerDataReset("cm")
+layerDataReset("e")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
 		return (hasChallenge("cp", 32) || player[this.layer].unlocked)},
+})
+addLayer("ip", {
+    name: "Infinity Particle", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "IP", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: -1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#fc767a",
+	nodeStyle() {
+		if (player.ip.unlocked) return {
+			'background': 'radial-gradient(circle, rgba(255,250,250,1) 2%, rgba(255,151,160,1) 74%)',
+		}
+	},
+    requires() {return new Decimal(100000)}, // Can be a function that takes requirement increases into account
+    resource: "Infinity Particles",	// Name of prestige currency
+    baseResource: "particles",
+	branches: ["cp"],	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.01, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		if (hasChallenge("ip", 11)) mult = mult.mul(10)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+			upgrades: {
+	11: {
+	title: "Particle Power",
+description() {return "Boosts point gain by IP amount. Currently: " + format(player.ip.points.pow(0.15).add(1)) + "x"},
+cost: new Decimal(10),
+unlocked() { return (hasChallenge("ip", 11))},	
+	},
+		12: {
+	title: "BOOST",
+description() {return "Boosts point gain by ^2.05"},
+cost: new Decimal(50),
+unlocked() { return (hasChallenge("ip", 11))},	
+	},
+			13: {
+	title: "Void",
+description() {return "Boosts point gain by ^5.00x"},
+cost: new Decimal(140),
+unlocked() { return (hasChallenge("ip", 11))},	
+	},
+},
+challenges: {
+	11: {
+		name: "42. Layer Madness",
+        challengeDescription: "The first layer challenges changes to 4-9 Dimension Challenges",
+        canComplete: function() {return (player.points.gte(7000))},
+		unlocked() {return (player.ip.points.gte(1) || (hasChallenge("ip", 11)))},
+				rewardDescription() {return "Gain 10.00x to IP gain and unlock 3 upgrades"},
+		goalDescription() {return " 7K Points"},
+	},
+},
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){let r = challengeCompletions("e",12)
+		return (inChallenge("i", 12))},
+})
+addLayer("et", {
+    name: "Eternity", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "ET", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#d59ef2",
+	nodeStyle() {
+		if (player.et.unlocked) return {
+			'background': 'radial-gradient(circle, rgba(39,1,57,1) 0%, rgba(213,158,242,1) 67%)',
+		}
+	},
+	effectDescription() {if (player.et.points.gte(4)) return "which gains 1e182x boost to point gain"
+		else return "which gains 20.00x boost to point gain"},
+    requires() { if (hasChallenge("i", 12)) return new Decimal(1e52)
+	if (player.et.points.gte(4)) return new Decimal(0.002)
+		else return new Decimal(1e15)}, // Can be a function that takes requirement increases into account
+    resource: "Eternities",	// Name of prestige currency
+    baseResource: "particles",
+	branches: ["cp"],	// Name of resource prestige is based on
+    baseAmount() {return player.points},	// Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+							if (hasChallenge("et", 11)) mult = mult.mul(500)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+challenges: {
+	11: {
+		name: "43. CP Plenty",
+        challengeDescription: "CP gain is 250.0x slower",
+        canComplete: function() {return (player.cp.points.gte(1e9))},
+		unlocked() {return (player.ip.points.gte(1) || (hasChallenge("ip", 11)))},
+				rewardDescription() {return "Gain 500.00x to ET gain and 1e40x to point gain"},
+		goalDescription() {return " 1e9 Challenge Points"},
+	},
+},
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "f", description: "f: Reset for Matter Factories", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	layerShown(){let r = challengeCompletions("e",12)
+		if (hasChallenge("i", 12)) return true
+		return (inChallenge("i", 12))},
 })
