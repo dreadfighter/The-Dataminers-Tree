@@ -216,16 +216,6 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 		goalDescription: " 3e39 Particles",
 		rewardDescription: "1e180x ti point gain",
     },
-			    41: {
-        name: "44. Challenge Power I",
-						completionLimit: 1,
-        challengeDescription: "Divides point gain by completed challenges",
-        canComplete: function() {return (player.points.gte(1) || (hasChallenge("i", 21)))},
-		unlocked() {if (inChallenge("mg", 12) || (inChallenge("ip", 11))) return false
-			else return (inChallenge("i", 21))},
-		goalDescription: " 1.78e308 Particles",
-		rewardDescription: "Challenge monster -1HP",
-    },
 },
 upgrades: {
 	11: {
@@ -754,32 +744,12 @@ challenges: {
 				rewardDescription() {return "Unlock a new IC and add one of the in-challenge layers"},
 		goalDescription() {return " 5 Eternities"},
 	},
-21: {        name: "F. Challenge Monster",
-        challengeDescription() {return "In all existing layers (not IP and ET) you 'll get a 1.78e308 goal(prev. layer currency) challenges, that you should complete and destroy Challenge Monster. <br>" + "<br><h1>0/6</h1> challenges completed. <br>In first completion you should complete only CP challenge"},
-        canComplete: function() {return (hasChallenge("cp", 41))},
-		unlocked() { if (hasChallenge("i", 21)) return false
-			else return true},
-				rewardDescription() {return "ENDGAME"},
+13: {        name: "44. Infinity Challenge 3",
+        challengeDescription: "New layer effects are 5.00x stronger",
+        canComplete: function() {return (player.points.gte(1.78e308))},
+		unlocked() {return hasChallenge("i", 12)},
+				rewardDescription() {return "Unlock a new IC and add one of the in-challenge layers"},
 		goalDescription() {return " 1.78e308 Points"},
-		style() {
-			return {
-				'width':'500px',
-				'height':'500px',
-			}
-		},
-	},
-	22: {        name: "F. Challenge Monster",
-        challengeDescription() {return "In all existing layers (not IP and ET) you 'll get a 1.78e308 goal(prev. layer currency) challenges, that you should complete    and destroy Challenge Monster. <br>" + "<br><h1>1/6</h1> challenges completed. <br>In second completion you should complete only E challenge"},
-        canComplete: function() {return (hasChallenge("cp", 41))},
-		unlocked() { return (hasChallenge("i", 21))},
-				rewardDescription() {return "ENDGAME"},
-		goalDescription() {return " 1.78e308 Points"},
-		style() {
-return {
-				'width':'450px',
-				'height':'450px',
-			}
-		},
 	},
 },
     row: 6, // Row the layer is in on the tree (0 is the first row)
@@ -789,11 +759,12 @@ return {
 								doReset(resettingLayer) {
 layerDataReset("mf")
 layerDataReset("mg")
+layerDataReset("cp")
 layerDataReset("cm")
 layerDataReset("e")
 		},
 	layerShown(){let r = challengeCompletions("e",12)
-	return (hasChallenge("cp", 32) || player[this.layer].unlocked)},
+		return (hasChallenge("cp", 32) || player[this.layer].unlocked)},
 })
 addLayer("ip", {
     name: "Infinity Particle", // This is optional, only used in a few places, If absent it just uses the layer id.
