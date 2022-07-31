@@ -216,6 +216,15 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
 		goalDescription: " 3e39 Particles",
 		rewardDescription: "1e180x ti point gain",
     },
+										    41: {
+        name: "44. Challenge Power",
+						completionLimit: 1,
+        challengeDescription: "SOON",
+        canComplete: function() {return player.points.gte(1.78e308)},
+		unlocked() { return inChallenge('i', 11)},
+		goalDescription: " 1.78 Particles",
+		rewardDescription: "SOON",
+    },
 },
 upgrades: {
 	11: {
@@ -744,12 +753,32 @@ challenges: {
 				rewardDescription() {return "Unlock a new IC and add one of the in-challenge layers"},
 		goalDescription() {return " 5 Eternities"},
 	},
-13: {        name: "44. Infinity Challenge 3",
-        challengeDescription: "New layer effects are 5.00x stronger",
-        canComplete: function() {return (player.points.gte(1.78e308))},
-		unlocked() {return hasChallenge("i", 12)},
-				rewardDescription() {return "Unlock a new IC and add one of the in-challenge layers"},
+	21: {        name: "F. Challenge Monster (TEMPLATE)",
+        challengeDescription() {return "In all existing layers (not IP and ET) you 'll get a 1.78e308 goal(prev. layer currency) challenges, that you should complete and destroy Challenge Monster. <br>" + "<br><h1>0/6</h1> challenges completed. <br>In first completion you should complete only CP challenge"},
+        canComplete: function() {return (hasChallenge("cp", 41))},
+		unlocked() { if (hasChallenge("i", 21)) return false
+			else return true},
+				rewardDescription() {return "ENDGAME"},
 		goalDescription() {return " 1.78e308 Points"},
+		style() {
+			return {
+				'width':'500px',
+				'height':'500px',
+			}
+		},
+	},
+	22: {        name: "F. Challenge Monster (TEMPLATE)",
+        challengeDescription() {return "In all existing layers (not IP and ET) you 'll get a 1.78e308 goal(prev. layer currency) challenges, that you should complete    and destroy Challenge Monster. <br>" + "<br><h1>1/6</h1> challenges completed. <br>In second completion you should complete only E challenge"},
+        canComplete: function() {return (hasChallenge("cp", 41))},
+		unlocked() { return (hasChallenge("i", 21))},
+				rewardDescription() {return "ENDGAME"},
+		goalDescription() {return " 1.78e308 Points"},
+		style() {
+return {
+				'width':'450px',
+				'height':'450px',
+			}
+		},
 	},
 },
     row: 6, // Row the layer is in on the tree (0 is the first row)
