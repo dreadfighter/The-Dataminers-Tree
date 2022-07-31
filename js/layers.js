@@ -734,7 +734,7 @@ challenges: {
         challengeDescription: "Replace last 2 CP challenges.",
         canComplete: function() {return (player.points.gte(1.78e308))},
 		unlocked() {return player.i.points.gte(1)},
-				rewardDescription() {return "Unlock a new IC and x20.00 to point gain"},
+				rewardDescription() {return "Unlock a new IC and x80.00 to point gain"},
 		goalDescription() {return " 1.78e308 Points"},
 	},
 12: {        name: "41. Infinity Challenge 2",

@@ -103,7 +103,7 @@ if (hasUpgrade('ip', 11)) gain = gain.times(player.ip.points.pow(0.15).add(1))
 			if (hasUpgrade('ip', 13)) gain = gain.times(5)
 					if (player.et.unlocked) gain = gain.times(20)
 				if (hasChallenge('et', 11)) gain = gain.times(1e120)
-if (hasChallenge('i', 12)) gain = gain.times(20)
+if (hasChallenge('i', 12)) gain = gain.times(80)
 				if (player.et.points.gte(4) && (inChallenge("i", 12))) gain = gain.times(1e182)
 	return gain
 }
