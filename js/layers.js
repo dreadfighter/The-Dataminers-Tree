@@ -182,10 +182,10 @@ if (challengeCompletions("e", 12) >= 9) mult = mult.mul(2)
         name: "35. Strenghter",
 						completionLimit: 1,
         challengeDescription: "CP boost point gain again",
-        canComplete: function() {return player.points.gte(7e79)},
+        canComplete: function() {return player.points.gte(7e73)},
 		unlocked() {if (inChallenge("mg", 12) || (inChallenge("i", 11))) return false
 			else return hasChallenge('mg', 12)},
-		goalDescription: " 7e79 Particles",
+		goalDescription: " 7e73 Particles",
 		rewardDescription: "Unlock Infinity layer and <b>Booster II</b> challenge",
     },
 							    33: {
