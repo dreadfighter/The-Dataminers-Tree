@@ -1,5 +1,5 @@
 var layoutInfo = {
-    startTab: "D",
+    startTab: "none",
     startNavTab: "tree-tab",
 	showTree: true,
 
@@ -10,16 +10,6 @@ var layoutInfo = {
 
 
 // A "ghost" layer which offsets other layers in the tree
-addNode("blank", {
-	row: 1,
-    layerShown: "ghost",
-}, 
-)
-addNode("blank", {
-	row: 2,
-    layerShown: "ghost",
-}, 
-)
 
 
 addLayer("tree-tab", {
